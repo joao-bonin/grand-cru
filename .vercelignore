@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+node_modules
+.nuxt
+.output
+coverage
+test-results
+playwright-report
+docs
+*.log
+
+work
