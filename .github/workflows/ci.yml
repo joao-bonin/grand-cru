@@ -1,0 +1,100 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Qualidade e build
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Obter o código
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Instalar pelo lockfile
+        run: npm ci
+      - name: Validar lint, tipos, testes unitários e build
+        run: npm run check
+
+  integration:
+    name: Integração PostgreSQL e navegador
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      # Credenciais descartáveis exclusivamente para o serviço de teste deste job.
+      NUXT_DATABASE_URL: postgresql://grand_cru_ci:local-ci-only@127.0.0.1:5433/grand_cru_ci
+      NUXT_JWT_SECRET: grand-cru-disposable-ci-signing-key-never-use-in-production
+    services:
+      postgres:
+        image: postgres:17@sha256:2d2b8998d31037bf721cfdf764d76ba74171b4fab3431b7f72c27c56ddbdf9e3
+        env:
+          POSTGRES_DB: grand_cru_ci
+          POSTGRES_USER: grand_cru_ci
+          POSTGRES_PASSWORD: local-ci-only
+        ports:
+          - 127.0.0.1:5433:5432
+        options: >-
+          --health-cmd="pg_isready -U grand_cru_ci -d grand_cru_ci"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    steps:
+      - name: Obter o código
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Instalar pelo lockfile
+        run: npm ci
+      - name: Instalar Chromium e bibliotecas do sistema
+        run: npx --no-install playwright install --with-deps chromium
+      - name: Aplicar migrations no banco descartável
+        run: npm run db:migrate
+      - name: Iniciar a aplicação e aguardar prontidão
+        shell: bash
+        run: |
+          setsid npm run dev > "$RUNNER_TEMP/grand-cru-dev.log" 2>&1 &
+          echo "$!" > "$RUNNER_TEMP/grand-cru-dev.pid"
+          node --input-type=module - <<'JS'
+          const deadline = Date.now() + 60_000
+          let ready = false
+          while (Date.now() < deadline) {
+            try {
+              const login = await fetch('http://127.0.0.1:3000/login', { signal: AbortSignal.timeout(3000) })
+              const session = await fetch('http://127.0.0.1:3000/api/auth/me', { signal: AbortSignal.timeout(3000) })
+              if (login.status === 200 && (await login.text()).includes('Bem-vindo de volta.') && session.status === 401) {
+                ready = true
+                break
+              }
+            } catch { /* O servidor ainda pode estar iniciando. */ }
+            await new Promise(resolve => setTimeout(resolve, 1000))
+          }
+          if (!ready) throw new Error('A aplicação não ficou pronta em 60 segundos.')
+          console.log('Login e proteção de sessão prontos.')
+          JS
+      - name: Validar APIs, autorização e navegação
+        run: npm run test:integration
+      - name: Encerrar a aplicação iniciada pelo job
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/grand-cru-dev.pid" ]; then
+            kill -- "-$(cat "$RUNNER_TEMP/grand-cru-dev.pid")" 2>/dev/null || true
+          fi
