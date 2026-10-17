@@ -237,6 +237,8 @@ T34 -> T35
 
 #### T6: Traduzir saldos e disponibilidade conhecida
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US05
 **Requirement**: CV-05
 **What**: Distinguir saldo por local, reserva e bloqueio; ausência ou semântica desconhecida permanece indeterminada.
@@ -247,9 +249,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Distinguir saldo por local, reserva e bloqueio; ausência ou semântica desconhecida permanece indeterminada.
-- [ ] Critérios de US05 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Distinguir saldo por local, reserva e bloqueio; ausência ou semântica desconhecida permanece indeterminada.
+- [x] Critérios de US05 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
