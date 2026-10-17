@@ -12,3 +12,7 @@ PASS:32 testes em6 arquivos, incluindo os testes existentes de lista/páginas. E
 | Rodadas completas | tests/unit/replenishment-query.test.ts:27 `toHaveLength(43)`; testes existentes de preparação de rodada e snapshot permaneceram PASS; contrato sem count preservado | PASS |
 
 Mapeamento reverso: os três testes de replenishment-query cobrem filtros/ordenação/recorte/consulta completa; os oito casos de pagination-route cobrem payload, autenticação e limites da rota; os três testes pagination-ui cobrem navegação/seleção/filtros/carga; os dois de pagination-page cobrem query local e recuperação de página reduzida. Todos se limitam aos sete critérios de UX-01. Diretrizes: AGENTS.md e RFC-005; sem novos testes de bibliotecas. Integração completa e revisão independente serão executadas após a tarefa visual.
+
+## F1 — lacuna de discriminação corrigida
+
+A revisão independente comprovou que remover o desempate por produto/loja sobrevivia aos testes iniciais. Foi acrescentado um caso com entrada fora de ordem, produtos com a mesma data de ruptura e duas lojas para o mesmo produto. `tests/unit/replenishment-query.test.ts:41` exige sequência completa `x/s1,z/s1,k/s1,a/s1,a/s2,b/s2`; linha42 exige o recorte3/2 `a/s1,a/s2`. O teste deriva do AC3 original, sem alterar implementação nem asserções anteriores. Novo gate `npm run check`:389 unitários, lint, tipos e build PASS. As20 integrações anteriores permanecem válidas porque não houve alteração da fonte runtime. Revalidação independente do mutante completo e de produto/loja separadamente pendente.

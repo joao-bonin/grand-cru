@@ -28,4 +28,18 @@ describe('consulta paginada de recomendações', () => {
     expect(items.map(item => item.product.id)).toEqual(original)
     expect(queryRecommendations([], { count: 20 })).toEqual({ items: [], start: 0, count: 20, total: 0, supplierIds: [] })
   })
+  it('desempata por produto e loja antes de recortar uma entrada fora de ordem', () => {
+    const source = [
+      { id: 'b', storeId: 's2', ruptureDate: null },
+      { id: 'a', storeId: 's2', ruptureDate: null },
+      { id: 'a', storeId: 's1', ruptureDate: null },
+      { id: 'z', storeId: 's1', ruptureDate: '2026-10-17' },
+      { id: 'x', storeId: 's1', ruptureDate: '2026-10-17' },
+      { id: 'k', storeId: 's1', ruptureDate: '2026-10-18' },
+    ].map(({ id, storeId, ruptureDate }) => ({ ...recommendation, product: { ...recommendation.product, id, storeId }, ruptureDate }))
+    const identities = (rows: typeof source) => rows.map(item => `${item.product.id}/${item.product.storeId}`)
+    expect(identities(queryRecommendations(source, {}).items)).toEqual(['x/s1', 'z/s1', 'k/s1', 'a/s1', 'a/s2', 'b/s2'])
+    expect(identities(queryRecommendations(source, { start: 3, count: 2 }).items)).toEqual(['a/s1', 'a/s2'])
+  })
+
 })
