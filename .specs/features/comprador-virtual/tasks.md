@@ -539,6 +539,8 @@ T34 -> T35
 
 #### T20: Calcular disponibilidade sem dupla dedução
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US05
 **Requirement**: CV-05
 **What**: 20 físicos menos reserva 4 e bloqueio disjunto 2 resulta 14; sobreposição não demonstrada produz pendência.
@@ -549,9 +551,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: 20 físicos menos reserva 4 e bloqueio disjunto 2 resulta 14; sobreposição não demonstrada produz pendência.
-- [ ] Critérios de US05 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: 20 físicos menos reserva 4 e bloqueio disjunto 2 resulta 14; sobreposição não demonstrada produz pendência.
+- [x] Critérios de US05 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
