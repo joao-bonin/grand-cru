@@ -39,7 +39,7 @@ Acceptance Criteria:
 | ID | Requirement | Status |
 | --- | --- | --- |
 | SV-01 | Prazo compatível e finito | verified (budget-evidence.md) |
-| SV-02 | Falha por fonte com redação segura | implementing |
+| SV-02 | Falha por fonte com redação segura | verified (diagnostic-evidence.md) |
 | SV-03 | Snapshot preservado e configuração da hospedagem | implementing |
 
 ## Execution Plan
