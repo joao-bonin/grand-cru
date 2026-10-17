@@ -661,6 +661,8 @@ T34 -> T35
 
 #### T25: Exibir lista filtrável de reposição
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US07
 **Requirement**: CV-07
 **What**: Combinar filtros produto/fornecedor/risco/pendências, priorizar ruptura e preservar acesso ao detalhe em 390px; estados vazio e erro distintos.
@@ -671,9 +673,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Combinar filtros produto/fornecedor/risco/pendências, priorizar ruptura e preservar acesso ao detalhe em 390px; estados vazio e erro distintos.
-- [ ] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Combinar filtros produto/fornecedor/risco/pendências, priorizar ruptura e preservar acesso ao detalhe em 390px; estados vazio e erro distintos.
+- [x] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
