@@ -6,9 +6,21 @@ import { mapStocks } from '../../infrastructure/erp/stock-mapper'
 import { mapPurchases } from '../../infrastructure/erp/purchase-mapper'
 import type { ErpData } from '../../../shared/types/replenishment'
 
+const ERP_SYNC_BUDGET_MS = 180_000
+
 export async function loadErpData(client: ErpReadClient, storeId: string, now = Date.now): Promise<ErpData> {
   const start = now()
-  const bounded: ErpReadClient = { get(path, query) { if (now() - start > 50_000) throw new Error('ERP_SYNC_DEADLINE'); return client.get(path, query) } }
+  const assertWithinBudget = () => {
+    if (now() - start >= ERP_SYNC_BUDGET_MS) throw new Error('ERP_SYNC_DEADLINE')
+  }
+  const bounded: ErpReadClient = {
+    async get(path, query) {
+      assertWithinBudget()
+      const response = await client.get(path, query)
+      assertWithinBudget()
+      return response
+    },
+  }
   const products = await paginateErp(bounded, '/v1/produto/produtos')
   const suppliers = await paginateErp(bounded, '/v1/pessoa/fornecedores')
   const stock = await paginateErp(bounded, '/v1/estoque/saldos')

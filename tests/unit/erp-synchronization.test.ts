@@ -18,7 +18,7 @@ describe('caso de uso de leitura do ERP', () => {
   })
   it('interrompe novas páginas após limite total da execução', async () => {
     const get = vi.fn()
-    const now = vi.fn().mockReturnValueOnce(0).mockReturnValue(50_001)
+    const now = vi.fn().mockReturnValueOnce(0).mockReturnValue(180_001)
     await expect(loadErpData({ get }, '1', now)).rejects.toThrow('ERP_SYNC_DEADLINE')
     expect(get).not.toHaveBeenCalled()
   })
