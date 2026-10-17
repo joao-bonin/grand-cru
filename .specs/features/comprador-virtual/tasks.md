@@ -327,6 +327,8 @@ T34 -> T35
 
 #### T10: Persistir e publicar snapshots atomicamente
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Upsert sem duplicação e publicação transacional por conjunto; falha mantém versão anterior; lock persistido evita duas execuções da mesma origem.
@@ -337,9 +339,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Upsert sem duplicação e publicação transacional por conjunto; falha mantém versão anterior; lock persistido evita duas execuções da mesma origem.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Upsert sem duplicação e publicação transacional por conjunto; falha mantém versão anterior; lock persistido evita duas execuções da mesma origem.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -449,6 +451,8 @@ T34 -> T35
 
 #### T16: Persistir políticas locais por SKU
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T10
+
 **Story**: US03
 **Requirement**: CV-03
 **What**: Guardar políticas e versões locais usando estrutura prevista no esquema; edição manual não sobrescreve origem ERP e sobrevive a reinício.
@@ -459,9 +463,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Guardar políticas e versões locais usando estrutura prevista no esquema; edição manual não sobrescreve origem ERP e sobrevive a reinício.
-- [ ] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Guardar políticas e versões locais usando estrutura prevista no esquema; edição manual não sobrescreve origem ERP e sobrevive a reinício.
+- [x] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -717,6 +721,8 @@ T34 -> T35
 
 #### T29: Persistir rodadas com concorrência controlada
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T10
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Salvar grupos atomicamente, recuperar rascunhos após reinício, devolver rodada existente para mesma chave e rejeitar versão obsoleta.
@@ -727,9 +733,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Salvar grupos atomicamente, recuperar rascunhos após reinício, devolver rodada existente para mesma chave e rejeitar versão obsoleta.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Salvar grupos atomicamente, recuperar rascunhos após reinício, devolver rodada existente para mesma chave e rejeitar versão obsoleta.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
