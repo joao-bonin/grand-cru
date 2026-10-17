@@ -85,8 +85,8 @@ Uma oportunidade que já gerou uma conta a receber não deve ser contada duas ve
 
 | Fonte | Informação necessária | Estado atual |
 | --- | --- | --- |
-| ERP/PDV | Cadastro e identidade dos SKUs, estoque, vendas e informações de canal/cliente. | URL da API do ERP recebida; contrato não foi lido devido ao bloqueio de rede. Relação entre ERP e PDV ainda não definida. |
-| Sistema de compras | Fornecedores, parâmetros de reposição, pedidos existentes e contrato para gerar/enviar pedidos. | Sistema e interfaces ainda não informados; nem todos esses campos foram confirmados como disponíveis. |
+| ERP/PDV | Cadastro e identidade dos SKUs, estoque, vendas e informações de canal/cliente. | Contrato público analisado na RFC-011; produtos, estoque, vendas e financeiro documentados. Dados reais e relação operacional ERP/PDV ainda precisam de validação. |
+| Sistema de compras | Fornecedores, parâmetros de reposição, pedidos existentes e contrato para gerar/enviar pedidos. | API Varejo Fácil documenta consulta e criação de pedidos de compra (RFC-011). Confirmar se é o destino desejado e validar contrato operacional em homologação. |
 | Agendor | Oportunidades, valores, datas e atividades de contato. | Integração solicitada; contrato, campos disponíveis e acesso não validados. |
 | Bancos/financeiro | Saldos, contas a pagar/receber e arquivos OFX. | Bancos, fontes dos títulos e forma de ingestão ainda não informados. |
 
