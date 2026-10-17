@@ -149,6 +149,8 @@ T34 -> T35
 
 #### T2: Restringir o transporte do ERP a consultas permitidas
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Usar Authorization sem Bearer, origem fixa, allowlist de consultas e rejeitar escrita e redirecionamento externo antes do envio; 401 encerra a consulta sem refresh.
@@ -159,9 +161,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Usar Authorization sem Bearer, origem fixa, allowlist de consultas e rejeitar escrita e redirecionamento externo antes do envio; 401 encerra a consulta sem refresh.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Usar Authorization sem Bearer, origem fixa, allowlist de consultas e rejeitar escrita e redirecionamento externo antes do envio; 401 encerra a consulta sem refresh.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
