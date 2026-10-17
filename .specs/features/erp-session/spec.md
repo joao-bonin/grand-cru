@@ -44,7 +44,7 @@ Acceptance Criteria:
 | ID | Requirement | Status |
 | --- | --- | --- |
 | ES-01 | Transporte fechado e respostas sanitizadas | verified |
-| ES-02 | Cofre cifrado com datas e lock distribuído | implementing |
+| ES-02 | Cofre cifrado com datas e lock distribuído | verified |
 | ES-03 | Renovação e repetição limitada | implementing |
 | ES-04 | Integração privada nas rotas e operação | implementing |
 
@@ -68,3 +68,4 @@ Autorização expressa do usuário em 17/10/2026 para login e refresh, inclusive
 
 - Passo1 concluído: autorização e contratos, commit8772499; spec estrita e diff aprovados.
 - Passo2 concluído:35 testes unitários, lint e tipos direcionados aprovados; evidências em transport-evidence.md. Sem chamadas ao ERP real.
+- Passo3 concluído:12 testes unitários de cifra e4 testes PostgreSQL locais aprovados; evidências em storage-evidence.md. Migration0002 aplicada somente no banco descartável.
