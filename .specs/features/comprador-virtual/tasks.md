@@ -259,6 +259,8 @@ T34 -> T35
 
 #### T7: Traduzir compras pendentes
 
+**Status de execução**: Parcial. Atendimento parcial bloqueado até comprovar unidades na origem.
+
 **Story**: US05
 **Requirement**: CV-05
 **What**: Preservar pedido/item, status, unidade, quantidade atendida/cancelada e data prevista; não transformar consulta indisponível em lista vazia válida.
