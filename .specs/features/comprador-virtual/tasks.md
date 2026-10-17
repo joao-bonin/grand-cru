@@ -755,6 +755,8 @@ T34 -> T35
 
 #### T30: Revisar e confirmar rascunhos localmente
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Validar ajuste, embalagem, snapshot e permissão; recalcular subtotais, preservar sugestão original e agrupar fornecedor sem emitir compra externa.
@@ -765,9 +767,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Validar ajuste, embalagem, snapshot e permissão; recalcular subtotais, preservar sugestão original e agrupar fornecedor sem emitir compra externa.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Validar ajuste, embalagem, snapshot e permissão; recalcular subtotais, preservar sugestão original e agrupar fornecedor sem emitir compra externa.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
