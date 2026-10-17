@@ -349,6 +349,8 @@ T34 -> T35
 
 #### T11: Coordenar sincronização manual
 
+**Status de execução**: Parcial. Carga completa transacional; checkpoints por conjunto não implementados.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Executar leituras por contratos injetáveis, registrar progresso e pendências por conjunto e só publicar conjuntos completos; preservar checkpoints recuperáveis.
