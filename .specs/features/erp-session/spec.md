@@ -45,8 +45,8 @@ Acceptance Criteria:
 | --- | --- | --- |
 | ES-01 | Transporte fechado e respostas sanitizadas | verified |
 | ES-02 | Cofre cifrado com datas e lock distribuído | verified |
-| ES-03 | Renovação e repetição limitada | implementing |
-| ES-04 | Integração privada nas rotas e operação | implementing |
+| ES-03 | Renovação e repetição limitada | verified |
+| ES-04 | Integração privada nas rotas e operação | verified |
 
 ## Execution Plan
 
@@ -73,3 +73,4 @@ Autorização expressa do usuário em 17/10/2026 para login e refresh, inclusive
 - Passo3 concluído:12 testes unitários de cifra e4 testes PostgreSQL locais aprovados; evidências em storage-evidence.md. Migration0002 aplicada somente no banco descartável.
 - Correção da revisão de transporte: respostas rejeitadas agora abortam fetch e cancelam o corpo pendente;38 testes direcionados aprovados, sem alterar testes existentes.
 - Correção da revisão de concorrência: lock35s e teste de renovação6s; cinco testes PostgreSQL de persistência aprovados.
+- Passo4 concluído: provider, wrapper, configuração e rotas conectados;337 unitários e18 integrações locais aprovados. Evidências em orchestration-evidence.md; check com lint,tipos,build aprovado.
