@@ -25,3 +25,9 @@ O esquema público foi consultado novamente nesta etapa e confirmou os parâmetr
 A área de toque foi aumentada para 48px inclusive no checkbox e no fechamento do modal: o teste real mediu 43,99px em um controle nominal de 44px durante a animação. A asserção mínima de 44px foi preservada. A compilação exigiu usar o alias #shared nos componentes Vue, seguindo os componentes já existentes. Não houve alteração de endpoints do ERP.
 
 O modo automático de cor foi desabilitado pela opção suportada `ui.colorMode=false` do Nuxt UI instalado. Assim a aplicação conserva o tema claro mesmo com preferência antiga escura no navegador. A meta de contraste mínimo 4,5:1 segue a [orientação WCAG sobre contraste](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html); o teste mede cores computadas no navegador, além do tamanho da fonte e dos controles.
+
+## Validação final
+
+`npm run check` aprovado com389 testes unitários, lint, tipos e build;20 integrações locais aprovadas. A revisão independente comprovou13/13 critérios e inspecionou as capturas sintéticas. O sensor inicial encontrou uma lacuna no teste do desempate por produto/loja; foi acrescentada comparação da sequência completa e do recorte com entrada fora de ordem e duas lojas do mesmo produto. Remover a regra inteira ou cada parte isolada agora falha por asserção. Não houve mudança de implementação para fechar essa lacuna, nem alteração de testes anteriores. A lição L-003 ficou candidata para avaliação futura.
+
+Relatório e evidências: `.specs/features/replenishment-usability/validation.md`, `pagination-evidence.md`, `issues-evidence.md`, `visual-evidence.md`. Screenshots de formulário mobile/desktop e paginação estão em `docs/screenshots`. Não constituem UAT humano nem validação autenticada de produção. A publicação será registrada separadamente.

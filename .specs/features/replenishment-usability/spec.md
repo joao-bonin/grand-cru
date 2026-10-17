@@ -67,7 +67,7 @@ Acceptance Criteria:
 2. Pendências: shared/application/replenishment-issues.ts, app/components/ReplenishmentDataIssues.vue, ReplenishmentExplanation.vue e página de reposição; testes de tradução, agrupamento e renderização. Gate: unitários direcionados e ESLint; commit fix(replenishment).
 3. Contraste/formulário: nuxt.config.ts, app/assets/css/main.css, dashboard.css, replenishment.css, app/components/UserEditor.vue, app/pages/users.vue, imports Nuxt #shared dos componentes de reposição e singular/plural do paginador, testes unitários de formulário e integração de paginação/contraste/mobile. Gate: npm run check e npm run test:integration com PostgreSQL/servidor local; commit fix(ui).
 
-Correção de validação F1 concluída (check389PASS; revalidação independente pendente): acrescentado teste de entrada fora de ordem com o mesmo produto em duas lojas; verificar sequência completa e recorte. Commit test(replenishment), gate npm run check. Nenhuma mudança de implementação ou de asserções anteriores.
+Correção de validação F1 concluída (check389PASS; revalidação independente PASS13/13): acrescentado teste de entrada fora de ordem com o mesmo produto em duas lojas; verificar sequência completa e recorte. Commit test(replenishment), gate npm run check. Nenhuma mudança de implementação ou de asserções anteriores.
 
 Após o último commit: Verifier novo, sensor em scratch, validate_state e evidências. Nenhum teste anterior removido/enfraquecido. Baseline 364 unitários/19 integrações.
 
