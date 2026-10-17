@@ -193,6 +193,8 @@ T34 -> T35
 
 #### T4: Traduzir produtos e fornecedores
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US03
 **Requirement**: CV-03
 **What**: Preservar IDs, apresentação, fornecedor e conversão; SKU não identificado gera pendência em vez de fusão por nome.
@@ -203,9 +205,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Preservar IDs, apresentação, fornecedor e conversão; SKU não identificado gera pendência em vez de fusão por nome.
-- [ ] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Preservar IDs, apresentação, fornecedor e conversão; SKU não identificado gera pendência em vez de fusão por nome.
+- [x] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
