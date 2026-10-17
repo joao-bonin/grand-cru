@@ -48,7 +48,7 @@ O comprador cruza estoque e vendas manualmente e repete trabalho para preparar c
 
 ## User Stories
 
-As palavras WHEN/IF/THEN/SHALL indicam critérios EARS verificáveis. Prioridades P1 se referem à etapa local proposta; todas as histórias continuam pendentes.
+As palavras WHEN/IF/THEN/SHALL indicam critérios EARS verificáveis. Prioridades P1 se referem à etapa local. Verified indica os critérios de software testados com fixtures; não valida contratos reais nem encerra o MVP original. Consulte validation.md para as pendências operacionais.
 
 ### US01 — Validar as fontes do piloto (P1)
 
@@ -322,15 +322,15 @@ Estas histórias preservam o PRD. As subtarefas abaixo são de refinamento; não
 
 | Requirement ID | Story | Phase | Status |
 | --- | --- | --- | --- |
-| CV-01 | US01 | Planejamento em tasks.md | Pending |
-| CV-02 | US02 | Planejamento em tasks.md | Pending |
-| CV-03 | US03 | Planejamento em tasks.md | Pending |
-| CV-04 | US04 | Planejamento em tasks.md | Pending |
-| CV-05 | US05 | Planejamento em tasks.md | Pending |
-| CV-06 | US06 | Planejamento em tasks.md | Pending |
-| CV-07 | US07 | Planejamento em tasks.md | Pending |
-| CV-08 | US08 | Planejamento em tasks.md | Pending |
-| CV-09 | US09 | Planejamento em tasks.md | Pending |
+| CV-01 | US01 | Implementação local em tasks.md | Implementing |
+| CV-02 | US02 | Implementação local em tasks.md | Implementing |
+| CV-03 | US03 | Implementação local em tasks.md | Verified |
+| CV-04 | US04 | Implementação local em tasks.md | Implementing |
+| CV-05 | US05 | Implementação local em tasks.md | Implementing |
+| CV-06 | US06 | Implementação local em tasks.md | Verified |
+| CV-07 | US07 | Implementação local em tasks.md | Verified |
+| CV-08 | US08 | Implementação local em tasks.md | Verified |
+| CV-09 | US09 | Implementação local em tasks.md | Verified |
 | CV-10 | US10 | Refinamento futuro/condicional | Pending |
 | CV-11 | US11 | Refinamento futuro/condicional | Pending |
 | CV-12 | US12 | Refinamento futuro/condicional | Pending |

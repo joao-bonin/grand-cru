@@ -104,3 +104,7 @@ Seções transversais: acesso e auditoria (§11) em US02/US08/US09; medição de
 ## Verificação do planejamento
 
 validate_spec.py --strict e validate_tasks.py --strict: zero erros e avisos. Esta evidência comprova estrutura do planejamento, não funcionamento do produto ou validade dos defaults propostos. A revisão encontrou 35 tarefas candidatas em seis fases, todas com requisito, dependência, testes e gate. Histórias condicionais têm subtarefas de refinamento e ainda exigem decomposição de implementação quando forem priorizadas.
+
+## Execução local e limites
+
+Implementação autorizada pelo usuário com subagentes paralelos, sem aprovações humanas intermediárias. As entregas locais foram testadas com fixtures e banco descartável. Os bloqueios G1 e G5 não foram descartados: semântica das fontes e emissão real não estão validadas. G2 não foi resolvido por escolher60/90 dias: políticas são explícitas, sem default. G3 foi implementado conservadoramente com admin para alteração e user para consulta. G4 usa design.md e migrations locais, sem agendamento ou produção. Publicação é por snapshot completo em transação, sem checkpoints por conjunto.

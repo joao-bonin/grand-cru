@@ -1,0 +1,45 @@
+{
+  "schema": 1,
+  "promote_threshold": 2,
+  "window_days": 45,
+  "quarantine_threshold": 2,
+  "next_id": 3,
+  "lessons": [
+    {
+      "id": "L-001",
+      "key": "spec_deviation::nao converter quantidades recebidas ou canceladas de compras sem comprovar a unidade da origem bloquear a recomendacao dependente",
+      "text": "Não converter quantidades recebidas ou canceladas de compras sem comprovar a unidade da origem; bloquear a recomendação dependente.",
+      "signal": "spec_deviation",
+      "scope": "erp",
+      "status": "candidate",
+      "features": [
+        "comprador-virtual"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "server/infrastructure/erp/purchase-mapper.ts:13 (erp)"
+      ],
+      "created": "2026-10-17T02:57:17Z",
+      "last_seen": "2026-10-17T02:57:17Z"
+    },
+    {
+      "id": "L-002",
+      "key": "ac_gap::distinguir contrato documentado de dados operacionais conciliados antes de declarar uma integracao validada",
+      "text": "Distinguir contrato documentado de dados operacionais conciliados antes de declarar uma integração validada.",
+      "signal": "ac_gap",
+      "scope": "erp",
+      "status": "candidate",
+      "features": [
+        "comprador-virtual"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "CV-01 (erp)"
+      ],
+      "created": "2026-10-17T02:57:17Z",
+      "last_seen": "2026-10-17T02:57:17Z"
+    }
+  ]
+}
