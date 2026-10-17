@@ -20,7 +20,7 @@ Refresh é coordenado por lock transacional entre instâncias. A expiração con
 
 Migrations são versionadas e não executadas na inicialização. Durante a implementação inicial, foram aplicadas somente em banco descartável local; a publicação posterior em produção está registrada abaixo.
 
-Atualização operacional de17/10/2026: a etapa local do comprador foi publicada em `dpl_3Cm4aVpGBk26oVQ27g7dFmuesH6Q`, com build normal, sem executar migrations nem redefinir senha. Essa publicação ainda usava token manual. A mudança para sessão renovável e a migration0002 de `erp_sessions` são posteriores; não presumir que estejam publicadas ou aplicadas em produção. A configuração dos quatro campos ERP acima permanece necessária. Nenhuma chamada ao ERP real foi realizada para implementar essa mudança. Evidências e limites em RFC-010 e RFC-011.
+Atualização operacional de17/10/2026: a etapa local do comprador foi publicada em `dpl_3Cm4aVpGBk26oVQ27g7dFmuesH6Q`. Posteriormente, a migration0002 de `erp_sessions` foi aplicada em execução explícita e a sessão renovável foi publicada em `dpl_H7Hv65zYKfjKRjTZmWE48EVkKRdb`, READY, com build normal sem migration nem redefinição de senha. Os quatro campos ERP acima ainda estavam ausentes na conferência final das variáveis de Production. Configurá-los e publicar novamente antes de sincronizar. Nenhuma chamada ao ERP real foi realizada para implementar essa mudança. Evidências e limites em RFC-010 e RFC-011.
 
 ## Como interpretar dados insuficientes
 

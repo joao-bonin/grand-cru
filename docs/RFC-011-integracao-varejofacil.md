@@ -139,7 +139,15 @@ Implementação: cliente de autenticação separado do cliente GET de negócio, 
 
 Validação local da implementação: `npm run check` em Node24.19.0 aprovado com337 testes unitários, lint, tipos e build;18 testes de integração aprovados em PostgreSQL17 local descartável. Foram verificados tokens cifrados, datas/versões, rollback, concorrência entre pools, renovação lenta, rotação e repetição limitada. A revisão independente inicial apontou dois problemas corrigidos: espera do lock menor que a duração possível do refresh/login e corpos de erro sem cancelamento. Regressões mantidas; revisão final e sensor registrados em `.specs/features/erp-session/validation.md` quando concluídos.
 
-Migration0002 `erp_sessions` versionada e aplicada somente no banco local. Esta mudança ainda não foi publicada nem migrada em produção. Configuração necessária no servidor: `ERP_USERNAME`, `ERP_PASSWORD`, `ERP_TOKEN_ENCRYPTION_KEY` (32 bytes aleatórios em base64) e `ERP_STORE_ID`. Nenhuma chamada ao ERP real foi feita para implementar ou testar a sessão renovável.
+Durante a validação, a migration0002 `erp_sessions` foi versionada e aplicada no banco local. Configuração necessária no servidor: `ERP_USERNAME`, `ERP_PASSWORD`, `ERP_TOKEN_ENCRYPTION_KEY` (32 bytes aleatórios em base64) e `ERP_STORE_ID`. Nenhuma chamada ao ERP real foi feita para implementar ou testar a sessão renovável.
+
+### Publicação da sessão renovável — 17/10/2026
+
+Após PASS independente12/12 critérios,337 testes unitários,18 integrações locais e7/7 mutações detectadas, o código de `e99d54567ab730f56c90acf7b1bf59a4db85cc96` foi publicado conforme a autorização de publicação direta em produção. A execução `dpl_HujoWDdRYvZWHTsewqed5qQv4axo` concluiu READY e os logs confirmaram `Migrations aplicadas.`. A migration0002 cria exclusivamente `erp_sessions` no banco do aplicativo; não altera dados de negócio do ERP.
+
+A publicação final `dpl_H7Hv65zYKfjKRjTZmWE48EVkKRdb` concluiu READY, confirmada no alias `https://grand-cru-iota.vercel.app`, com o arquivo original de build normal (hash3494b2f8c125558f4724b0f7c93f0a214d6e8993). Não há migration nem redefinição de senha na inicialização ou no build normal. GET anônimo `/api/erp/status` retornou401 após a publicação. Nenhuma chamada ao ERP real foi executada.
+
+A listagem final de nomes das variáveis, sem descriptografia, confirmou os quatro campos ERP ainda ausentes em Production. Portanto o código e a tabela estão publicados, mas a integração segue desabilitada até configurar usuário, senha, chave e loja e criar uma publicação com esses campos. Não afirmar autenticação/refresh real validado. O PR #2 já havia sido integrado à main; esta mudança fica separada em `codex/erp-session`.
 
 ## Planejamento a partir do PRD — 16/10/2026
 
