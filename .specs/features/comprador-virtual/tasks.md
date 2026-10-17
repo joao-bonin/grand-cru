@@ -563,6 +563,8 @@ T34 -> T35
 
 #### T21: Projetar saldo por data
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US05
 **Requirement**: CV-05
 **What**: Aplicar demanda e recebimentos em datas, manter ruptura anterior a chegada tardia e excluir rascunhos locais das entradas confirmadas.
@@ -573,9 +575,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Aplicar demanda e recebimentos em datas, manter ruptura anterior a chegada tardia e excluir rascunhos locais das entradas confirmadas.
-- [ ] Critérios de US05 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Aplicar demanda e recebimentos em datas, manter ruptura anterior a chegada tardia e excluir rascunhos locais das entradas confirmadas.
+- [x] Critérios de US05 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
