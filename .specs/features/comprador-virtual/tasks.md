@@ -171,6 +171,8 @@ T34 -> T35
 
 #### T3: Percorrer páginas sem publicar carga incompleta
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Coletar start/count/items até término validado; detectar página repetida/inconsistente e propagar falha sem promover resultado parcial.
@@ -181,9 +183,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Coletar start/count/items até término validado; detectar página repetida/inconsistente e propagar falha sem promover resultado parcial.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Coletar start/count/items até término validado; detectar página repetida/inconsistente e propagar falha sem promover resultado parcial.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
