@@ -639,6 +639,8 @@ T34 -> T35
 
 #### T24: Exibir memória de cálculo do SKU
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US07
 **Requirement**: CV-07
 **What**: Mostrar contribuições, janelas, origem, bruto, múltiplo e arredondado; explicar cada resultado indisponível.
@@ -649,9 +651,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Mostrar contribuições, janelas, origem, bruto, múltiplo e arredondado; explicar cada resultado indisponível.
-- [ ] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Mostrar contribuições, janelas, origem, bruto, múltiplo e arredondado; explicar cada resultado indisponível.
+- [x] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
