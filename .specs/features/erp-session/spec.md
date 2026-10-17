@@ -74,3 +74,4 @@ Autorização expressa do usuário em 17/10/2026 para login e refresh, inclusive
 - Correção da revisão de transporte: respostas rejeitadas agora abortam fetch e cancelam o corpo pendente;38 testes direcionados aprovados, sem alterar testes existentes.
 - Correção da revisão de concorrência: lock35s e teste de renovação6s; cinco testes PostgreSQL de persistência aprovados.
 - Passo4 concluído: provider, wrapper, configuração e rotas conectados;337 unitários e18 integrações locais aprovados. Evidências em orchestration-evidence.md; check com lint,tipos,build aprovado.
+- Passo5: documentação/env e proteção global dos testes atualizados. Check completo e integração aprovados; validação independente final obrigatória em andamento, sem encerramento da feature antes do relatório PASS.

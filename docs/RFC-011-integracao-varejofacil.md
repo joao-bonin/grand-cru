@@ -137,6 +137,10 @@ Após a proposta acima, o usuário autorizou expressamente apenas autenticação
 
 Implementação: cliente de autenticação separado do cliente GET de negócio, origem fixa, sem redirects; tokens cifrados em PostgreSQL com chave exclusiva no gerenciador de segredos; renovação sob lock por identidade, versão monotônica e repetição de uma consulta GET no máximo uma vez após 401. Sem prazo fixo inventado: `exp` de JWT serve somente como pista de agendamento; token opaco renova após 401. Testes usam exclusivamente mocks e PostgreSQL local. Contrato real de refresh/rotação não é considerado validado por fixtures.
 
+Validação local da implementação: `npm run check` em Node24.19.0 aprovado com337 testes unitários, lint, tipos e build;18 testes de integração aprovados em PostgreSQL17 local descartável. Foram verificados tokens cifrados, datas/versões, rollback, concorrência entre pools, renovação lenta, rotação e repetição limitada. A revisão independente inicial apontou dois problemas corrigidos: espera do lock menor que a duração possível do refresh/login e corpos de erro sem cancelamento. Regressões mantidas; revisão final e sensor registrados em `.specs/features/erp-session/validation.md` quando concluídos.
+
+Migration0002 `erp_sessions` versionada e aplicada somente no banco local. Esta mudança ainda não foi publicada nem migrada em produção. Configuração necessária no servidor: `ERP_USERNAME`, `ERP_PASSWORD`, `ERP_TOKEN_ENCRYPTION_KEY` (32 bytes aleatórios em base64) e `ERP_STORE_ID`. Nenhuma chamada ao ERP real foi feita para implementar ou testar a sessão renovável.
+
 ## Planejamento a partir do PRD — 16/10/2026
 
 Foi localizado o PRD v1.0 em `origin/work:docs/PRD.md` (commit `ede01140de4203d83ef393557e8e388723a7a39a`). O planejamento está em [histórias](../.specs/features/comprador-virtual/spec.md), [subtarefas](../.specs/features/comprador-virtual/tasks.md) e [contexto e rastreabilidade](../.specs/features/comprador-virtual/context.md). A cópia da fonte foi preservada sem merge de branches.
