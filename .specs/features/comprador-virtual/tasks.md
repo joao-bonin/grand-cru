@@ -271,6 +271,8 @@ T34 -> T35
 
 #### T8: Definir esquema local de versões sincronizadas
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Representar snapshots, itens, origem, estados, políticas locais versionadas e execução ativa com identidade única e versão publicada; valores decimais e IDs preservados.
@@ -281,9 +283,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Representar snapshots, itens, origem, estados, políticas locais versionadas e execução ativa com identidade única e versão publicada; valores decimais e IDs preservados.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Representar snapshots, itens, origem, estados, políticas locais versionadas e execução ativa com identidade única e versão publicada; valores decimais e IDs preservados.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -657,6 +659,8 @@ T34 -> T35
 
 #### T27: Definir esquema de rodadas locais
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T8
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Modelar rodada, itens, grupo por fornecedor, autor, snapshot, versão, chave idempotente e estado local; preservar sugestão e ajuste separados.
@@ -667,9 +671,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Modelar rodada, itens, grupo por fornecedor, autor, snapshot, versão, chave idempotente e estado local; preservar sugestão e ajuste separados.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Modelar rodada, itens, grupo por fornecedor, autor, snapshot, versão, chave idempotente e estado local; preservar sugestão e ajuste separados.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
