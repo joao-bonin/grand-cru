@@ -110,6 +110,15 @@ describe('ERP authentication boundary ES-01', () => {
     await vi.advanceTimersByTimeAsync(15000)
     expect(fetcher.mock.calls[0]![1].signal.aborted).toBe(false)
   })
+  it.each(['http', 'length', 'encoding'])('closes an unread %s failure body and aborts its transport', async reason => {
+    const cancel = vi.fn()
+    const stream = new ReadableStream<Uint8Array>({ start(controller) { controller.enqueue(new Uint8Array([255])) }, cancel })
+    const rejected = new Response(stream, reason === 'http' ? { status: 500 } : reason === 'length' ? { headers: { 'content-length': '65537' } } : {})
+    const fetcher = vi.fn().mockResolvedValue(rejected)
+    await expect(createErpAuthenticationClient({ ...credentials, fetch: fetcher }).login()).rejects.toThrow(reason === 'http' ? 'ERP_AUTH_HTTP_500' : 'ERP_AUTH_RESPONSE_INVALID')
+    expect(fetcher.mock.calls[0]![1].signal.aborted).toBe(true)
+    expect(cancel).toHaveBeenCalledTimes(1)
+  })
   it('extracts numeric JWT exp only as a scheduling hint', async () => {
     const accessToken = jwt(1800000000)
     const fetcher = vi.fn().mockResolvedValue(new Response(JSON.stringify({ ...pair, accessToken })))

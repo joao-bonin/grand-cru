@@ -20,3 +20,5 @@ Comando: `PATH=/tmp/grand-cru-node24/node_modules/node-linux-x64/bin:$PATH npx v
 | exp numérico é pista de agendamento; inválido/opaco retorna null | `tests/unit/erp-auth-client.test.ts:116`, `tests/unit/erp-auth-client.test.ts:120` |
 
 Limite: estes testes provam o contrato local fechado e a sanitização, não o formato operacional da resposta real de refresh. A leitura do payload JWT não verifica assinatura nem autentica a aplicação.
+
+Revisão independente identificou corpo aberto nas saídas HTTP, Content-Length e UTF-8 inválido. A correção aborta o transporte e cancela corpos liberados sem alterar a saída de sucesso. Regressões adicionadas:38 testes de transporte aprovados; o novo teste `closes an unread...` exige signal.aborted=true e cancel chamado uma vez para cada falha. Log local: `/tmp/grand-cru-session-transport-fix.log`.

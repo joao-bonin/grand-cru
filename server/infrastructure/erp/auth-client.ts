@@ -60,6 +60,7 @@ export function createErpAuthenticationClient(options: { username: string, passw
   const fetcher = options.fetch ?? globalThis.fetch
   async function request(operation: 'login' | 'refresh', refreshToken?: string): Promise<ErpTokens> {
     const controller = new AbortController()
+    let activeResponse: Response | undefined
     let timer: ReturnType<typeof setTimeout> | undefined
     const timeout = new Promise<never>((_resolve, reject) => {
       timer = setTimeout(() => {
@@ -78,12 +79,18 @@ export function createErpAuthenticationClient(options: { username: string, passw
           ...(operation === 'login' ? { body: JSON.stringify({ username: options.username, password: options.password }) } : {}),
         })
       } catch { throw new Error('ERP_AUTH_TRANSPORT_FAILED') }
+      activeResponse = response
       if (controller.signal.aborted) throw new Error('ERP_AUTH_TRANSPORT_FAILED')
       if (response.status === 401 || response.status === 403) throw new Error('ERP_AUTH_REJECTED')
       if (!response.ok) throw new Error(`ERP_AUTH_HTTP_${response.status}`)
       return readTokens(response, controller.signal)
     }
     try { return await Promise.race([execute(), timeout]) }
+    catch (error) {
+      controller.abort()
+      if (activeResponse?.body && !activeResponse.body.locked) void activeResponse.body.cancel().catch(() => {})
+      throw error
+    }
     finally { clearTimeout(timer) }
   }
   return {
