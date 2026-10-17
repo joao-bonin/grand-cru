@@ -4,8 +4,9 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css', '~/assets/css/dashboard.css'],
   devtools: { enabled: false },
   typescript: { strict: true },
+  nitro: { vercel: { functions: { maxDuration: 300 } } },
   runtimeConfig: { databaseUrl: '', jwtSecret: '' },
-  ui: { fonts: false },
+  ui: { fonts: false, colorMode: false },
   app: {
     head: {
       title: 'Grand Cru',

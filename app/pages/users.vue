@@ -75,7 +75,7 @@ async function remove() {
       <div v-if="loadError" class="directory-empty"><UAlert color="error" title="Não foi possível carregar os usuários." role="alert" /><UButton @click="refresh()">Tentar novamente</UButton></div>
       <UserDirectory v-else :users="filteredUsers" actions :pending="pending" @edit="openEditor" @toggle="toggle" @remove="askRemove" />
     </section>
-    <UModal v-model:open="editorOpen" :title="editing ? 'Editar usuário' : 'Novo usuário'" description="Defina o login, o perfil e o acesso desta pessoa." :dismissible="!pending" :ui="{ content: 'admin-dialog' }">
+    <UModal v-model:open="editorOpen" :title="editing ? 'Editar usuário' : 'Novo usuário'" description="Defina a identificação e as permissões de acesso ao Grand Cru." :dismissible="!pending" :ui="{ content: 'admin-dialog' }">
       <template #body><UserEditor :key="editing?.id ?? 'new'" :user="editing" :pending="pending" :error="error" @save="save" @cancel="editorOpen = false" /></template>
     </UModal>
     <UModal v-model:open="deleteOpen" title="Excluir usuário?" :description="`O acesso de ${deleting?.login ?? 'este usuário'} será encerrado e a conta sairá da lista.`" :dismissible="!pending">

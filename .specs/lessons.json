@@ -3,7 +3,7 @@
   "promote_threshold": 2,
   "window_days": 45,
   "quarantine_threshold": 2,
-  "next_id": 3,
+  "next_id": 4,
   "lessons": [
     {
       "id": "L-001",
@@ -40,6 +40,24 @@
       ],
       "created": "2026-10-17T02:57:17Z",
       "last_seen": "2026-10-17T02:57:17Z"
+    },
+    {
+      "id": "L-003",
+      "key": "surviving_mutant::teste a ordenacao paginada com entradas fora de ordem e empates de produto em lojas distintas comparando a sequencia completa de identidades",
+      "text": "Teste a ordenação paginada com entradas fora de ordem e empates de produto em lojas distintas, comparando a sequência completa de identidades.",
+      "signal": "surviving_mutant",
+      "scope": "replenishment",
+      "status": "candidate",
+      "features": [
+        "replenishment-usability"
+      ],
+      "recurrence": 1,
+      "harmful": 0,
+      "evidence": [
+        "M7 shared/application/replenishment-query.ts:20 (replenishment)"
+      ],
+      "created": "2026-10-17T23:20:55Z",
+      "last_seen": "2026-10-17T23:20:55Z"
     }
   ]
 }

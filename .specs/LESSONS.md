@@ -26,6 +26,12 @@ Seen once or not yet corroborated. Tracked, not trusted.
 - evidence: CV-01 (erp)
 - last seen: 2026-10-17T02:57:17Z
 
+### L-003 - Teste a ordenação paginada com entradas fora de ordem e empates de produto em lojas distintas, comparando a sequência completa de identidades.
+- signal: `surviving_mutant` · recurrence: 1 feature(s) · scope: `replenishment` · harmful: 0
+- features: replenishment-usability
+- evidence: M7 shared/application/replenishment-query.ts:20 (replenishment)
+- last seen: 2026-10-17T23:20:55Z
+
 ## Quarantined (failed when applied - ignore)
 
 A confirmed lesson that recurred alongside failure. Kept for the maintainer to review.

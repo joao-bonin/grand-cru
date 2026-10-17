@@ -84,3 +84,7 @@ export interface Recommendation {
 }
 export interface DraftItem { productId: string, storeId: string, supplierId: string, description: string, suggested: number, adjusted: number, packSize: number, unitCost: number | null, policyVersion: number, reference?: Recommendation }
 export interface PurchaseDraft { id: string, key: string, author: string, createdAt: string, snapshotId: string, version: number, state: 'draft' | 'reviewed', items: DraftItem[], total: number | null }
+
+export interface RecommendationPagination { start: number, count: number, total: number, supplierIds: string[] }
+export interface RecommendationFilters { product: string, supplier: string, risk: boolean, issues: boolean }
+export interface RecommendationPage extends RecommendationPagination { items: Recommendation[], snapshotId: string | null, policies: Policy[], issues: string[] }
