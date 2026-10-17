@@ -861,6 +861,8 @@ T34 -> T35
 
 #### T34: Exibir histórico e pendências locais
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US09
 **Requirement**: CV-09
 **What**: Mostrar autor, data, versão, sugestões, ajustes e grupos por fornecedor; nunca rotular rascunho como pedido aceito no ERP.
@@ -871,9 +873,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Mostrar autor, data, versão, sugestões, ajustes e grupos por fornecedor; nunca rotular rascunho como pedido aceito no ERP.
-- [ ] Critérios de US09 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Mostrar autor, data, versão, sugestões, ajustes e grupos por fornecedor; nunca rotular rascunho como pedido aceito no ERP.
+- [x] Critérios de US09 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
