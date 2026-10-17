@@ -58,7 +58,7 @@ Acceptance Criteria:
 | ID | Entrega | Status |
 | --- | --- | --- |
 | UX-01 | Paginação, filtros e seleção | Verified (pagination-evidence.md) |
-| UX-02 | Pendências compreensíveis | Implementing |
+| UX-02 | Pendências compreensíveis | Verified (issues-evidence.md) |
 | UX-03 | Contraste e formulário | Implementing |
 
 ## Execution Plan
