@@ -415,6 +415,8 @@ T34 -> T35
 
 #### T14: Mostrar atualização e falhas
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Exibir referência, execução ativa e erro; desabilitar disparo duplicado e preservar último sucesso visível.
@@ -425,9 +427,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Exibir referência, execução ativa e erro; desabilitar disparo duplicado e preservar último sucesso visível.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Exibir referência, execução ativa e erro; desabilitar disparo duplicado e preservar último sucesso visível.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
