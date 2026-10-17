@@ -517,6 +517,8 @@ T34 -> T35
 
 #### T19: Calcular consumo líquido nas quatro janelas
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US04
 **Requirement**: CV-04
 **What**: Contabilizar documento/item uma vez, tratar cancelamentos e devoluções vinculados; 10 menos 2 resulta 8; janela parcial fica sinalizada.
@@ -527,9 +529,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Contabilizar documento/item uma vez, tratar cancelamentos e devoluções vinculados; 10 menos 2 resulta 8; janela parcial fica sinalizada.
-- [ ] Critérios de US04 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Contabilizar documento/item uma vez, tratar cancelamentos e devoluções vinculados; 10 menos 2 resulta 8; janela parcial fica sinalizada.
+- [x] Critérios de US04 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
