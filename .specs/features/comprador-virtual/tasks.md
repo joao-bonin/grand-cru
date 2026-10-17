@@ -215,6 +215,8 @@ T34 -> T35
 
 #### T5: Traduzir vendas e devoluções
 
+**Status de execução**: Parcial. Devoluções e cobertura histórica ainda não reconciliadas; implementação sinaliza a limitação.
+
 **Story**: US04
 **Requirement**: CV-04
 **What**: Preservar identidade do documento/item, datas, quantidade e vínculos de cancelamento/devolução, sem expor dados pessoais desnecessários.
