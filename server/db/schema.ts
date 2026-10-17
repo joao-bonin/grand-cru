@@ -18,3 +18,5 @@ export const loginAttempts = pgTable('login_attempts', {
   attempts: integer('attempts').notNull().default(1),
   windowStartedAt: timestamp('window_started_at', { mode: 'date', precision: 3, withTimezone: true }).notNull(),
 })
+
+export { erpSnapshots, erpSync, replenishmentPolicies, purchaseDrafts } from './erp-schema'

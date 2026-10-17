@@ -1,0 +1,20 @@
+<script setup lang="ts">
+import type { SyncStatus } from '../../shared/types/replenishment'
+defineProps<{ status: SyncStatus | null, snapshot?: { id: string, createdAt: string } | null, configured?: boolean, canSync?: boolean, pending?: boolean, error?: string }>()
+defineEmits<{ sync: [] }>()
+function errorMessage(error: string | null | undefined) { return error === 'ERP_AUTHENTICATION_PENDING' ? 'Autenticação do ERP pendente. Configure um token de leitura válido no servidor.' : error }
+const labels = { idle: 'Aguardando atualização', running: 'Atualização em andamento', success: 'Atualização concluída', failed: 'Falha na atualização' }
+</script>
+
+<template>
+  <section class="dashboard-card replenishment-sync" aria-label="Estado da sincronização" aria-live="polite">
+    <h2>Dados do Varejo Fácil</h2>
+    <p>ERP somente leitura. As rodadas são salvas apenas no Grand Cru.</p>
+    <p>{{ status ? labels[status.state] : 'Estado indisponível' }}</p>
+    <p v-if="snapshot">Versão {{ snapshot.id }} · {{ new Date(snapshot.createdAt).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' }) }}</p>
+    <p v-else>Nenhuma versão publicada.</p>
+    <p v-if="!configured">Acesso de leitura precisa ser configurado no servidor.</p>
+    <p v-if="error || status?.error" role="alert">{{ errorMessage(error || status?.error) }}</p>
+    <button v-if="canSync" type="button" :disabled="pending || status?.state === 'running' || !configured" @click="$emit('sync')">{{ pending || status?.state === 'running' ? 'Atualizando…' : 'Atualizar agora' }}</button>
+  </section>
+</template>

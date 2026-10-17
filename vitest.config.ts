@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: { alias: { '#shared': fileURLToPath(new URL('./shared', import.meta.url)) } },
   test: {
     environment: 'happy-dom',
+    maxWorkers: 2,
     include: ['tests/unit/**/*.test.ts'],
     coverage: {
       provider: 'v8',

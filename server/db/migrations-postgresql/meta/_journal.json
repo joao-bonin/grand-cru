@@ -8,6 +8,13 @@
       "when": 1792075744108,
       "tag": "0000_wooden_marauders",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792200835559,
+      "tag": "0001_gray_molten_man",
+      "breakpoints": true
     }
   ]
 }

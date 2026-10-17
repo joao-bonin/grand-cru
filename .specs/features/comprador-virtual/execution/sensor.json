@@ -1,0 +1,65 @@
+{
+  "node": "24.19.0",
+  "baselinePassed": true,
+  "mutations": [
+    {
+      "name": "method",
+      "file": "server/infrastructure/erp/read-client.ts",
+      "line": 72,
+      "mutation": "method: 'POST', redirect: 'error'",
+      "exit": 1,
+      "killed": true
+    },
+    {
+      "name": "path",
+      "file": "server/infrastructure/erp/read-client.ts",
+      "line": 59,
+      "mutation": "if (false)",
+      "exit": 1,
+      "killed": true
+    },
+    {
+      "name": "redirect",
+      "file": "server/infrastructure/erp/read-client.ts",
+      "line": 72,
+      "mutation": "redirect: 'follow'",
+      "exit": 1,
+      "killed": true
+    },
+    {
+      "name": "snapshot",
+      "file": "server/application/purchases/review-draft.ts",
+      "line": 28,
+      "mutation": "false",
+      "exit": 1,
+      "killed": true
+    },
+    {
+      "name": "rounding",
+      "file": "server/domain/replenishment/recommend.ts",
+      "line": 32,
+      "mutation": "Math.floor(raw / policy.packSize)",
+      "exit": 1,
+      "killed": true
+    },
+    {
+      "name": "adjustment",
+      "file": "server/application/purchases/review-draft.ts",
+      "line": 34,
+      "mutation": "suggested: item.adjusted",
+      "exit": 1,
+      "killed": true
+    },
+    {
+      "name": "availability",
+      "file": "server/domain/replenishment/availability.ts",
+      "line": 16,
+      "mutation": "stock.physical - stock.reserved",
+      "exit": 1,
+      "killed": true
+    }
+  ],
+  "isolationVerified": true,
+  "scratchRemoved": true,
+  "cleanupIsolationVerified": true
+}

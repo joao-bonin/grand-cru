@@ -14,7 +14,7 @@ Os dados deverão ser atualizados por sincronização agendada e manual. A integ
 | ID | Requisito |
 | --- | --- |
 | RF-01 | Autenticar usuários e restringir dashboards e APIs a usuários autenticados. |
-| RF-02 | Integrar pela API do ERP, fonte central dos dados do sistema, para obter os dados necessários aos dashboards. Documentação informada: https://mercado.varejofacil.com/api/v1/docs. |
+| RF-02 | Integrar pela API do ERP, fonte central dos dados do sistema, para obter os dados necessários aos dashboards. Documentação do ambiente confirmada: https://fgcuritibabatel.varejofacil.com/api/v1/docs. Análise do contrato na RFC-011. |
 | RF-03 | Atualizar os dados por execução agendada, sem depender de webhooks do ERP. |
 | RF-04 | Permitir solicitar atualização dos dados por um botão na interface. |
 | RF-05 | Exibir dashboards e gráficos com os dados sincronizados do ERP. |
@@ -93,7 +93,7 @@ Ficam para uma etapa posterior a escolha do serviço compatível com MySQL, estr
 
 ## Pontos em aberto
 
-- Consultar a documentação informada da API do ERP e identificar contratos, autenticação e limites. A leitura ainda está pendente: a conexão foi recusada pelo proxy deste ambiente com HTTP 403 no túnel CONNECT, antes de acessar o conteúdo.
+- O contrato público da API do ERP foi analisado em 16/10/2026 (RFC-011), superando o bloqueio de rede anterior. Validar autenticação real, permissões, limites, dados e regras operacionais antes de implementar.
 - Definir fórmulas e dados dos indicadores solicitados, o recorte do MVP e o contrato para geração de pedidos, conforme a RFC-008.
 - Qual será a frequência de sincronização e como tratar atualizações simultâneas, falhas e dados desatualizados?
 - Qual provedor e modelo de LLM serão utilizados? Que perguntas serão permitidas e quais dados poderão ser enviados?
