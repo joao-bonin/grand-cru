@@ -90,6 +90,29 @@ test('rolls back a new pair on callback failure and preserves the previous pair'
   expect((await firstPool.query('SELECT tokens_ciphertext FROM erp_sessions WHERE identity = $1', [identity])).rows[0].tokens_ciphertext).toBe(raw)
 })
 
+test('waits for a renewal lasting longer than five seconds and reuses the rotated pair', async () => {
+  const identity = `${prefix}-slow-renewal`
+  const first = createErpSessionStore(firstPool, { identity, cipher })
+  const second = createErpSessionStore(secondPool, { identity, cipher })
+  await first.withSession(async (_session, save) => save(tokens))
+  let entered!: () => void
+  const started = new Promise<void>(resolve => { entered = resolve })
+  let renewals = 0
+  const one = first.withSession(async (_session, save) => {
+    renewals++
+    entered()
+    await new Promise(resolve => setTimeout(resolve, 6000))
+    return save({ ...tokens, refreshToken: 'synthetic-slow-rotation' })
+  })
+  await started
+  const two = second.withSession(async session => session)
+  const [saved, reused] = await Promise.all([one, two])
+  expect(reused).toEqual(saved)
+  expect(reused?.refreshToken).toBe('synthetic-slow-rotation')
+  expect(reused?.version).toBe(2)
+  expect(renewals).toBe(1)
+})
+
 test('fails closed for wrong key or tampered ciphertext without invoking the operation', async () => {
   const identity = `${prefix}-corrupt`
   const store = createErpSessionStore(firstPool, { identity, cipher })

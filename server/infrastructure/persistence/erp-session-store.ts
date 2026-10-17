@@ -23,7 +23,8 @@ export function createErpSessionStore(pool: Pool, options: { identity: string, c
       try { client = await pool.connect() } catch { throw storageError() }
       try {
         await query(client, 'BEGIN')
-        await query(client, "SET LOCAL lock_timeout = '5s'")
+        // A rejected refresh plus one login may use two fifteen-second deadlines.
+        await query(client, "SET LOCAL lock_timeout = '35s'")
         await query(client, 'SELECT pg_advisory_xact_lock(hashtextextended($1, 1))', [identity])
         const result = await query(client, 'SELECT tokens_ciphertext, version, expires_at, renewed_at FROM erp_sessions WHERE identity = $1', [identity])
         const row: SessionRow | undefined = result.rows[0]

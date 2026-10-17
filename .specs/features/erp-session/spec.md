@@ -60,6 +60,8 @@ Acceptance Criteria:
 
 Contratos injetáveis separam transporte, armazenamento e provider. O banco guarda uma linha por hash da identidade do login, sem armazenar senha. O lock da sessão é distinto do lock da sincronização e obtido apenas ao verificar/renovar tokens; consultas de negócio ocorrem fora dele. Chave inválida interrompe o fluxo. A rota não oferece endpoint de autenticação ERP ao navegador. Não reaproveitar o segredo JWT do aplicativo para cifrar tokens.
 
+O lock aguarda até35 segundos: até15s para refresh,15s para um login substituto e5s de margem. Não limitar a espera abaixo da duração válida da operação protegida.
+
 ## Context
 
 Autorização expressa do usuário em 17/10/2026 para login e refresh, inclusive persistência de tokens e data de renovação. Segurança, limites e defaults acima são escolhas técnicas dentro desse escopo. Contrato público preservado em `/tmp/grand-cru-swagger.yaml` e RFC-011: resposta do refresh sem schema; aceitar somente um par válido, sem presumir token rotacionado ausente. Validação operacional permanece separada da prova com mocks.
@@ -70,3 +72,4 @@ Autorização expressa do usuário em 17/10/2026 para login e refresh, inclusive
 - Passo2 concluído:35 testes unitários, lint e tipos direcionados aprovados; evidências em transport-evidence.md. Sem chamadas ao ERP real.
 - Passo3 concluído:12 testes unitários de cifra e4 testes PostgreSQL locais aprovados; evidências em storage-evidence.md. Migration0002 aplicada somente no banco descartável.
 - Correção da revisão de transporte: respostas rejeitadas agora abortam fetch e cancelam o corpo pendente;38 testes direcionados aprovados, sem alterar testes existentes.
+- Correção da revisão de concorrência: lock35s e teste de renovação6s; cinco testes PostgreSQL de persistência aprovados.

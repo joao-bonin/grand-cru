@@ -9,3 +9,5 @@ O repositório serializa leitura e alteração da mesma identidade por advisory 
 Migration gerada pelo Drizzle: `0002_serious_the_hunter.sql`, criação exclusiva de `erp_sessions` no banco do aplicativo. Não executada em produção.
 
 Integração local aprovada após migration explícita no banco descartável: quatro casos em `tests/integration/erp-session.spec.ts`, com PostgreSQL de loopback e pares sintéticos,4/4 aprovados em3,1s. Verificam ciphertext e datas, versão monotônica, dois pools renovando uma vez, rollback preservando o par anterior e chave/adulteração recusadas antes da operação. Log local: `/tmp/grand-cru-session-storage-integration.log`. Nenhuma consulta ou autenticação no ERP real faz parte desses testes.
+
+Revisão independente apontou que lock de5s era menor que as duas operações de autenticação de até15s. A correção usa35s e acrescenta regressão com renovação simulada de6s e dois pools: a segunda instância recebe o par rotacionado com versão2. Cinco testes de persistência e um fluxo completo com transporte mockado aprovados,6/6 em8,6s. Log: `/tmp/grand-cru-session-persistence-flow.log`.
