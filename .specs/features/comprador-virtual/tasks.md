@@ -127,6 +127,8 @@ T34 -> T35
 
 #### T1: Validar contratos de leitura e semântica dos dados
 
+**Status de execução**: Parcial. Evidência operacional de fontes ainda pendente; relatório local entregue.
+
 **Story**: US01
 **Requirement**: CV-01
 **What**: Documentar produtos, estoque, fornecedores, compras abertas, vendas e devoluções com campos/semântica confirmados ou pendentes; nenhum segredo ou corpo pessoal persistido.
