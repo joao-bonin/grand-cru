@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { queryRecommendations } from '../../shared/application/replenishment-query'
+import { queryRecommendations } from '#shared/application/replenishment-query'
 import type { Recommendation, RecommendationPagination, RecommendationFilters } from '../../shared/types/replenishment'
 import ReplenishmentExplanation from './ReplenishmentExplanation.vue'
 const props = defineProps<{ items: Recommendation[], error?: string, loading?: boolean, canSelect?: boolean, pagination?: RecommendationPagination }>()
@@ -38,7 +38,7 @@ function select() { emit('selection', props.items.filter(item => selected.value.
     <div v-if="error" role="alert"><p>{{ error }}</p><button data-retry type="button" @click="$emit('retry')">Tentar novamente</button></div>
     <p v-if="loading" role="status">Carregando recomendações…</p>
     <nav v-if="pagination" class="replenishment-pagination" aria-label="Paginação de produtos">
-      <p role="status">{{ pagination.total ? pagination.start + 1 : 0 }}–{{ Math.min(pagination.start + items.length, pagination.total) }} de {{ pagination.total }} produtos</p>
+      <p role="status">{{ pagination.total ? pagination.start + 1 : 0 }}–{{ Math.min(pagination.start + items.length, pagination.total) }} de {{ pagination.total }} {{ pagination.total === 1 ? 'produto' : 'produtos' }}</p>
       <div>
         <button type="button" :disabled="loading || pagination.start === 0" @click="page(Math.max(0, pagination.start - pagination.count))">Anterior</button>
         <span>Página {{ Math.floor(pagination.start / pagination.count) + 1 }} de {{ Math.max(1, Math.ceil(pagination.total / pagination.count)) }}</span>

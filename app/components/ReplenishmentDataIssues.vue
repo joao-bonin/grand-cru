@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { summarizeReplenishmentIssues } from '../../shared/application/replenishment-issues'
+import { summarizeReplenishmentIssues } from '#shared/application/replenishment-issues'
 const props = defineProps<{ issues: string[] }>()
 const summary = computed(() => summarizeReplenishmentIssues(props.issues))
 </script>

@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   typescript: { strict: true },
   nitro: { vercel: { functions: { maxDuration: 300 } } },
   runtimeConfig: { databaseUrl: '', jwtSecret: '' },
-  ui: { fonts: false },
+  ui: { fonts: false, colorMode: false },
   app: {
     head: {
       title: 'Grand Cru',

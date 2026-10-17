@@ -12,12 +12,12 @@ Escritas no ERP, alterações de fórmula, inferência de fornecedor/embalagem, 
 
 | Decisão | Padrão escolhido | Motivo |
 | --- | --- | --- |
-| Paginação | Tela usa start/count com20 itens por página na API local; ERP continua com100 por consulta | Limitar renderização e tráfego da tela, preservar integração comprovada |
+| Paginação | Tela usa start/count com 20 itens por página na API local; ERP continua com 100 por consulta | Limitar renderização e tráfego da tela, preservar integração comprovada |
 | Filtros | Aplicados no conjunto completo antes de recortar página; risco primeiro e identidade como desempate | Buscar produtos de qualquer página com ordenação estável |
 | Seleção | Por página; mudar página ou filtros limpa seleção | Evitar revisão de seleção invisível ou de outro resultado |
 | Contrato existente | Consulta local sem count continua completa para preparar rodadas selecionadas em qualquer página | Preservar fluxo de rodadas e consumidores atuais |
 | Pendências | Resumo agrupado e tradução por produto; códigos internos preservados no domínio | Informação acionável sem alterar elegibilidade |
-| Visual | Tema claro coerente com a marca vinho; texto principal escuro e secundário com contraste mínimo4,5:1 | Pedido do usuário de eliminar cinza ilegível |
+| Visual | Tema claro coerente com a marca vinho; texto principal escuro e secundário com contraste mínimo 4,5:1 | Pedido do usuário de eliminar cinza ilegível |
 | Formulário | Agrupar identificação/segurança, perfil e status; manter payload e regras atuais | Melhorar usabilidade sem ampliar privilégios |
 | Validação | Mocks ERP, PostgreSQL e navegador locais; revisão independente e captura desktop/mobile | Não tocar dados de negócio do ERP |
 
@@ -49,7 +49,7 @@ Acceptance Criteria:
 
 Acceptance Criteria:
 
-- WHEN a aplicação abre inclusive com preferência de sistema escura THEN the interface SHALL manter tema claro e textos principais/secundários com contraste mínimo4,5:1 em seus fundos, com texto secundário de pelo menos12px.
+- WHEN a aplicação abre inclusive com preferência de sistema escura THEN the interface SHALL manter tema claro e textos principais/secundários com contraste mínimo 4,5:1 em seus fundos, com texto secundário de pelo menos 12px.
 - WHEN o formulário de usuário é aberto em390px ou desktop THEN the interface SHALL apresentar campos em largura integral, controles de pelo menos44px, grupos de identificação/permissões, ajuda de senha/perfil e ações sem transbordamento horizontal.
 - WHEN o usuário cadastra ou edita THEN the form SHALL preservar login/perfil/status e senha opcional na edição; WHILE pending the form SHALL bloquear edição, salvamento e cancelamento.
 
@@ -59,15 +59,15 @@ Acceptance Criteria:
 | --- | --- | --- |
 | UX-01 | Paginação, filtros e seleção | Verified (pagination-evidence.md) |
 | UX-02 | Pendências compreensíveis | Verified (issues-evidence.md) |
-| UX-03 | Contraste e formulário | Implementing |
+| UX-03 | Contraste e formulário | Verified (visual-evidence.md) |
 
 ## Execution Plan
 
 1. Paginação local: shared/application/replenishment-query.ts, shared/types/replenishment.ts, server/api/replenishment/index.get.ts, app/components/ReplenishmentList.vue, app/pages/replenishment.vue e testes unitários de consulta/rota/componentes/página. Gate: unitários direcionados e ESLint; commit feat(replenishment).
 2. Pendências: shared/application/replenishment-issues.ts, app/components/ReplenishmentDataIssues.vue, ReplenishmentExplanation.vue e página de reposição; testes de tradução, agrupamento e renderização. Gate: unitários direcionados e ESLint; commit fix(replenishment).
-3. Contraste/formulário: nuxt.config.ts, app/assets/css/main.css, dashboard.css, replenishment.css, app/components/UserEditor.vue, app/pages/users.vue, testes unitários de formulário e integração de paginação/contraste/mobile. Gate: npm run check e npm run test:integration com PostgreSQL/servidor local; commit fix(ui).
+3. Contraste/formulário: nuxt.config.ts, app/assets/css/main.css, dashboard.css, replenishment.css, app/components/UserEditor.vue, app/pages/users.vue, imports Nuxt #shared dos componentes de reposição e singular/plural do paginador, testes unitários de formulário e integração de paginação/contraste/mobile. Gate: npm run check e npm run test:integration com PostgreSQL/servidor local; commit fix(ui).
 
-Após o último commit: Verifier novo, sensor em scratch, validate_state e evidências. Nenhum teste anterior removido/enfraquecido. Baseline364 unitários/19 integrações.
+Após o último commit: Verifier novo, sensor em scratch, validate_state e evidências. Nenhum teste anterior removido/enfraquecido. Baseline 364 unitários/19 integrações.
 
 ## Evidência da API
 

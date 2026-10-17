@@ -20,3 +20,11 @@
 .replenishment-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
 .purchase-draft-editor article { padding: 1rem 0; border-bottom: 1px solid #e8dfe1; }
 @media (max-width: 600px) { .replenishment-page .dashboard-card { padding: 1rem; } .replenishment-actions button { width: 100%; } .replenishment-page .admin-page-heading { align-items: start; gap: 1rem; } }
+
+.replenishment-pagination { display: grid; gap: .75rem; padding: 1rem 1.25rem; background: #fff; border: 1px solid #d9cbd1; border-radius: .75rem; }
+.replenishment-pagination p { margin: 0; font-weight: 600; color: #302329; }
+.replenishment-pagination > div { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; justify-content: space-between; }
+.replenishment-pagination small { font-size: .8125rem; color: #5f5057; }
+.replenishment-data-issues { border-left: 4px solid #713044; }
+.replenishment-data-issues p { color: #5f5057; font-size: .9375rem; }
+.replenishment-data-issues ul, .replenishment-explanation ul { list-style: disc; padding-left: 1.25rem; display: grid; gap: .5rem; }

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { describeReplenishmentIssue } from '../../shared/application/replenishment-issues'
+import { describeReplenishmentIssue } from '#shared/application/replenishment-issues'
 import type { Recommendation } from '../../shared/types/replenishment'
 defineProps<{ item: Recommendation }>()
 function units(value: number | null) { return value === null ? 'Indisponível' : `${Number(value.toFixed(3))} unidades` }
