@@ -371,6 +371,8 @@ T34 -> T35
 
 #### T12: Expor solicitação local de sincronização
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Exigir sessão/permissão, iniciar uma execução ou devolver a existente; endpoint local não encaminha POST ao ERP.
@@ -381,15 +383,17 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Exigir sessão/permissão, iniciar uma execução ou devolver a existente; endpoint local não encaminha POST ao ERP.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Exigir sessão/permissão, iniciar uma execução ou devolver a existente; endpoint local não encaminha POST ao ERP.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
 **Commit**: `feat(comprador): expor solicitação local de sincronização`
 
 #### T13: Expor estado local da sincronização
+
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T12
 
 **Story**: US02
 **Requirement**: CV-02
@@ -401,9 +405,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Retornar estado e última versão válida por conjunto a usuário autenticado, sem token e sem declarar sucesso global diante de falha parcial.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Retornar estado e última versão válida por conjunto a usuário autenticado, sem token e sem declarar sucesso global diante de falha parcial.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -477,6 +481,8 @@ T34 -> T35
 
 #### T17: Expor alteração de política local
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T12
+
 **Story**: US03
 **Requirement**: CV-03
 **What**: Validar entrada e permissão, salvar política local com versão e rejeitar conflito com 409; nenhuma alteração no cadastro ERP.
@@ -487,9 +493,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Validar entrada e permissão, salvar política local com versão e rejeitar conflito com 409; nenhuma alteração no cadastro ERP.
-- [ ] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Validar entrada e permissão, salvar política local com versão e rejeitar conflito com 409; nenhuma alteração no cadastro ERP.
+- [x] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -607,6 +613,8 @@ T34 -> T35
 
 #### T23: Expor consulta das recomendações
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T12
+
 **Story**: US07
 **Requirement**: CV-07
 **What**: Exigir sessão, devolver lista/detalhe filtráveis e paginados com parâmetros, snapshot, fonte e alertas; sem leitura direta do ERP a cada renderização.
@@ -617,9 +625,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Exigir sessão, devolver lista/detalhe filtráveis e paginados com parâmetros, snapshot, fonte e alertas; sem leitura direta do ERP a cada renderização.
-- [ ] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Exigir sessão, devolver lista/detalhe filtráveis e paginados com parâmetros, snapshot, fonte e alertas; sem leitura direta do ERP a cada renderização.
+- [x] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -777,6 +785,8 @@ T34 -> T35
 
 #### T31: Expor gravação da rodada local
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T12
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Aceitar somente comandos locais de salvar/revisar rascunho com chave e versão; devolver 400/401/403/409 nos cenários definidos e nunca chamar escrita ERP.
@@ -787,9 +797,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Aceitar somente comandos locais de salvar/revisar rascunho com chave e versão; devolver 400/401/403/409 nos cenários definidos e nunca chamar escrita ERP.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Aceitar somente comandos locais de salvar/revisar rascunho com chave e versão; devolver 400/401/403/409 nos cenários definidos e nunca chamar escrita ERP.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -819,6 +829,8 @@ T34 -> T35
 
 #### T33: Expor histórico de rodadas
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T12
+
 **Story**: US09
 **Requirement**: CV-09
 **What**: Consultar lista e rodada selecionada por identificador validado, incluindo auditoria/snapshot e pendências; aplicar permissão em todas as consultas.
@@ -829,9 +841,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Consultar lista e rodada selecionada por identificador validado, incluindo auditoria/snapshot e pendências; aplicar permissão em todas as consultas.
-- [ ] Critérios de US09 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Consultar lista e rodada selecionada por identificador validado, incluindo auditoria/snapshot e pendências; aplicar permissão em todas as consultas.
+- [x] Critérios de US09 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
