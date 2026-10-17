@@ -125,6 +125,18 @@ Após autorização explícita do usuário para login, `POST /api/auth` retornou
 
 `GET /api/v1/myself` retornou 404 sem Bearer; causa não determinada, não usar como único teste de autenticação. Leitura de cupons autenticada está comprovada. Produtos, estoque, fornecedores e compras ainda não foram testados com o formato correto. Credenciais e tokens não foram persistidos por este teste; token foi usado somente em memória. Não houve refresh, logout nem escrita nos dados de negócio do ERP.
 
+## Continuidade da autenticação — proposta de 17/10/2026
+
+O usuário questionou o uso de access token fixo na publicação e apontou a necessidade de login e renovação após expiração. A configuração manual atual não resolve a continuidade operacional da autenticação. A recomendação é manter credenciais somente no servidor, obter accessToken e refreshToken em `POST /api/auth` e renovar pelo contrato `GET /api/auth/refresh`, com coordenação entre sincronizações concorrentes e repetição limitada da consulta original. Validade, rotação e comportamento de falha da renovação ainda precisam ser comprovados; não presumir que o refreshToken possa ser reutilizado indefinidamente.
+
+Esta é uma proposta pendente, não autorização para executar ou implementar login/refresh: o AGENTS.md vigente os proíbe expressamente, e a exceção anterior autorizou apenas o teste pontual já concluído. A eventual exceção precisa abranger explicitamente autenticação e renovação da sessão da integração, preservando a proibição absoluta de escrita nos dados de negócio, logout e demais operações. Nenhuma chamada real ou mudança de código foi realizada nesta discussão.
+
+### Exceção confirmada pelo usuário — 17/10/2026
+
+Após a proposta acima, o usuário autorizou expressamente apenas autenticação e renovação, permitindo criar tabela no banco do aplicativo para tokens e data de renovação. Esta decisão substitui as proibições anteriores exclusivamente para `POST /api/auth` e `GET /api/auth/refresh`. Logout, testes de escrita e qualquer alteração de dados de negócio do ERP continuam proibidos. AGENTS.md foi atualizado com essa autorização.
+
+Implementação: cliente de autenticação separado do cliente GET de negócio, origem fixa, sem redirects; tokens cifrados em PostgreSQL com chave exclusiva no gerenciador de segredos; renovação sob lock por identidade, versão monotônica e repetição de uma consulta GET no máximo uma vez após 401. Sem prazo fixo inventado: `exp` de JWT serve somente como pista de agendamento; token opaco renova após 401. Testes usam exclusivamente mocks e PostgreSQL local. Contrato real de refresh/rotação não é considerado validado por fixtures.
+
 ## Planejamento a partir do PRD — 16/10/2026
 
 Foi localizado o PRD v1.0 em `origin/work:docs/PRD.md` (commit `ede01140de4203d83ef393557e8e388723a7a39a`). O planejamento está em [histórias](../.specs/features/comprador-virtual/spec.md), [subtarefas](../.specs/features/comprador-virtual/tasks.md) e [contexto e rastreabilidade](../.specs/features/comprador-virtual/context.md). A cópia da fonte foi preservada sem merge de branches.
