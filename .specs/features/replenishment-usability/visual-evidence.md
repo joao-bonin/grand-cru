@@ -17,3 +17,5 @@ Mapeamento reverso: os3 novos unitários UserEditor correspondem a grupos/ajuda,
 Correções encontradas pelos gates: imports relativos de shared em Vue substituídos pelo alias #shared já usado no projeto; controles nominalmente44px mediam43,99px durante animação, então o layout foi ampliado para48px. A asserção44px não foi reduzida. A revisão visual final alinhou a cor primária ao vinho e mostrou Salvar/Cancelar lado a lado no celular.
 
 Capturas: docs/screenshots/replenishment-pagination-mobile.png, user-form-mobile.png e user-form-desktop.png. Somente dados sintéticos. Revisão independente e sensor são o próximo gate; esta evidência ainda não afirma publicação nem UAT humano.
+
+Encerramento: F1 elevou a bateria para389 unitários sem mudar runtime; revisão independente PASS13/13 e sensor sem lacunas pendentes. Publicação dpl_CEBC97oT88rDCQL1E1Df1ZDZs6aL READY confirmada no alias principal. HTTP200/401 e tokens visuais no CSS público conferidos; sem validação de sessão autenticada de produção ou UAT humano. Ver RFC-012.
