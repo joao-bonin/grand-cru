@@ -293,6 +293,8 @@ T34 -> T35
 
 #### T9: Gerar migration local dos dados sincronizados
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US02
 **Requirement**: CV-02
 **What**: Integrar o novo esquema à entrada Drizzle existente e gerar migration e metadados coerentes; aplicar e reaplicar somente no PostgreSQL descartável, sem alterar usuários existentes.
@@ -303,9 +305,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Integrar o novo esquema à entrada Drizzle existente e gerar migration e metadados coerentes; aplicar e reaplicar somente no PostgreSQL descartável, sem alterar usuários existentes.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Integrar o novo esquema à entrada Drizzle existente e gerar migration e metadados coerentes; aplicar e reaplicar somente no PostgreSQL descartável, sem alterar usuários existentes.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -681,6 +683,8 @@ T34 -> T35
 
 #### T28: Gerar migration de rodadas locais
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T9
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Gerar migration e metadados associados; testar unicidade e integridade no banco local sem modificar tabelas no ERP.
@@ -691,9 +695,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Gerar migration e metadados associados; testar unicidade e integridade no banco local sem modificar tabelas no ERP.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Gerar migration e metadados associados; testar unicidade e integridade no banco local sem modificar tabelas no ERP.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
