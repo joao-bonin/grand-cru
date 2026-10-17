@@ -683,6 +683,8 @@ T34 -> T35
 
 #### T26: Compor página autenticada de reposição
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US07
 **Requirement**: CV-07
 **What**: Reutilizar AppShell e auth; conectar atualização, políticas e lista; erro de uma consulta não apaga versão válida já apresentada.
@@ -693,9 +695,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Reutilizar AppShell e auth; conectar atualização, políticas e lista; erro de uma consulta não apaga versão válida já apresentada.
-- [ ] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Reutilizar AppShell e auth; conectar atualização, políticas e lista; erro de uma consulta não apaga versão válida já apresentada.
+- [x] Critérios de US07 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full
@@ -883,6 +885,8 @@ T34 -> T35
 
 #### T35: Compor página de revisão e histórico
 
+**Status de execução**: Absorvida. Entrega coesa compartilhada com T26
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Permitir selecionar itens da recomendação, salvar/reabrir rodada e consultar histórico no celular com auth; fluxo termina no rascunho local.
@@ -893,9 +897,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Permitir selecionar itens da recomendação, salvar/reabrir rodada e consultar histórico no celular com auth; fluxo termina no rascunho local.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Permitir selecionar itens da recomendação, salvar/reabrir rodada e consultar histórico no celular com auth; fluxo termina no rascunho local.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Full passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit + integration
 **Gate**: Full

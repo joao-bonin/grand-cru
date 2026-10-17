@@ -1,0 +1,22 @@
+.replenishment-page { display: grid; gap: 1.5rem; min-width: 0; }
+.replenishment-page .dashboard-card { padding: 1.5rem; overflow-wrap: anywhere; }
+.replenishment-page h2, .replenishment-page h3 { margin: 0 0 .5rem; }
+.replenishment-page button, .replenishment-page summary, .replenishment-page input, .replenishment-page select { min-height: 44px; font: inherit; }
+.replenishment-page button { padding: .65rem 1rem; border: 1px solid #713044; color: #713044; border-radius: .6rem; background: #fff; cursor: pointer; }
+.replenishment-page button:disabled { opacity: .5; cursor: default; }
+.replenishment-page :focus-visible { outline: 3px solid #713044; outline-offset: 3px; }
+.replenishment-page label { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.replenishment-page label input:not([type=checkbox]), .replenishment-page select { width: 100%; min-width: 0; border: 1px solid #d9cdd0; border-radius: .5rem; padding: .5rem; background: white; }
+.replenishment-page input[type=checkbox] { min-width: 24px; }
+.replenishment-page fieldset { border: 0; padding: 0; display: grid; gap: 1rem; min-width: 0; }
+.replenishment-page [role=alert] { padding: 1rem; border-left: 4px solid #a42d35; background: #fff0ef; color: #84232a; }
+.replenishment-filters { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); }
+.replenishment-list, .purchase-draft-history { display: grid; gap: 1rem; }
+.replenishment-item { min-width: 0; }
+.replenishment-item summary { cursor: pointer; color: #713044; font-weight: 600; padding-block: .75rem; }
+.replenishment-quantity { font-size: 1.2rem; font-weight: 700; }
+.replenishment-explanation dl { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .5rem 1rem; }
+.replenishment-explanation dd { margin: 0; overflow-wrap: anywhere; }
+.replenishment-actions { display: flex; flex-wrap: wrap; gap: .75rem; }
+.purchase-draft-editor article { padding: 1rem 0; border-bottom: 1px solid #e8dfe1; }
+@media (max-width: 600px) { .replenishment-page .dashboard-card { padding: 1rem; } .replenishment-actions button { width: 100%; } .replenishment-page .admin-page-heading { align-items: start; gap: 1rem; } }
