@@ -1,5 +1,9 @@
 import { defineConfig } from '@playwright/test'
 
+if (['ERP_ACCESS_TOKEN', 'ERP_USERNAME', 'ERP_PASSWORD', 'ERP_TOKEN_ENCRYPTION_KEY', 'ERP_STORE_ID'].some(name => process.env[name])) {
+  throw new Error('Testes de integração exigem configuração ERP vazia; use somente mocks e credenciais sintéticas injetadas.')
+}
+
 export default defineConfig({
   testDir: './tests/integration',
   workers: 1,

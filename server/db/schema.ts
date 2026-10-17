@@ -20,3 +20,4 @@ export const loginAttempts = pgTable('login_attempts', {
 })
 
 export { erpSnapshots, erpSync, replenishmentPolicies, purchaseDrafts } from './erp-schema'
+export { erpSessions } from './erp-session-schema'

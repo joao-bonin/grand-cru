@@ -50,17 +50,23 @@ export interface ErpReadClient {
   get: (path: string, query?: Record<string, string | number | boolean>) => Promise<unknown>
 }
 
+export function assertErpReadRequest(path: string, query: Record<string, string | number | boolean> = {}) {
+  if (!readPaths.has(path) && !/^\/v1\/produto\/produtos\/[0-9]+\/fornecedores$/.test(path)) throw new Error('ERP_READ_PATH_FORBIDDEN')
+  for (const [key, value] of Object.entries(query)) {
+    if (!queryKeys.has(key) || !['string', 'number', 'boolean'].includes(typeof value) || (typeof value === 'number' && !Number.isFinite(value))) throw new Error('ERP_READ_QUERY_FORBIDDEN')
+    if ((key === 'start' && (!Number.isSafeInteger(value) || Number(value) < 0)) || (key === 'count' && (!Number.isSafeInteger(value) || Number(value) < 1 || Number(value) > 100))) throw new Error('ERP_READ_QUERY_FORBIDDEN')
+  }
+}
+
 /** The ERP boundary deliberately exposes no login, mutation, refresh or arbitrary request API. */
 export function createErpReadClient(options: { token: string, fetch?: typeof globalThis.fetch }): ErpReadClient {
   if (!options.token.trim()) throw new Error('ERP_TOKEN_REQUIRED')
   const fetcher = options.fetch ?? globalThis.fetch
   return {
     async get(path, query = {}) {
-      if (!readPaths.has(path) && !/^\/v1\/produto\/produtos\/[0-9]+\/fornecedores$/.test(path)) throw new Error('ERP_READ_PATH_FORBIDDEN')
+      assertErpReadRequest(path, query)
       const url = new URL(origin + path)
       for (const [key, value] of Object.entries(query)) {
-        if (!queryKeys.has(key) || !['string', 'number', 'boolean'].includes(typeof value) || (typeof value === 'number' && !Number.isFinite(value))) throw new Error('ERP_READ_QUERY_FORBIDDEN')
-        if ((key === 'start' && (!Number.isSafeInteger(value) || Number(value) < 0)) || (key === 'count' && (!Number.isSafeInteger(value) || Number(value) < 1 || Number(value) > 100))) throw new Error('ERP_READ_QUERY_FORBIDDEN')
         url.searchParams.set(key, String(value))
       }
       const controller = new AbortController()
