@@ -433,6 +433,8 @@ T34 -> T35
 
 #### T15: Validar parâmetros e conversões
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US03
 **Requirement**: CV-03
 **What**: Validar L, R, S, M, janela e embalagem; exigir configuração explícita pendente de G2 e manter origem de valores manuais/ERP.
@@ -443,9 +445,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Validar L, R, S, M, janela e embalagem; exigir configuração explícita pendente de G2 e manter origem de valores manuais/ERP.
-- [ ] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Validar L, R, S, M, janela e embalagem; exigir configuração explícita pendente de G2 e manter origem de valores manuais/ERP.
+- [x] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
