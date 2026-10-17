@@ -815,6 +815,8 @@ T34 -> T35
 
 #### T32: Revisar itens e resumo da rodada
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US08
 **Requirement**: CV-08
 **What**: Ajustar e remover itens da rodada, apresentar valores estimados e confirmação local; persistir pelo endpoint e manter edição em caso de erro.
@@ -825,9 +827,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Ajustar e remover itens da rodada, apresentar valores estimados e confirmação local; persistir pelo endpoint e manter edição em caso de erro.
-- [ ] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Ajustar e remover itens da rodada, apresentar valores estimados e confirmação local; persistir pelo endpoint e manter edição em caso de erro.
+- [x] Critérios de US08 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
