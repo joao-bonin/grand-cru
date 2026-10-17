@@ -505,6 +505,8 @@ T34 -> T35
 
 #### T18: Editar política de reposição
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US03
 **Requirement**: CV-03
 **What**: Exibir origem dos parâmetros, validar campos obrigatórios, informar sucesso/erro e manter formulário após falha.
@@ -515,9 +517,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Exibir origem dos parâmetros, validar campos obrigatórios, informar sucesso/erro e manter formulário após falha.
-- [ ] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Exibir origem dos parâmetros, validar campos obrigatórios, informar sucesso/erro e manter formulário após falha.
+- [x] Critérios de US03 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
