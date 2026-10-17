@@ -585,6 +585,8 @@ T34 -> T35
 
 #### T22: Calcular sugestão e explicação
 
+**Status de execução**: Implementada e testada localmente. Gates locais aprovados; conclusão global permanece pendente.
+
 **Story**: US06
 **Requirement**: CV-06
 **What**: Aplicar fórmula aprovada em G2, separar bruto/arredondado, calcular cobertura/excesso e distinguir giro indisponível; cenário proposto retorna bruto 7 e sugestão 12.
@@ -595,9 +597,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Aplicar fórmula aprovada em G2, separar bruto/arredondado, calcular cobertura/excesso e distinguir giro indisponível; cenário proposto retorna bruto 7 e sugestão 12.
-- [ ] Critérios de US06 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Aplicar fórmula aprovada em G2, separar bruto/arredondado, calcular cobertura/excesso e distinguir giro indisponível; cenário proposto retorna bruto 7 e sugestão 12.
+- [x] Critérios de US06 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
 
 **Tests**: unit
 **Gate**: Quick
