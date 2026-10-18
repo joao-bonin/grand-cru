@@ -37,7 +37,7 @@ beforeEach(() => {
   vi.stubGlobal('$fetch', fetchMock)
   vi.stubGlobal('useRequestFetch', () => vi.fn().mockResolvedValue(recommendations.value))
   vi.stubGlobal('useFetch', (path: string) => path === '/api/replenishment'
-    ? { data: recommendations, error: loadError, refresh }
+    ? { data: recommendations, error: loadError, pending: ref(false), refresh }
     : path === '/api/purchase-drafts'
       ? { data: ref({ drafts: [draft] }), error: ref(null), refresh }
       : { data: ref({ status: { state: 'success' }, snapshot: { id: 'snapshot-1', createdAt: '2026-10-16T12:00:00Z' }, configured: true }), error: ref(null), refresh })
@@ -67,6 +67,13 @@ describe('T26 página autenticada de reposição', () => {
     const list = wrapper.findComponent({ name: 'ReplenishmentList' })
     expect(list.props('items')).toEqual([recommendation])
     expect(list.props('error')).toContain('Não foi possível')
+    expect(list.props('error')).toContain('resultados anteriores foram mantidos')
+    expect(list.props('canSelect')).toBe(false)
+    list.vm.$emit('selection', [{ productId: 'p1', storeId: 's1' }])
+    await flushPromises()
+    expect(wrapper.get('button').attributes('disabled')).toBeDefined()
+    await wrapper.get('button').trigger('click')
+    expect(navigate).not.toHaveBeenCalled()
     fetchMock.mockRejectedValueOnce(new Error('Timeout'))
     wrapper.findComponent({ name: 'ErpSyncStatus' }).vm.$emit('sync')
     await flushPromises()

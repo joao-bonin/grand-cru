@@ -26,7 +26,7 @@ async function render() {
 describe('requisições paginadas da página', () => {
   it('solicita20 itens e reinicia filtros sem seleção invisível', async () => {
     const wrapper = await render()
-    expect(requestQuery.value).toMatchObject({ start: 0, count: 20 })
+    expect(requestQuery.value).toMatchObject({ start: 0, count: 20, actionable: 'true' })
     const list = wrapper.findComponent(stub)
     list.vm.$emit('selection', [{ productId: 'p1', storeId: 's1' }]); await flushPromises()
     expect(wrapper.get('button').attributes('disabled')).toBeUndefined()
@@ -34,7 +34,9 @@ describe('requisições paginadas da página', () => {
     expect(requestQuery.value).toMatchObject({ start: 20, count: 20 })
     expect(wrapper.get('button').attributes('disabled')).toBeDefined()
     list.vm.$emit('filters', { product: 'sku42', supplier: 'f2', risk: true, issues: false }); await flushPromises()
-    expect(requestQuery.value).toEqual({ start: 0, count: 20, product: 'sku42', supplier: 'f2', risk: 'true', issues: undefined })
+    expect(requestQuery.value).toEqual({ start: 0, count: 20, product: 'sku42', supplier: 'f2', risk: 'true', issues: undefined, actionable: undefined })
+    list.vm.$emit('filters', { product: '', supplier: '', risk: false, issues: true, actionable: false }); await flushPromises()
+    expect(requestQuery.value).toMatchObject({ start: 0, issues: 'true', actionable: undefined })
   })
   it('recupera primeira página quando o conjunto encolhe e bloqueia revisão durante carga', async () => {
     const wrapper = await render(); const list = wrapper.findComponent(stub)

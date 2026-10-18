@@ -17,6 +17,7 @@ describe('pendências em linguagem de negócio', () => {
     expect(issues).toEqual(original)
     const wrapper = mount(ReplenishmentDataIssues, { props: { issues } })
     expect(wrapper.findAll('li')).toHaveLength(1)
+    expect(wrapper.get('details').attributes('open')).toBeUndefined()
     expect(wrapper.text()).toContain('3000 produtos')
     expect(wrapper.text()).not.toContain('PRODUCT_PURCHASE_PARAMETERS_MISSING')
   })

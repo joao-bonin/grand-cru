@@ -3,9 +3,72 @@
 **Status:** In Progress — execução local autorizada pelo usuário; validação consolidada e contratos operacionais pendentes.
 **Spec:** [spec.md](spec.md). **Fonte e decisões:** [context.md](context.md). **Design:** [design.md](design.md), desenho local registrado; G1 e contratos comerciais permanecem pendentes.
 
+## Conciliação atual — 18/10/2026
+
+Confrontados PRD, histórias, registros de execução, RFC-011 a RFC-018 e código
+dos mapeadores, sincronização, domínio e interface. **O PRD não está concluído.**
+O estado abaixo distingue software local comprovado de integração operacional;
+não redefine critérios de aceite nem converte código em evidência real.
+
+| História | Estado conciliado | Evidência existente | O que falta |
+| --- | --- | --- | --- |
+| US01 — Validar as fontes do piloto | **Parcial; primeira história incompleta** | T1, relatório de leitura e RFC-011 registram fontes acessíveis e limitações; mapeadores preservam dados desconhecidos | Comprovar cobertura histórica, vínculos de devolução, reservas/bloqueios e unidades de compras recebidas/canceladas com amostras operacionais |
+| US02 — Atualizar dados com segurança | **Parcial** | T2–T14: paginação, lock, snapshot completo transacional, estado e testes locais; sessão login/refresh separada e orçamento de carga na RFC-011 | T11: checkpoints recuperáveis/publicação independente por conjunto; validação operacional não se deduz da carga isolada nem dos mocks |
+| US03 — Identificar produtos e parâmetros de compra | Software local verificado; aceite operacional pendente | T4 e T15–T18: identidade, validação, edição e versionamento local; ajuda de campos na RFC-014 | Confirmar semântica e preenchimento reais de fornecedor/unidade/embalagem; gates de negócio aplicáveis não são encerrados pela UI |
+| US04 — Consultar vendas líquidas totais | **Parcial** | T19 calcula janelas e devoluções vinculadas em fixtures; T5 mapeia cupons/cancelamentos e sinaliza limitações | T5: integrar vínculos de devolução e comprovar início/cobertura histórica; `historyFrom` continua nulo e as duas pendências permanecem |
+| US05 — Consultar disponibilidade e abastecimento | **Parcial** | T6 preserva saldos por local; T20/T21 calculam disponibilidade e projeções quando recebem dados comprovados em fixtures | Reservas/bloqueios reais continuam desconhecidos; T7 bloqueia compras parcialmente atendidas até comprovar unidades |
+| US06 — Receber uma recomendação explicável | Software local verificado; operação dependente de US01/04/05 | T22 e testes numéricos demonstram bruto, embalagem, arredondamento e bloqueio por dados insuficientes | Dados reais suficientes e gates de negócio aplicáveis; indisponibilidade explicada não equivale a sugestão operacional liberada |
+| US07 — Revisar a lista no celular | Software local verificado; complementos atuais em validação de entrega | T23–T26; RFC-012 paginação/legibilidade, RFC-013 visões, RFC-014 ajuda e RFC-016 base visual | CI completo com PostgreSQL/publicação dos complementos atuais e avaliação de uso pelo comprador; não resolve bloqueios de integração |
+| US08 — Salvar uma rodada local de revisão | Software local verificado; complementos atuais em validação de entrega | T27–T32/T35: versões, idempotência, ajustes e persistência locais; RFC-015 resume rodadas existentes | Revalidar a entrega conjunta no CI e no uso; rodada local não é pedido enviado ou aceito |
+| US09 — Auditar decisões e pendências | Software local verificado; complementos atuais em validação de entrega | T33/T34: origem, autor, data, sugestão e ajuste; RFC-015 reaproveita resumo de rodadas | Revalidar complementos e aceite de uso; nenhuma conciliação externa de pedido foi implementada |
+| US10 — Exportar pedidos no formato aceito | Condicional; não implementada | História e subtarefas de refinamento preservadas em spec.md | Layout aceito pelo destino e contrato de conciliação; CSV genérico não satisfaz o aceite |
+| US11 — Enviar pedidos por API | Bloqueada; não implementada | Proibição expressa em AGENTS.md e história preservada | Nova autorização explícita para escrita ERP e contratos; push/merge não liberam envio de pedidos |
+| US12 — Separar canais e compromissos B2B | Adiada pelo usuário | História e refinamento preservados | Retomada explícita e validação de canal, reservas e compromissos |
+| US13 — Consolidar financeiro e OFX | Planejada; não implementada | História e refinamento preservados | Fontes, vínculos, saldo-base e conciliação validados |
+| US14 — Projetar caixa e simular compras | Planejada; não implementada | História e refinamento preservados | US13 e regras financeiras aprovadas |
+| US15 — Consultar oportunidades e contatos do Agendor | Planejada; não implementada | História e refinamento preservados | Acesso, contrato, correspondência de clientes e datas validados |
+| US16 — Transformar pipeline em cenário de receita | Planejada; não implementada | História e refinamento preservados | US14/US15 e regras de probabilidade, prazo e deduplicação aprovadas |
+
+### Complementos explicitamente autorizados e vínculo com o plano
+
+Os vínculos abaixo registram o trabalho adicional pedido pelo usuário. Não
+criam histórias novas nem significam que todos os critérios da história ou
+dependências reais foram satisfeitos. Os 35 identificadores originais e seus
+critérios de aceite permanecem preservados.
+
+| Registro | Entrega conciliada | Histórias/tarefas relacionadas | Evidência / limite |
+| --- | --- | --- | --- |
+| RFC-011; feature `erp-session` | Login/refresh no servidor, tokens cifrados e controle de renovação; ajuste de duração da carga | US02; T2/T11–T14, como complementos posteriores ao transporte original | Código de sessão separado, testes e publicação anterior registrados; não valida rotação real nem conclui T11 |
+| RFC-012 | Paginação de 20, filtros globais, textos em português e legibilidade; formulário de usuários existente melhorado | US07; T23–T26; usuários é área existente transversal | Feature `replenishment-usability` com evidência local e publicação anterior; não muda cálculos |
+| RFC-013 | Para comprar/Pendências/Todos e detalhes/filtros recolhidos | US07; T23–T26 | Consulta compartilhada e regressões de lista/página; dados incompletos continuam bloqueados |
+| RFC-014 | Ajuda acionável junto ao checkbox, indicando ERP, configuração local ou integração | US03/US07; T18/T24–T26 | Guia de pendências e testes de ajuda; correção de prontidão SSR/hidratação com regressões; sem liberação artificial de compra |
+| RFC-015 | Dashboard operacional de sugestões, pendências e rodadas; acesso à equipe existente | US07/US08/US09; T26/T32/T34/T35, como resumo dos fluxos existentes; equipe transversal | Agregação local e testes de domínio/rota/UI; não cria nova compra, tendência ou validação de integração |
+| RFC-016 | Tokens, hierarquia e toque, preservando paleta e Nuxt UI | US07/US08; T25/T26/T32/T35; aplicação visual transversal | Ensaio Chromium com dados sintéticos; não houve migração para Vuetify nem aceite humano mensurado |
+| RFC-017/RFC-018 | Fluxo de entrega automático após checks e escopo estritamente rastreado | Regras transversais; não são funcionalidades novas | AGENTS.md atualizado; autorização de PR/merge/deploy não amplia escrita ERP nem aprova sugestões do agente |
+
+A lista de compras manual foi apenas sugerida, não aprovada nem implementada;
+não foi adicionada como história ou tarefa. As contagens antigas de testes
+nos registros são históricas. A entrega conjunta atual passou `npm run check`
+(lint, tipos, 429 testes unitários e build), conforme o log consolidado
+registrado em [validation.md](validation.md). O novo PR/CI com PostgreSQL e a
+publicação continuam pendentes nesta conciliação; aprovação de software local
+não substitui o veredito global do PRD.
+
+**Limitação da conciliação:** `tlc-spec-driven` não foi localizada no projeto
+ou nas fontes disponíveis examinadas nesta revisão. Foi feita conciliação
+documental do plano existente, sem alegar execução formal da skill nem
+regenerar histórias ou critérios.
+
 ## Execution Protocol
 
 Na implementação, ativar `tlc-spec-driven` e seguir o fluxo Execute: critérios primeiro, testes na mesma tarefa, gate aprovado e um commit local atômico por tarefa, com marcação de conclusão no mesmo commit. Após a última tarefa, Verifier independente e sensor de discriminação. Resultados de execução devem constar nos registros por tarefa; não presumir aprovação por existência de arquivos. Aprovar o planejamento não revoga a regra ERP somente leitura; envio, importação real, push e deploy exigem autorização específica.
+
+**Precedência posterior:** a autorização específica de push, PR, merge e
+publicação da entrega atual foi concedida na RFC-017, após verificações
+obrigatórias; não pedir nova confirmação dessas ações. A RFC-011 autoriza
+somente login/refresh em cliente separado, sem escrita de negócio. As demais
+proibições de ERP e as exigências de testes permanecem. O protocolo acima
+preserva o planejamento original e não comprova, sozinho, execução da skill.
 
 ## Histórias da primeira etapa
 
@@ -907,6 +970,10 @@ T34 -> T35
 
 ## Task Granularity Check
 
+`OK` e `Match` nas tabelas estruturais abaixo validam a organização do plano,
+as dependências e os tipos de teste, não a conclusão das tarefas. Os estados
+de execução e a conciliação atual prevalecem para informar progresso.
+
 | Task | Scope | Status |
 | --- | --- | --- |
 | T1 | Um entregável: validar contratos de leitura e semântica dos dados + seus testes | OK |
@@ -1031,4 +1098,4 @@ Resolver G1–G4 aplicáveis, produzir/revisar TDD e aprovar as premissas de spe
 
 ## Reconciliação da implementação
 
-Em retomadas após encerramento do aplicativo, arquivos foram preservados. A implementação local usa snapshots completos publicados atomicamente, em vez de checkpoints/publicação por conjunto: T11 permanece parcial nesse aspecto. Esquemas T8/T27, migrations T9/T28 e repositório T10/T16/T29 compartilham entregáveis coesos; as linhas posteriores serão registradas como absorvidas, sem fingir commits independentes para o mesmo arquivo. Evidências sintéticas não comprovam integração operacional: T1, reconciliação de devoluções T5 e atendimento parcial T7 permanecem pendentes. Nenhuma escrita no ERP ou envio de pedido foi implementado.
+Em retomadas após encerramento do aplicativo, arquivos foram preservados. A implementação local usa snapshots completos publicados atomicamente, em vez de checkpoints/publicação por conjunto: T11 permanece parcial nesse aspecto. Esquemas T8/T27, migrations T9/T28 e repositório T10/T16/T29 compartilham entregáveis coesos; as tarefas compartilhadas estão registradas como absorvidas, sem fingir commits independentes para o mesmo arquivo. Evidências sintéticas não comprovam integração operacional: T1, reconciliação de devoluções T5 e atendimento parcial T7 permanecem pendentes. Nenhuma escrita nos dados de negócio do ERP ou envio de pedido foi implementado. A conciliação datada no início deste documento acrescenta os complementos posteriores e a precedência de autorizações, sem encerrar essas pendências.

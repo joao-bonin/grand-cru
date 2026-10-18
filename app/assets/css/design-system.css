@@ -1,0 +1,134 @@
+/* Semantic roles inspired by Material 3; components remain Vue + Nuxt UI. */
+:root {
+  --gc-primary: #713044;
+  --gc-primary-strong: #572438;
+  --gc-primary-soft: #f5e9ee;
+  --gc-on-primary: #fff;
+  --gc-sidebar: #431c2d;
+  --gc-text: #302329;
+  --gc-text-muted: #5f5057;
+  --gc-text-strong: #24191e;
+  --gc-surface: #fff;
+  --gc-background: #faf9f6;
+  --gc-surface-toned: #f7f2f4;
+  --gc-border: #e2d6db;
+  --gc-outline: #927a85;
+  --gc-success: #365e2e;
+  --gc-success-soft: #edf3e9;
+  --gc-warning: #75511f;
+  --gc-warning-soft: #fbf2df;
+  --gc-error: #84232a;
+  --gc-error-soft: #fff0ef;
+  --gc-info: #25577a;
+  --gc-info-soft: #edf4fb;
+  --gc-radius-card: 1rem;
+  --gc-radius-control: .625rem;
+  --gc-space-1: .25rem;
+  --gc-space-2: .5rem;
+  --gc-space-3: .75rem;
+  --gc-space-4: 1rem;
+  --gc-space-5: 1.5rem;
+  --gc-space-6: 2rem;
+  --gc-space-7: 3rem;
+  --gc-space-8: 4rem;
+  --gc-target-size: 2.75rem;
+  --gc-shadow-card: 0 2px 6px #30232905;
+  --gc-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --ui-primary: var(--gc-primary);
+  --ui-success: var(--gc-success);
+  --ui-warning: var(--gc-warning);
+  --ui-error: var(--gc-error);
+  --ui-info: var(--gc-info);
+  --ui-text-dimmed: var(--gc-text-muted);
+  --ui-text-muted: var(--gc-text-muted);
+  --ui-text-toned: #44343b;
+  --ui-text: var(--gc-text);
+  --ui-text-highlighted: var(--gc-text-strong);
+  --ui-text-inverted: var(--gc-on-primary);
+  --ui-bg: var(--gc-surface);
+  --ui-bg-muted: var(--gc-surface-toned);
+  --ui-bg-elevated: var(--gc-surface-toned);
+  --ui-border: var(--gc-border);
+  --ui-border-accented: var(--gc-outline);
+
+  color-scheme: light;
+  accent-color: var(--gc-primary);
+  font-family: var(--gc-font-body);
+  color: var(--gc-text);
+  background: var(--gc-background);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+body { background: var(--gc-background); }
+button, input, select, textarea { font-family: inherit; }
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--gc-primary);
+  outline-offset: 3px;
+}
+:where(button, a, input, select, textarea, summary, [tabindex]) { scroll-margin-block: var(--gc-space-5); }
+
+.admin-layout, .login-layout { background: var(--gc-background); }
+.admin-sidebar { background: var(--gc-sidebar); }
+.admin-sidebar nav { gap: var(--gc-space-2); }
+.admin-sidebar nav a {
+  min-height: 3rem;
+  border: 1px solid transparent;
+  border-radius: var(--gc-radius-control);
+  font-size: .875rem;
+  transition: background-color .15s ease;
+}
+.admin-sidebar nav a.selected {
+  background: #663347;
+  border-color: #ac7c90;
+  font-weight: 650;
+}
+.admin-sidebar :focus-visible { outline-color: #fff; }
+.admin-topbar { background: var(--gc-surface); border-color: var(--gc-border); }
+.admin-topbar > span { min-width: 0; overflow-wrap: anywhere; }
+.admin-main { padding: var(--gc-space-5) var(--gc-space-4); }
+.admin-page-heading { align-items: flex-start; margin-bottom: var(--gc-space-5); }
+.admin-page-heading h1 {
+  font-family: var(--gc-font-body);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  font-weight: 650;
+  line-height: 1.25;
+  letter-spacing: -.035em;
+}
+.admin-page-heading div > p:last-child { font-size: .9375rem; max-width: 62ch; }
+.admin-kicker { color: var(--gc-primary); font-size: .75rem; letter-spacing: .12em; }
+.admin-main h2 { font-family: var(--gc-font-body); font-weight: 650; line-height: 1.4; letter-spacing: -.015em; }
+.dashboard-card, .metric-card, .user-card, .user-editor {
+  background: var(--gc-surface);
+  border-color: var(--gc-border);
+  border-radius: var(--gc-radius-card);
+  box-shadow: var(--gc-shadow-card);
+}
+.metric-card strong { font-family: var(--gc-font-body); font-weight: 650; font-variant-numeric: tabular-nums; }
+.metric-card small, .admin-footer { font-size: .8125rem; }
+.metric-card.green .metric-icon { color: var(--gc-success); background: var(--gc-success-soft); }
+.metric-card.sand .metric-icon { color: var(--gc-warning); background: var(--gc-warning-soft); }
+.directory-row { border-color: var(--gc-border); }
+.directory-actions { gap: var(--gc-space-2); }
+.directory-filters :is(input, [role=combobox]) { min-height: var(--gc-target-size); }
+.directory-person h3 { font-weight: 600; }
+.wine-button { background: var(--gc-primary-strong); border-radius: var(--gc-radius-control); }
+.wine-button:hover, .login-submit:hover { background: var(--gc-primary); }
+.text-link { text-underline-offset: .2em; }
+.text-link:hover { text-decoration: underline; }
+.login-form label { font-size: .9375rem; font-weight: 600; }
+.login-kicker { color: var(--gc-primary); }
+.login-form input, .user-editor input { font-size: 1rem; }
+
+@media (max-width: 67.99rem) {
+  .admin-sidebar { padding: var(--gc-space-5) var(--gc-space-4); }
+  .admin-sidebar nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-sidebar nav a { white-space: normal; min-width: 0; }
+}
+@media (min-width: 48rem) {
+  .admin-main { padding: var(--gc-space-6); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .admin-sidebar nav a { transition: none; }
+}

@@ -4,6 +4,23 @@ import { recommendation } from '../fixtures/replenishment'
 
 const items = Array.from({ length: 43 }, (_, index) => ({ ...recommendation, product: { ...recommendation.product, id: `sku-${String(index).padStart(2, '0')}`, description: `Vinho ${index}`, supplierId: index < 20 ? 'f1' : 'f2' }, policy: null, ruptureDate: index === 40 ? '2026-10-20' : null, issues: index > 39 ? ['Pendência'] : [] }))
 describe('consulta paginada de recomendações', () => {
+  it('separa compras positivas disponíveis antes da paginação sem ocultar o catálogo completo', () => {
+    const source = [
+      { ...recommendation, suggested: 0 },
+      { ...recommendation, suggested: null },
+      { ...recommendation, suggested: 12, issues: ['Reservas desconhecidas'] },
+      ...Array.from({ length: 23 }, (_, index) => ({ ...recommendation, product: { ...recommendation.product, id: `buy-${String(index).padStart(2, '0')}` } })),
+    ]
+    const first = queryRecommendations(source, { actionable: true, count: 20 })
+    const last = queryRecommendations(source, { actionable: true, start: 20, count: 20 })
+    expect(first.total).toBe(23)
+    expect(first.items.map(item => item.product.id)).toEqual(Array.from({ length: 20 }, (_, index) => `buy-${String(index).padStart(2, '0')}`))
+    expect(last.items.map(item => item.product.id)).toEqual(['buy-20', 'buy-21', 'buy-22'])
+    expect(queryRecommendations(source, {}).total).toBe(26)
+    expect(queryRecommendations(source, { issues: true }).items).toEqual([source[2]])
+    expect(queryRecommendations(source, { actionable: false }).total).toBe(3)
+    expect(queryRecommendations(source, { actionable: true, issues: true }).total).toBe(0)
+  })
   it('prioriza ruptura e recorta três páginas sem perda ou repetição', () => {
     const first = queryRecommendations(items, { start: 0, count: 20 })
     const second = queryRecommendations(items, { start: 20, count: 20 })

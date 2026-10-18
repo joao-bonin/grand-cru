@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { describe, expect, it } from 'vitest'
 import ReplenishmentList from '../../app/components/ReplenishmentList.vue'
 import { recommendation } from '../fixtures/replenishment'
@@ -13,7 +14,9 @@ describe('paginação da lista', () => {
     expect(nav.text()).toContain('Página 1 de 3')
     expect(nav.findAll('button')[0]!.attributes('disabled')).toBeDefined()
     expect(wrapper.get('option[value="f2"]').text()).toBe('f2')
+    await nextTick()
     await wrapper.get('[name="select-p0-s1"]').setValue(true)
+    expect(wrapper.emitted('selection')!.at(-1)).toEqual([[{ productId: 'p0', storeId: 's1' }]])
     await nav.findAll('button')[1]!.trigger('click')
     expect(wrapper.emitted('page')).toEqual([[20]])
     expect(wrapper.emitted('selection')!.at(-1)).toEqual([[]])
@@ -25,11 +28,25 @@ describe('paginação da lista', () => {
   })
   it('encaminha filtros ao conjunto completo em vez de filtrar apenas a página atual', async () => {
     const wrapper = mount(ReplenishmentList, { props: { items: [recommendation], pagination, canSelect: true } })
+    await nextTick()
     await wrapper.get('[name="select-p1-s1"]').setValue(true)
+    expect(wrapper.emitted('selection')!.at(-1)).toEqual([[{ productId: 'p1', storeId: 's1' }]])
     await wrapper.get('[name="product"]').setValue('fora desta página')
-    expect(wrapper.emitted('filters')!.at(-1)).toEqual([{ product: 'fora desta página', supplier: '', issues: false, risk: false }])
+    expect(wrapper.emitted('filters')!.at(-1)).toEqual([{ product: 'fora desta página', supplier: '', issues: false, risk: false, actionable: true }])
     expect(wrapper.emitted('selection')!.at(-1)).toEqual([[]])
     expect(wrapper.findAll('article')).toHaveLength(1)
+  })
+  it('mantém a busca ao trocar a visão e limpa a seleção antes de buscar a nova página', async () => {
+    const wrapper = mount(ReplenishmentList, { props: { items: [recommendation], pagination, canSelect: true } })
+    await nextTick()
+    await wrapper.get('[name="select-p1-s1"]').setValue(true)
+    expect(wrapper.emitted('selection')!.at(-1)).toEqual([[{ productId: 'p1', storeId: 's1' }]])
+    await wrapper.get('[data-view="issues"]').trigger('click')
+    expect(wrapper.emitted('selection')!.at(-1)).toEqual([[]])
+    expect(wrapper.emitted('filters')!.at(-1)).toEqual([{ product: '', supplier: '', issues: true, risk: false, actionable: false }])
+    await wrapper.get('[name="product"]').setValue('fora desta página')
+    await wrapper.get('[data-view="all"]').trigger('click')
+    expect(wrapper.emitted('filters')!.at(-1)).toEqual([{ product: 'fora desta página', supplier: '', issues: false, risk: false, actionable: false }])
   })
   it('desabilita navegação e seleção durante carga; diferencia vazio de erro', () => {
     const pending = mount(ReplenishmentList, { props: { items: [recommendation], pagination: { ...pagination, start: 20 }, canSelect: true, loading: true } })

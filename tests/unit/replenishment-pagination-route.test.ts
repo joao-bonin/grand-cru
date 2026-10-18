@@ -23,10 +23,23 @@ describe('API local de paginação', () => {
     expect(result.items.map(item => item.product.id)).toEqual(['p20', 'p21', 'p22', 'p23', 'p24'])
     expect(result).toMatchObject({ start: 20, count: 20, total: 25, snapshotId: 'snapshot-1', supplierIds: ['f1'] })
   })
-  it.each([{ start: '-1' }, { count: '0' }, { count: '1001' }, { start: '1.2' }, { arbitrary: 'invalid' }])('rejeita paginação inválida %j', async query => {
+  it.each([{ start: '-1' }, { count: '0' }, { count: '1001' }, { start: '1.2' }, { arbitrary: 'invalid' }, { actionable: 'yes' }])('rejeita paginação inválida %j', async query => {
     mocks.query.mockReturnValue(query)
     await expect(handler(event)).rejects.toMatchObject({ statusCode: 400 })
     expect(mocks.repository).not.toHaveBeenCalled()
+  })
+  it('aceita a visão para comprar, preserva bloqueios e calcula total antes do recorte', async () => {
+    mocks.build.mockReturnValue([
+      { ...recommendation, suggested: 0 },
+      { ...recommendation, suggested: null },
+      { ...recommendation, issues: ['Dados incompletos'] },
+      { ...recommendation, product: { ...recommendation.product, id: 'available-a' } },
+      { ...recommendation, product: { ...recommendation.product, id: 'available-b' } },
+    ])
+    mocks.query.mockReturnValue({ actionable: 'true', start: '1', count: '1' })
+    const result = await handler(event)
+    expect(result.total).toBe(2)
+    expect(result.items.map(item => item.product.id)).toEqual(['available-b'])
   })
   it('não lê snapshot quando a autenticação falha', async () => {
     mocks.currentUser.mockRejectedValueOnce(new Error('unauthorized'))

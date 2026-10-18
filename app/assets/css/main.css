@@ -1,23 +1,18 @@
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-:root {
-  color-scheme: light;
-  accent-color: #713044;
-  --ui-primary: #713044;
-  --ui-text-dimmed: #5f5057;
-  --ui-text-muted: #5f5057;
-  --ui-text-toned: #44343b;
-  --ui-text: #302329;
-  --ui-text-highlighted: #24191e;
-  --ui-bg: #fff;
-  --ui-bg-muted: #f7f2f4;
-  --ui-border: #cdbfc5;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #252124;
-  background: #faf8f5;
-  line-height: 1.6;
-  -webkit-text-size-adjust: 100%;
+@theme static {
+  --color-wine-50: #fcf5f7;
+  --color-wine-100: #f5e9ee;
+  --color-wine-200: #ead0da;
+  --color-wine-300: #d7a9bb;
+  --color-wine-400: #bc7d96;
+  --color-wine-500: #a35c79;
+  --color-wine-600: #8c4562;
+  --color-wine-700: #713044;
+  --color-wine-800: #572438;
+  --color-wine-900: #431c2d;
+  --color-wine-950: #2b111c;
 }
 
 * { box-sizing: border-box; }
@@ -71,8 +66,6 @@ h2 { font-size: 1.125rem; }
 .user-card dt { color: #5f5057; font-size: 0.875rem; margin-top: 0.6rem; }
 .user-editor { display: grid; gap: 1rem; max-width: 30rem; margin-bottom: 2rem; }
 .editor-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-button:focus-visible { outline: 3px solid #b58093; outline-offset: 3px; }
-
 @media (min-width: 60rem) {
   .login-layout { grid-template-columns: 46% 54%; }
   .login-story { display: flex; flex-direction: column; padding: 3rem 3.5rem; }

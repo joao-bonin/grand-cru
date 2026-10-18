@@ -7,9 +7,11 @@ const summary = computed(() => summarizeReplenishmentIssues(props.issues))
 
 <template>
   <section v-if="summary.length" class="dashboard-card replenishment-data-issues" aria-label="Limitações dos dados">
-    <h2>Dados que precisam de atenção</h2>
-    <p>As sugestões dependentes permanecem indisponíveis até que os dados sejam comprovados.</p>
-    <ul><li v-for="issue in summary" :key="issue">{{ issue }}</li></ul>
-    <p>Busque pelo SKU e abra “Ver justificativa e pendências” para conferir cada produto. O ERP permanece somente leitura.</p>
+    <details>
+      <summary>Dados que precisam de atenção</summary>
+      <p>As sugestões afetadas ficam bloqueadas até a conferência dos dados.</p>
+      <ul><li v-for="issue in summary" :key="issue">{{ issue }}</li></ul>
+      <p>Consulte a visão Pendências para conferir cada produto.</p>
+    </details>
   </section>
 </template>

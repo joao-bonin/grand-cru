@@ -10,7 +10,7 @@ defineEmits<{ logout: [] }>()
       <NuxtLink to="/" class="admin-brand"><span class="brand-mark" aria-hidden="true">G.</span><span>GRAND CRU<small>GESTÃO COM CLAREZA</small></span></NuxtLink>
       <span class="sidebar-label">SEU ESPAÇO</span>
       <nav aria-label="Navegação principal">
-        <NuxtLink to="/" :class="{ selected: active === 'overview' }" :aria-current="active === 'overview' ? 'page' : undefined"><UIcon name="i-lucide-layout-dashboard" />Visão geral</NuxtLink>
+        <NuxtLink to="/" :class="{ selected: active === 'overview' }" :aria-current="active === 'overview' ? 'page' : undefined"><UIcon name="i-lucide-layout-dashboard" />Dashboard</NuxtLink>
         <NuxtLink to="/replenishment" :class="{ selected: active === 'replenishment' }" :aria-current="active === 'replenishment' ? 'page' : undefined"><UIcon name="i-lucide-wine" />Reposição</NuxtLink>
         <NuxtLink to="/purchase-drafts" :class="{ selected: active === 'purchase-drafts' }" :aria-current="active === 'purchase-drafts' ? 'page' : undefined"><UIcon name="i-lucide-clipboard-list" />Rodadas locais</NuxtLink>
         <NuxtLink v-if="user?.role === 'admin'" to="/users" :class="{ selected: active === 'users' }" :aria-current="active === 'users' ? 'page' : undefined"><UIcon name="i-lucide-users-round" />Usuários</NuxtLink>
@@ -20,7 +20,7 @@ defineEmits<{ logout: [] }>()
       <div class="sidebar-account"><span class="account-avatar">{{ user?.login.slice(0, 1).toUpperCase() ?? 'G' }}</span><div><strong>{{ user?.login ?? 'Grand Cru' }}</strong><small>{{ user?.role === 'admin' ? 'Administrador' : 'Usuário' }}</small></div></div>
     </aside>
     <div class="admin-workspace">
-      <header class="admin-topbar"><span>Grand Cru <span aria-hidden="true">/</span> {{ { overview: 'Visão geral', users: 'Usuários', replenishment: 'Reposição', 'purchase-drafts': 'Rodadas locais' }[active] }}</span><div><span class="connection-status"><span />Acesso protegido</span><UButton color="neutral" variant="ghost" size="sm" @click="$emit('logout')">Sair</UButton></div></header>
+      <header class="admin-topbar"><span>Grand Cru <span aria-hidden="true">/</span> {{ { overview: 'Dashboard', users: 'Usuários', replenishment: 'Reposição', 'purchase-drafts': 'Rodadas locais' }[active] }}</span><div><span class="connection-status"><span />Acesso protegido</span><UButton color="neutral" variant="ghost" size="sm" @click="$emit('logout')">Sair</UButton></div></header>
       <main class="admin-main"><slot /></main>
       <footer class="admin-footer">Grand Cru <span>•</span> Inteligência para o seu negócio</footer>
     </div>

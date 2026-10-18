@@ -7,8 +7,8 @@ const auth = useAuth()
 const canEdit = computed(() => auth.user.value?.role === 'admin')
 const { data: sync, error: syncLoadError, refresh: refreshSync } = await useFetch<{ status: SyncStatus, snapshot: { id: string, createdAt: string } | null, configured: boolean }>('/api/erp/status')
 const start = ref(0)
-const filters = ref<RecommendationFilters>({ product: '', supplier: '', issues: false, risk: false })
-const query = computed(() => ({ start: start.value, count: 20, product: filters.value.product || undefined, supplier: filters.value.supplier || undefined, issues: filters.value.issues ? 'true' : undefined, risk: filters.value.risk ? 'true' : undefined }))
+const filters = ref<RecommendationFilters>({ product: '', supplier: '', issues: false, risk: false, actionable: true })
+const query = computed(() => ({ start: start.value, count: 20, product: filters.value.product || undefined, supplier: filters.value.supplier || undefined, issues: filters.value.issues ? 'true' : undefined, risk: filters.value.risk ? 'true' : undefined, actionable: filters.value.actionable ? 'true' : undefined }))
 const { data, error: loadError, pending: loading, refresh } = await useFetch<RecommendationPage>('/api/replenishment', { query })
 // Keep the last published response visible when a later request fails.
 const published = ref(data.value)
@@ -37,7 +37,7 @@ async function savePolicy(policy: Policy) {
   finally { saving.value = false }
 }
 async function review() {
-  if (!selected.value.length || !published.value?.snapshotId || !canEdit.value) return
+  if (!selected.value.length || !published.value?.snapshotId || !canEdit.value || loading.value || loadError.value) return
   await navigateTo({ path: '/purchase-drafts', query: { snapshot: published.value.snapshotId, items: JSON.stringify(selected.value) } })
 }
 </script>
@@ -45,12 +45,12 @@ async function review() {
 <template>
   <AppShell :user="auth.user.value" active="replenishment" @logout="auth.logout">
     <div class="replenishment-page">
-      <header class="admin-page-heading"><div><p class="admin-kicker">COMPRADOR VIRTUAL</p><h1>Reposição</h1><p>Vendas totais e sugestões explicáveis para sua revisão.</p></div><NuxtLink to="/purchase-drafts">Rodadas locais</NuxtLink></header>
+      <header class="admin-page-heading"><div><p class="admin-kicker">COMPRADOR VIRTUAL</p><h1>Reposição</h1><p>Selecione o que comprar e revise as quantidades.</p></div><NuxtLink to="/purchase-drafts">Rodadas locais</NuxtLink></header>
       <ErpSyncStatus :status="sync?.status ?? null" :snapshot="sync?.snapshot" :configured="sync?.configured" :can-sync="canEdit" :pending="syncing" :error="actionError || (syncLoadError ? 'Não foi possível consultar a sincronização.' : '')" @sync="update" />
-      <ReplenishmentDataIssues :issues="published?.issues ?? []" />
       <ReplenishmentPolicyEditor v-if="editing" :key="`${editing.product.id}/${editing.product.storeId}`" :product-id="editing.product.id" :store-id="editing.product.storeId" :policy="editing.policy" :can-edit="canEdit" :pending="saving" :error="policyError" @save="savePolicy" />
-      <ReplenishmentList :items="published?.items ?? []" :pagination="{ start: published?.start ?? 0, count: 20, total: published?.total ?? published?.items.length ?? 0, supplierIds: published?.supplierIds ?? [] }" :loading="loading" :can-select="canEdit" :error="loadError ? 'Não foi possível consultar as recomendações.' : ''" @page="changePage" @filters="changeFilters" @retry="refresh()" @selection="selected = $event" @policy="editing = $event" />
-      <button v-if="canEdit" type="button" :disabled="loading || !selected.length || !published?.snapshotId" @click="review">Revisar {{ selected.length }} itens em rodada local</button>
+      <ReplenishmentList :items="published?.items ?? []" :pagination="{ start: published?.start ?? 0, count: 20, total: published?.total ?? published?.items.length ?? 0, supplierIds: published?.supplierIds ?? [] }" :loading="loading" :can-select="canEdit && !loadError" :error="loadError ? 'Não foi possível consultar esta visão. Os resultados anteriores foram mantidos.' : ''" @page="changePage" @filters="changeFilters" @retry="refresh()" @selection="selected = $event" @policy="editing = $event" />
+      <button v-if="canEdit" type="button" :disabled="loading || !!loadError || !selected.length || !published?.snapshotId" @click="review">Revisar {{ selected.length }} itens em rodada local</button>
+      <ReplenishmentDataIssues :issues="published?.issues ?? []" />
     </div>
   </AppShell>
 </template>
