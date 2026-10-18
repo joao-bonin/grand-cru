@@ -4,6 +4,54 @@
 
 **Escopo do veredito:** encerramento da feature completa do PRD. O software da etapa local foi implementado, mas fontes reais e histórias condicionais continuam pendentes. O veredito não deve ser substituído por aprovação global baseada apenas em fixtures.
 
+## Conciliação documental e de evidências — 18/10/2026
+
+Revisados PRD, histórias, tarefas, RFC-011 a RFC-018 e o código atual dos
+mapeadores, domínio, sincronização e complementos de interface. O veredito
+global **FAIL permanece**: o primeiro impedimento é **US01/T1 — Validar as
+fontes do piloto**, ainda parcial. A tabela atual por história está em
+[tasks.md](tasks.md). Não foram geradas novas histórias, alterados critérios
+originais ou implementadas funcionalidades nesta conciliação.
+
+| Pendência | Evidência atual confrontada | Consequência para o aceite |
+| --- | --- | --- |
+| US01/T1 — fontes reais | RFC-011 documenta leitura/mapeamento operacional, mas não conciliação completa das semânticas necessárias | Ler páginas ou sincronizar catálogo não comprova demanda e disponibilidade confiáveis |
+| US04/T5 — vendas e devoluções | `sales-mapper.ts` não consome os vínculos de devolução, retorna `historyFrom: null`, `SALES_HISTORY_COVERAGE_UNCONFIRMED` e `RETURNS_RECONCILIATION_UNCONFIRMED`; `erp-sales.test.ts` exige preservar essas limitações | T19 prova cálculo com fixtures, sem liberar vendas líquidas e cobertura histórica reais |
+| US05/T6/T20 — estoque disponível | `stock-mapper.ts` mantém `reserved`/`blocked` nulos e `disjoint: false`; `availability.ts` devolve indisponibilidade; `erp-stock.test.ts` preserva o desconhecido | Saldo físico conhecido não comprova estoque disponível; US05 continua parcial embora T6/T20 tenham software local verificado |
+| US05/T7 — recebimento parcial | `purchase-mapper.ts` aceita somente o subconjunto aberto sem atendimento/cancelamento e bloqueia unidades não comprovadas; regressões em `erp-purchase.test.ts` | Não há suporte operacional validado a compras parcialmente recebidas |
+| US02/T11 — retomada por conjunto | `synchronize.ts` carrega todos os conjuntos; `erp-repository.ts` publica um snapshot integral em transação e mantém o anterior na falha | Segurança do snapshot existe, mas checkpoints recuperáveis e publicação independente por conjunto permanecem não implementados |
+
+US03/US06/US07/US08/US09 mantêm evidências de software local. As melhorias
+pedidas de paginação, visões de decisão, ajuda de bloqueios, dashboard e base
+visual foram vinculadas às histórias/tarefas existentes, com limites, em
+`tasks.md`. Elas não completam as fontes reais, não enviam pedidos e não
+substituem avaliação de uso pelo comprador. A sugestão de lista manual não
+foi aprovada nem implementada.
+
+**Gates da entrega conjunta atual:** o log
+`/tmp/grand-cru-release-check.log` confirma `npm run check` aprovado com lint,
+tipos, 52 arquivos/429 testes unitários e build. A coordenação também confirmou
+ensaio Chromium da seleção SSR/hidratação aprovado; as duas regressões estão
+em `replenishment-selection-hydration.test.ts`. A revisão visual das RFC-015
+e RFC-016 usa dados sintéticos e não comprova integração real.
+
+Na data desta conciliação, o novo PR/CI completo com PostgreSQL e a publicação
+da entrega conjunta ainda estão pendentes. As validações, contagens e
+publicações anteriores das RFC-011/RFC-012 e das seções históricas abaixo
+não são resultado desses gates atuais. A entrega técnica pode passar sem
+encerrar o PRD; não promover o veredito global por esse motivo.
+
+**Precedência e limite da revisão:** AGENTS.md e RFC-011 autorizam login/refresh
+restritos; RFC-017 autoriza push/PR/merge após checks e registra a publicação
+solicitada; RFC-018 exige escopo rastreado. Esses registros superam restrições
+antigas de planejamento apenas nos limites descritos. Logout e escrita de
+negócio no ERP continuam proibidos. `tlc-spec-driven` não foi localizada nas
+fontes disponíveis examinadas: esta atualização concilia o plano e as
+evidências existentes, sem alegar nova execução formal da skill ou revisão
+independente completa. `git diff --check` aprovado para a atualização.
+
+## Registro histórico da validação original
+
 **Revisão independente:** subagente verify_core rederivou os critérios e realizou o sensor em cópia isolada; relatório consolidado pelo coordenador a partir das evidências persistidas e das conclusões do revisor. O subagente atingiu limite de uso antes de gravar o relatório final. A correção final de prontidão de hidratação foi revisada pelo coordenador e testada no navegador, sem alegar nova revisão independente dessa alteração.
 **Base Git:** 2e50fa3; branch local codex/comprador-virtual. Commits da implementação serão registrados no log de execução.
 **Ambiente:** Node24.19.0; PostgreSQL17 descartável em loopback; token ERP vazio no servidor/testes de integração. Nenhum teste fez chamadas reais ao ERP. Os sete testes mutantes usaram transporte mockado inclusive na mutação GET para POST.

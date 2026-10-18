@@ -65,3 +65,25 @@ Validação da recuperação: `npm run check` passou com 71 testes unitários; s
 A execução de recuperação `dpl_AGFhFKXdxMLkbbArfSxw2KPLTyk4` falhou com validação `too_small` antes de atualizar o banco. Foi solicitado corrigir os valores de Production; não declarar senha redefinida. Publicação normal sem execução de recuperação solicitada em seguida.
 
 Após o usuário salvar os valores corrigidos, a recuperação foi repetida em `dpl_8kzEeNWpqeQJqYPm9KExzqxAsvSL`, concluída READY. O comando encadeado exige que a senha seja atualizada e verificada contra o hash persistido antes de construir a aplicação. Sessões anteriores foram revogadas. Publicação normal solicitada em seguida a partir de `dpl_yhLu9SRMFsB5sBxW3t29UjtpgQWY`, sem recuperação no build. O login HTTP remoto ainda depende de verificação pelo usuário; não houve leitura de segredos.
+
+### Nova recuperação — 17/10/2026
+
+O usuário solicitou recuperar o login `admin`, atualizou as variáveis sensíveis de Production e reconectou a Vercel. A execução pontual `dpl_7oJpoRWB3jC7pQAk4ewqrKcTb1bb` concluiu READY. Os logs confirmaram a mensagem de senha atualizada e verificada; sessões anteriores revogadas. Nenhum valor secreto foi lido ou exibido, e não houve acesso ao ERP.
+
+A fonte usada corresponde à publicação anterior `dpl_BdTpyyPHiByhHzGNwCvaiL8M9BsP`, base Git `2e50fa3`; os hashes dos 41 arquivos visíveis da árvore remota coincidiram com a base. O comprador virtual do PR não foi publicado. Somente o `vercel.json` enviado à execução foi alterado em memória para validar o login `admin` e executar a recuperação antes do build; o arquivo local permanece com build normal.
+
+A publicação subsequente com o build normal foi rejeitada pela revisão automática por risco de substituir código em produção sem autorização explícita. Não foi contornado o bloqueio. A restauração permanece pendente de autorização; redeploy da execução pontual pode repetir a recuperação. O login HTTP com a senha escolhida depende de verificação pelo usuário.
+
+### Comprador virtual publicado em produção — 17/10/2026
+
+O usuário autorizou explicitamente publicar a nova versão diretamente em produção. Foi usada a implementação do commit `0a597f119c32e0a3a14c72e8a181ad58f2d491ef`, branch `codex/comprador-virtual`, PR #2, sem efetuar merge do PR. Os arquivos foram enviados à Vercel a partir do commit, excluindo segredos, documentação e arquivos locais não versionados.
+
+Validação antes da publicação: `npm run check` em Node24.19.0 aprovado, com lint, tipos, 247 testes unitários e build. Integração repetida contra PostgreSQL local separado e servidor do build local, com token e loja ERP vazios: 12 testes aprovados em 34,4 segundos. A execução inicialmente concorrente ao build teve timeout e foi interrompida; a retomada após encerramento do aplicativo encontrou servidor desligado. Após reiniciar e confirmar HTTP200 em `/login`, a suíte completa foi executada com sucesso. Nenhum teste usou produção ou o ERP real.
+
+A execução pontual `dpl_7N3F6YycAxj3jNvp9DthK3Rad8kh` executou `npm run db:migrate && npm run build`; os logs confirmaram `Migrations aplicadas.` e o deployment concluiu READY. A migration acrescenta tabelas de snapshots, sincronização, parâmetros e rodadas locais, sem migração automática na inicialização da aplicação.
+
+A publicação final `dpl_3Cm4aVpGBk26oVQ27g7dFmuesH6Q` concluiu READY e foi confirmada no alias `https://grand-cru-iota.vercel.app`. O `vercel.json` publicado tem o hash original do build normal, sem migration ou recuperação de senha. A pendência de restaurar o build normal, registrada acima, está resolvida pela autorização explícita e por esta publicação.
+
+A árvore de fontes publicada contém `app/pages/replenishment.vue` e `app/pages/purchase-drafts.vue` com os hashes da implementação. A navegação sem sessão para `/replenishment` redirecionou ao login, confirmando proteção da rota. A jornada autenticada foi verificada nos testes locais; não foi usado nem lido o segredo do administrador para reproduzi-la em produção.
+
+Pendência operacional: a listagem de nomes das variáveis, sem descriptografia, confirmou que `ERP_ACCESS_TOKEN` e `ERP_STORE_ID` ainda não estão configurados em Production. As telas estão publicadas, mas a carga de dados reais exige essa configuração e sincronização explícita de leitura. Não foi executada sincronização real nem qualquer operação no ERP. A publicação não elimina as pendências de contratos e regras registradas na validação da feature; não equivale ao encerramento de todas as histórias do PRD.

@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import type { OperationalDashboard } from '../../shared/types/dashboard'
+import type { PublicUser } from '../../shared/types/user'
 definePageMeta({ middleware: ['auth'] })
 const { user, logout } = useAuth()
-const { data, error, refresh } = await useFetch<{ users: import('../../shared/types/user').PublicUser[] }>('/api/users', { immediate: user.value?.role === 'admin' })
+const { data: dashboard, error: dashboardError, pending: dashboardPending, refresh: refreshDashboard } = await useFetch<OperationalDashboard>('/api/dashboard')
+const { data: team, error: teamError, pending: teamPending, refresh: refreshTeam } = await useFetch<{ users: PublicUser[] }>('/api/users', { immediate: user.value?.role === 'admin' })
 </script>
 
 <template>
   <AppShell :user="user" active="overview" @logout="logout">
-    <template v-if="user?.role === 'admin'">
-      <div v-if="error" class="dashboard-card"><UAlert color="error" title="Não foi possível carregar os usuários." role="alert" /><UButton color="neutral" variant="outline" @click="refresh()">Tentar novamente</UButton></div>
-      <AdminOverview v-else :users="data?.users ?? []" />
-    </template>
-    <section v-else class="member-welcome dashboard-card"><p class="admin-kicker">BEM-VINDO AO GRAND CRU</p><h1>Seu espaço está pronto.</h1><p>Seu acesso está ativo. As funcionalidades de estoque, compras e gestão estarão aqui após as próximas integrações.</p><NuxtLink to="/hello-world" class="text-link">Abrir Hello World →</NuxtLink></section>
+    <div class="operational-dashboard">
+      <header class="admin-page-heading operation-heading"><div><p class="admin-kicker">DASHBOARD OPERACIONAL</p><h1>Sua operação, <em>em foco.</em></h1><p>Veja o que comprar, o que conferir e o que está em revisão.</p></div><NuxtLink to="/replenishment" class="operation-button operation-primary-button"><UIcon name="i-lucide-arrow-up-right" />Abrir sugestões de compra</NuxtLink></header>
+      <OperationalDashboard :dashboard="dashboard ?? null" :pending="dashboardPending" :error="dashboardError ? 'Tente novamente para consultar os indicadores atuais.' : ''" @retry="refreshDashboard()" />
+      <DashboardTeam v-if="user?.role === 'admin'" :users="team?.users ?? []" :pending="teamPending" :error="teamError ? 'Não foi possível consultar os acessos da equipe.' : ''" @retry="refreshTeam()" />
+    </div>
   </AppShell>
 </template>
+
+<style src="../assets/css/operational-dashboard.css"></style>

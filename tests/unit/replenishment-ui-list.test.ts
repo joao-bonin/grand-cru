@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import { describe, expect, it } from 'vitest'
 import ReplenishmentList from '../../app/components/ReplenishmentList.vue'
 import { recommendation } from '../fixtures/replenishment'
@@ -6,18 +7,22 @@ const items = [recommendation, { ...recommendation, product: { ...recommendation
 describe('US07 lista de reposição', () => {
   it('combina produto, fornecedor e pendências, prioriza ruptura e abre detalhe por toque', async () => {
     const wrapper = mount(ReplenishmentList, { props: { items, canSelect: true } })
+    expect(wrapper.findAll('article')).toHaveLength(1)
+    expect(wrapper.get('[data-view="purchase"]').attributes('aria-pressed')).toBe('true')
+    await wrapper.get('[data-view="all"]').trigger('click')
     expect(wrapper.findAll('article')[0]!.text()).toContain('Outro vinho')
     await wrapper.get('[name="product"]').setValue('reserva')
     await wrapper.get('[name="supplier"]').setValue('f1')
     expect(wrapper.findAll('article')).toHaveLength(1)
     expect(wrapper.findAll('article')[0]!.text()).toContain('Vinho reserva')
-    await wrapper.get('summary').trigger('click')
-    expect(wrapper.find('details').exists()).toBe(true)
-    await wrapper.get('[name="issues"]').setValue(true)
+    await wrapper.get('article summary').trigger('click')
+    expect(wrapper.find('article details').exists()).toBe(true)
+    await wrapper.get('[data-view="issues"]').trigger('click')
     expect(wrapper.text()).toContain('Nenhum produto encontrado')
   })
   it('seleciona identidade completa e distingue falha de lista vazia', async () => {
     const wrapper = mount(ReplenishmentList, { props: { items: [recommendation], canSelect: true } })
+    await nextTick()
     await wrapper.get('[name="select-p1-s1"]').setValue(true)
     expect(wrapper.emitted('selection')).toEqual([[[{ productId: 'p1', storeId: 's1' }]]])
     await wrapper.setProps({ error: 'Consulta falhou', items: [] })
@@ -27,14 +32,40 @@ describe('US07 lista de reposição', () => {
   })
   it('remove seleção quando o resultado atualizado está indisponível', async () => {
     const wrapper = mount(ReplenishmentList, { props: { items: [recommendation], canSelect: true } })
+    await nextTick()
     await wrapper.get('[name="select-p1-s1"]').setValue(true)
     await wrapper.setProps({ items: [{ ...recommendation, suggested: null }] })
     expect(wrapper.emitted('selection')?.at(-1)).toEqual([[]])
+    await wrapper.get('[data-view="all"]').trigger('click')
     expect((wrapper.get('[name="select-p1-s1"]').element as HTMLInputElement).checked).toBe(false)
   })
-  it('impede seleção de resultado indisponível', () => {
+  it('impede seleção de resultado indisponível', async () => {
     const wrapper = mount(ReplenishmentList, { props: { items: [{ ...recommendation, suggested: null }], canSelect: true } })
+    await wrapper.get('[data-view="all"]').trigger('click')
     expect(wrapper.get('[name="select-p1-s1"]').attributes('disabled')).toBeDefined()
     expect(wrapper.text()).toContain('Indisponível')
+  })
+  it('mantém detalhes fechados e libera a consulta de pendências sem selecionar um bloqueio', async () => {
+    const wrapper = mount(ReplenishmentList, { props: { items, canSelect: true } })
+    await nextTick()
+    expect(wrapper.get('article details').attributes('open')).toBeUndefined()
+    expect(wrapper.get('.replenishment-more-filters').attributes('open')).toBeUndefined()
+    await wrapper.get('[name="select-p1-s1"]').setValue(true)
+    await wrapper.get('[data-view="issues"]').trigger('click')
+    expect(wrapper.findAll('article')).toHaveLength(1)
+    expect(wrapper.get('article').text()).toContain('Compra bloqueada')
+    expect(wrapper.get('[name="select-p2-s1"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.emitted('selection')?.at(-1)).toEqual([[]])
+    await wrapper.get('article [data-policy]').trigger('click')
+    expect(wrapper.emitted('policy')?.at(-1)).toEqual([items[1]])
+  })
+  it('não sugere que uma lista vazia de compras significa ausência de pendências', async () => {
+    const wrapper = mount(ReplenishmentList, { props: { items: [items[1]!, { ...recommendation, suggested: 0 }], canSelect: true } })
+    expect(wrapper.findAll('article')).toHaveLength(0)
+    expect(wrapper.get('[role="status"]').text()).toContain('Confira Pendências ou Todos')
+    await wrapper.get('[data-view="all"]').trigger('click')
+    expect(wrapper.findAll('article')).toHaveLength(2)
+    expect(wrapper.get('[name="select-p1-s1"]').attributes('disabled')).toBeDefined()
+    expect(wrapper.text()).toContain('Sem compra sugerida')
   })
 })

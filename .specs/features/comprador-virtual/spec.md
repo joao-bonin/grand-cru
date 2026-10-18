@@ -1,8 +1,42 @@
 # Comprador virtual — histórias e critérios de aceite
 
-**Status:** In Progress. Implementação local autorizada posteriormente pelo usuário. Compras e escritas no ERP continuam proibidas.
+**Status:** In Progress. Implementação local autorizada posteriormente pelo usuário. Compras e escritas nos dados de negócio do ERP continuam proibidas.
 **Fonte:** `origin/work:docs/PRD.md`, commit `ede01140de4203d83ef393557e8e388723a7a39a`, PRD v1.0 de 16/10/2026. Cópia fiel em [prd-source.md](prd-source.md).
-**Precedência:** decisões explícitas posteriores do usuário prevalecem sobre o PRD. Leia [context.md](context.md) para os conflitos e bloqueios. TDD ainda não produzido; os caminhos em tasks.md são candidatos.
+**Precedência:** decisões explícitas posteriores do usuário prevalecem sobre o PRD. Leia [context.md](context.md) para o histórico dos conflitos e bloqueios, [design.md](design.md) para o desenho local implementado e a conciliação abaixo para as autorizações posteriores. Existência de desenho ou código não encerra gates de negócio pendentes.
+
+## Conciliação com a implementação — 18/10/2026
+
+O PRD completo continua **não concluído**. A primeira história incompleta é
+**US01 — Validar as fontes do piloto**: há evidências de leitura e mapeamento,
+mas não comprovação operacional suficiente de histórico, devoluções,
+reservas/bloqueios e compras parcialmente recebidas. HTTP 200 ou carga de
+catálogo não satisfazem essas dependências. US02, US04 e US05 permanecem
+parciais; o detalhamento por história e tarefa está em [tasks.md](tasks.md).
+
+US03, US06, US07, US08 e US09 têm software local e evidências sintéticas
+registrados. Isso não comprova uma sugestão de compra utilizável com a fonte
+real, o aceite do comprador ou compra aceita no destino. Os complementos
+solicitados de paginação, visões de reposição, ajuda de bloqueios, dashboard e
+base visual estão vinculados às histórias/tarefas existentes na conciliação
+de `tasks.md`; não criam novas histórias nem encerram a integração.
+
+**Decisões posteriores que prevalecem sobre o planejamento histórico:**
+
+- RFC-011/AGENTS.md autorizam exclusivamente login e refresh da sessão ERP,
+  implementados em cliente separado com tokens cifrados. Logout e qualquer
+  escrita de negócio continuam proibidos. A renovação real não é comprovada
+  por testes com mocks.
+- RFC-017 autoriza push, PR e merge automáticos após verificações obrigatórias
+  e registra a publicação solicitada da entrega atual. Restrições antigas de
+  planejamento não exigem nova confirmação dessas ações. Essa autorização
+  não libera mudanças arbitrárias no banco de produção ou infraestrutura.
+- RFC-018 exige escopo autorizado e rastreabilidade PRD → histórias → tarefas.
+  A sugestão de lista manual não foi aprovada nem implementada.
+
+Esta conciliação preserva os critérios e o histórico de decisões. Não afirma
+execução formal de `tlc-spec-driven`: a skill não foi localizada nesta revisão.
+O veredito global permanece em [validation.md](validation.md), separado dos
+gates técnicos da entrega atual.
 
 ## Problem Statement
 
@@ -20,31 +54,34 @@ O comprador cruza estoque e vendas manualmente e repete trabalho para preparar c
 | --- | --- |
 | B2B, classificação de canal, eventos e sazonalidade | Adiamento explícito do usuário |
 | Escrita, importação real ou emissão no ERP | Proibição explícita, inclusive homologação |
-| Refresh/logout do ERP | Não autorizados pela exceção de login |
+| Logout do ERP | Continua proibido; login e refresh têm exceção estreita posterior na RFC-011 |
 | Financeiro, OFX e Agendor na primeira etapa | Evoluções preservadas em US13–US16 |
 | Login e CRUD de usuários refeitos do zero | Já existem; reutilizar e testar regressões |
-| Deploy, push, banco de produção | Não solicitados neste trabalho de planejamento |
+| Alterações arbitrárias em banco de produção ou infraestrutura | O planejamento original não as autorizou; push/PR/merge e publicação da entrega atual têm autorização posterior na RFC-017 |
 
 ## Assumptions & Open Questions
 
 | Assumption / decision | Chosen default | Rationale | Confirmed? |
 | --- | --- | --- | --- |
 | B2B | Adiar e usar vendas totais líquidas | Decisão explícita desta conversa | Sim |
-| Escrita ERP | Proibir; exceção somente login autorizado | AGENTS.md | Sim |
+| Escrita ERP | Proibir; exceções estreitas de login e refresh | AGENTS.md e autorização posterior da RFC-011 | Sim |
 | Entrada API x arquivos | Priorizar API GET; adaptador de arquivos fica condicional | API escolhida como base e cupons já validados; PRD ainda prevê arquivos | Proposta de conciliação |
 | Janela 60 x 90 dias | Planejar parâmetro obrigatório, sem default silencioso | PRD propõe 60, conversa sugeriu 90 | Pendente G2 |
 | Fórmula | Propor seção 7 com demanda total, sem parcela B2B | Mantém L, R, S, M e evita misturar segurança em dias com unidades | Pendente G2 |
 | Dados faltantes | Não converter ausência em zero; bloquear resultado dependente | Evita falsa precisão | Proposta |
 | Reservas/locais | Validar semântica antes de calcular disponível | Endpoint de saldo não comprova reservas | Pendente G1 |
-| Persistência | Gravar somente no PostgreSQL do Grand Cru em implementação futura | A proibição trata do ERP; rascunhos precisam sobreviver a reinício | Proposta |
+| Persistência | Implementada somente no PostgreSQL do Grand Cru | Snapshots, políticas e rodadas locais em design.md e registros de execução; não equivale a aceite operacional | Implementada e validada localmente |
 | Permissões | Reusar admin/user; propor admin para sincronizar e confirmar rascunho, user para consultar | Evita inventar perfis antes do TDD | Pendente G3 |
 | Frequência | Manual primeiro; agendamento pendente de limites e hospedagem | Uma hora foi sugestão, não decisão confirmada | Pendente G4 |
-| Expiração do ERP | Parar e informar autenticação pendente, sem refresh | Exceção atual não inclui renovação | Confirmado limite; operação futura pendente |
+| Expiração do ERP | Renovação coordenada e repetição de GET no máximo uma vez; falha definitiva informa autenticação pendente | Exceção posterior da RFC-011 substitui o limite original sem refresh; logout continua proibido | Implementada/testada localmente; rotação real não comprovada |
 | Exportação | Planejar como condicional a contrato; nenhuma importação real | Formato ainda desconhecido e ERP somente leitura | Pendente G5 |
 | Datas | Propor dias civis em America/Sao_Paulo, intervalo início inclusivo/fim exclusivo | Evita sobreposição de janelas; validar datas da fonte | Pendente G2 |
 | Retenção e desempenho | Definir no TDD após volume; preservar histórico de rodadas, sem purge automático | Metas não foram informadas | Pendente G4 |
 
 **Open questions:** none unrecorded — todas as pendências estão registradas acima; isto NÃO significa que foram aprovadas. G1–G5 bloqueiam as tarefas dependentes.
+
+As demais propostas e gates da tabela preservam o planejamento original;
+esta conciliação não os declara aprovados por haver implementação local.
 
 ## User Stories
 
@@ -77,6 +114,12 @@ As palavras WHEN/IF/THEN/SHALL indicam critérios EARS verificáveis. Prioridade
 4. IF o ERP retornar 401 THEN o sistema SHALL interromper a execução com autenticação pendente, sem refresh automático.
 
 **Independent Test:** Simular duas páginas, repetição e falha na segunda página; conferir versão publicada e estado da execução.
+
+**Precedência do AC4:** o texto acima preserva o critério original sem refresh.
+A exceção posterior da RFC-011 autoriza renovar a sessão em cliente separado
+e repetir a consulta GET no máximo uma vez. Falha definitiva deve continuar
+interrompendo a operação com autenticação pendente; não há autorização de
+logout ou escrita de negócio.
 
 ### US03 — Identificar produtos e parâmetros de compra (P1)
 

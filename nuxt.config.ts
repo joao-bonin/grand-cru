@@ -1,11 +1,12 @@
 export default defineNuxtConfig({
   compatibilityDate: '2026-10-14',
   modules: ['@nuxt/eslint', '@nuxt/ui'],
-  css: ['~/assets/css/main.css', '~/assets/css/dashboard.css'],
+  css: ['~/assets/css/main.css', '~/assets/css/dashboard.css', '~/assets/css/design-system.css'],
   devtools: { enabled: false },
   typescript: { strict: true },
+  nitro: { vercel: { functions: { maxDuration: 300 } } },
   runtimeConfig: { databaseUrl: '', jwtSecret: '' },
-  ui: { fonts: false },
+  ui: { fonts: false, colorMode: false },
   app: {
     head: {
       title: 'Grand Cru',

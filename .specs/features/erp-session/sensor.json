@@ -1,0 +1,79 @@
+{
+  "before": "?? .codex/\n",
+  "after": "?? .codex/\n",
+  "isolated": true,
+  "scratch_deleted": true,
+  "baseline_exit": 0,
+  "results": [
+    {
+      "mutation": "raw-refresh",
+      "file": "server/infrastructure/erp/auth-client.ts",
+      "line": 78,
+      "old": "Authorization: refreshToken!",
+      "new": "Authorization: `Bearer ${refreshToken!}`",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-raw-refresh.log"
+    },
+    {
+      "mutation": "business-get",
+      "file": "server/infrastructure/erp/read-client.ts",
+      "line": 78,
+      "old": "method: 'GET', redirect: 'error'",
+      "new": "method: 'POST', redirect: 'error'",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-business-get.log"
+    },
+    {
+      "mutation": "margin",
+      "file": "server/application/erp/session-provider.ts",
+      "line": 9,
+      "old": "<= now.getTime() + 30_000",
+      "new": "< now.getTime() + 30_000",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-margin.log"
+    },
+    {
+      "mutation": "stale-version",
+      "file": "server/application/erp/session-provider.ts",
+      "line": 10,
+      "old": "session.version !== rejectedVersion",
+      "new": "session.version === rejectedVersion",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-stale-version.log"
+    },
+    {
+      "mutation": "fallback-500",
+      "file": "server/application/erp/session-provider.ts",
+      "line": 14,
+      "old": "error.message !== 'ERP_AUTH_REJECTED'",
+      "new": "!['ERP_AUTH_REJECTED', 'ERP_AUTH_HTTP_500'].includes(error.message)",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-fallback-500.log"
+    },
+    {
+      "mutation": "identity-aad",
+      "file": "server/infrastructure/erp/token-cipher.ts",
+      "line": 27,
+      "old": "Buffer.from(identity, 'utf8')",
+      "new": "Buffer.from('fixed-identity', 'utf8')",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-identity-aad.log"
+    },
+    {
+      "mutation": "body-abort",
+      "file": "server/infrastructure/erp/auth-client.ts",
+      "line": 91,
+      "old": "if (activeResponse?.body && !activeResponse.body.locked) void activeResponse.body.cancel().catch(() => {})",
+      "new": "if (false) void activeResponse?.body?.cancel().catch(() => {})",
+      "killed": true,
+      "exit": 1,
+      "log": "/tmp/erp-session-sensor-body-abort.log"
+    }
+  ]
+}

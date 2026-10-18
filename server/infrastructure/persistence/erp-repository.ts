@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto'
 import type { Pool, PoolClient } from 'pg'
 import type { ErpData, Policy, PurchaseDraft, Snapshot, SyncStatus } from '../../../shared/types/replenishment'
 import { AuthError } from '../../services/auth'
+import { synchronizationErrorMessage } from '../../application/erp/sync-failure'
 
 export const policyKey = (storeId: string, productId: string) => JSON.stringify([storeId, productId])
 export interface PurchasingRepository {
@@ -51,7 +52,7 @@ export function createPurchasingRepository(pool: Pool): PurchasingRepository {
           await client.query('COMMIT')
         } catch (cause) {
           await client.query('ROLLBACK')
-          await client.query(`UPDATE erp_sync SET state='failed',finished_at=now(),error=$1 WHERE source=$2`, [cause instanceof Error && cause.message === 'ERP_AUTHENTICATION_PENDING' ? 'ERP_AUTHENTICATION_PENDING' : 'Não foi possível concluir a leitura do ERP. Confira autenticação e fontes; a versão anterior foi preservada.', 'varejofacil'])
+          await client.query(`UPDATE erp_sync SET state='failed',finished_at=now(),error=$1 WHERE source=$2`, [synchronizationErrorMessage(cause), 'varejofacil'])
         }
         return repository.status()
       } finally { if (locked) await client.query('SELECT pg_advisory_unlock(72641016)'); client.release() }

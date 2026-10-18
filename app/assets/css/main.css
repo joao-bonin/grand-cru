@@ -1,9 +1,18 @@
-:root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #252124;
-  background: #faf8f5;
-  line-height: 1.6;
-  -webkit-text-size-adjust: 100%;
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --color-wine-50: #fcf5f7;
+  --color-wine-100: #f5e9ee;
+  --color-wine-200: #ead0da;
+  --color-wine-300: #d7a9bb;
+  --color-wine-400: #bc7d96;
+  --color-wine-500: #a35c79;
+  --color-wine-600: #8c4562;
+  --color-wine-700: #713044;
+  --color-wine-800: #572438;
+  --color-wine-900: #431c2d;
+  --color-wine-950: #2b111c;
 }
 
 * { box-sizing: border-box; }
@@ -21,8 +30,7 @@ h2 { font-size: 1.125rem; }
 @media (min-width: 48rem) {
   .welcome { padding: 6rem 2rem; }
 }
-@import "tailwindcss";
-@import "@nuxt/ui";
+
 
 
 .login-layout { min-height: 100svh; display: grid; background: #faf9f6; }
@@ -32,19 +40,19 @@ h2 { font-size: 1.125rem; }
 .login-panel { display: flex; flex-direction: column; justify-content: center; padding: 2rem 1.5rem; min-width: 0; }
 .mobile-brand { color: #572438; margin-bottom: 3rem; }
 .login-card { width: 100%; max-width: 25rem; margin: auto; }
-.login-kicker { color: #886150; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; margin-bottom: 0.8rem; }
+.login-kicker { color: #886150; font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.16em; margin-bottom: 0.8rem; }
 .login-card h2 { color: #2e2428; font: 2.15rem/1.15 Georgia, serif; letter-spacing: -0.035em; margin: 0 0 0.8rem; }
-.login-description { color: #736a69; font-size: 0.9rem; margin-bottom: 2.25rem; }
+.login-description { color: #5f5057; font-size: 0.9rem; margin-bottom: 2.25rem; }
 .login-form { display: grid; gap: 1.4rem; }
 .login-form input { min-height: 3rem; background: white; }
 .login-form label { font-size: 0.82rem; color: #352b2e; }
-.password-toggle { font-size: 0.72rem; color: #724257; min-height: 2.75rem; cursor: pointer; }
+.password-toggle { font-size: 0.875rem; color: #724257; min-height: 2.75rem; cursor: pointer; }
 .login-submit { background: #572438; color: white; min-height: 3.1rem; justify-content: space-between; margin-top: 0.25rem; cursor: pointer; }
 .login-submit:hover { background: #713447; }
-.access-help { text-align: center; color: #7f7674; font-size: 0.75rem; margin: 1.4rem 0 2rem; }
-.security-note { display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-top: 1px solid #e7e2dc; padding-top: 1.4rem; color: #918781; font-size: 0.7rem; }
+.access-help { text-align: center; color: #5f5057; font-size: 0.9375rem; margin: 1.4rem 0 2rem; }
+.security-note { display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-top: 1px solid #e7e2dc; padding-top: 1.4rem; color: #5f5057; font-size: 0.875rem; }
 .security-note svg { width: 1rem; height: 1rem; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
-.login-footer { text-align: center; color: #9b928a; font-size: 0.65rem; margin-top: 3rem; }
+.login-footer { text-align: center; color: #5f5057; font-size: 0.8125rem; margin-top: 3rem; }
 .login-footer span { margin: 0 0.4rem; }
 .home-nav { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; flex-wrap: wrap; }
 .users-page { max-width: 70rem; padding: 2rem 1.25rem; margin: auto; }
@@ -55,21 +63,19 @@ h2 { font-size: 1.125rem; }
 .user-card-heading { display: flex; gap: 0.5rem; justify-content: space-between; align-items: center; }
 .user-card-heading h2 { overflow-wrap: anywhere; }
 .user-card dl { margin: 1rem 0; font-size: 0.85rem; }
-.user-card dt { color: #847771; font-size: 0.7rem; margin-top: 0.6rem; }
+.user-card dt { color: #5f5057; font-size: 0.875rem; margin-top: 0.6rem; }
 .user-editor { display: grid; gap: 1rem; max-width: 30rem; margin-bottom: 2rem; }
 .editor-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-button:focus-visible { outline: 3px solid #b58093; outline-offset: 3px; }
-
 @media (min-width: 60rem) {
   .login-layout { grid-template-columns: 46% 54%; }
   .login-story { display: flex; flex-direction: column; padding: 3rem 3.5rem; }
   .brand { position: relative; z-index: 1; }
   .story-copy { position: relative; z-index: 1; margin-top: auto; margin-bottom: auto; padding: 5rem 0 7rem; }
-  .story-label { font-size: 0.6rem; letter-spacing: 0.22em; color: #cbabae; }
+  .story-label { font-size: 0.8125rem; letter-spacing: 0.22em; color: #cbabae; }
   .story-copy h1 { font: clamp(2.6rem, 4vw, 4rem)/1.13 Georgia, serif; letter-spacing: -0.04em; margin: 1.5rem 0; }
   .story-copy h1 em { color: #dbb896; font-weight: normal; }
   .story-copy > p:last-child { color: #c8b2b8; font-size: 0.82rem; line-height: 1.9; }
-  .story-footer { font-size: 0.55rem; letter-spacing: 0.2em; color: #bea0a8; position: relative; z-index: 1; }
+  .story-footer { font-size: 0.75rem; letter-spacing: 0.2em; color: #bea0a8; position: relative; z-index: 1; }
   .vineyard { position: absolute; left: -30%; right: -20%; height: 19rem; bottom: -7rem; transform: rotate(-18deg); }
   .vineyard span { position: absolute; inset: 0; border-top: 1px solid #805063; border-radius: 50% 50% 0 0; }
   .vineyard span:nth-child(2) { top: 2rem; }
@@ -81,3 +87,17 @@ button:focus-visible { outline: 3px solid #b58093; outline-offset: 3px; }
   .login-card h2 { font-size: 2.6rem; }
   .login-footer { margin-top: 0; }
 }
+
+.user-editor { width: 100%; gap: 1.5rem; color: #302329; }
+.user-editor-section { min-width: 0; border: 0; padding: 0; margin: 0; display: grid; gap: 1rem; }
+.user-editor-section legend { width: 100%; margin-bottom: .5rem; padding: 0 0 .75rem; border-bottom: 1px solid #e3d7dd; font-size: .875rem; font-weight: 700; color: #713044; }
+.user-editor .user-editor-input { min-height: 48px; padding: .75rem .875rem; font-size: 1rem; color: #302329; background: #fff; border-radius: .625rem; }
+.user-editor [role=combobox] { padding-right: 2.5rem; }
+.user-editor label { color: #302329; font-weight: 600; }
+.user-editor-access { padding: 1rem; border: 1px solid #d9cbd1; border-radius: .75rem; background: #faf7f8; }
+.user-editor-access p, .user-editor-note { margin: .5rem 0 0; color: #5f5057; font-size: .875rem; line-height: 1.6; }
+.user-editor .editor-actions { justify-content: flex-end; border-top: 1px solid #e3d7dd; padding-top: 1.25rem; }
+.user-editor .editor-actions button { min-height: 48px; padding-inline: 1.25rem; font-size: .9375rem; cursor: pointer; }
+@media (max-width: 600px) { .user-editor .editor-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); } .user-editor .editor-actions button { width: 100%; justify-content: center; } }
+@media (min-width: 640px) { .user-editor-identity { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.user-editor-access [role=checkbox] { min-width: 48px; min-height: 48px; }

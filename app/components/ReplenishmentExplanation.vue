@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { describeReplenishmentIssue } from '#shared/application/replenishment-issues'
 import type { Recommendation } from '../../shared/types/replenishment'
 defineProps<{ item: Recommendation }>()
 function units(value: number | null) { return value === null ? 'Indisponível' : `${Number(value.toFixed(3))} unidades` }
@@ -28,6 +29,6 @@ function units(value: number | null) { return value === null ? 'Indisponível' :
       <dt>Primeira insuficiência projetada</dt><dd>{{ item.ruptureDate ?? 'Não identificada' }}</dd>
       <dt>Giro de estoque</dt><dd>{{ item.turnover === null ? 'Giro indisponível: histórico de saldos insuficiente.' : item.turnover }}</dd>
     </dl>
-    <ul v-if="item.issues.length" aria-label="Pendências"><li v-for="issue in item.issues" :key="issue">{{ issue }}</li></ul>
+    <ul v-if="item.issues.length" aria-label="Pendências"><li v-for="issue in item.issues" :key="issue">{{ describeReplenishmentIssue(issue) }}</li></ul>
   </section>
 </template>
