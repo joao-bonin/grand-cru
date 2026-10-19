@@ -18,7 +18,7 @@ O comprador cruza estoque e vendas manualmente e repete trabalho para preparar c
 
 | Entrega nesta etapa | Motivo |
 | --- | --- |
-| B2B, classificação de canal, eventos e sazonalidade | Adiamento explícito do usuário |
+| Integração operacional B2B, fila de classificação, eventos e sazonalidade | Domínio inicial retomado em 19/10; integração ainda depende de contratos e políticas |
 | Escrita, importação real ou emissão no ERP | Proibição explícita, inclusive homologação |
 | Refresh/logout do ERP | Não autorizados pela exceção de login |
 | Financeiro, OFX e Agendor na primeira etapa | Evoluções preservadas em US13–US16 |
@@ -29,7 +29,7 @@ O comprador cruza estoque e vendas manualmente e repete trabalho para preparar c
 
 | Assumption / decision | Chosen default | Rationale | Confirmed? |
 | --- | --- | --- | --- |
-| B2B | Adiar e usar vendas totais líquidas | Decisão explícita desta conversa | Sim |
+| B2B | Domínio retomado em 19/10; recomendações existentes ainda usam vendas totais | Nova decisão explícita; integração com canais ainda não validada | Sim, apenas essa fatia |
 | Escrita ERP | Proibir; exceção somente login autorizado | AGENTS.md | Sim |
 | Entrada API x arquivos | Priorizar API GET; adaptador de arquivos fica condicional | API escolhida como base e cupons já validados; PRD ainda prevê arquivos | Proposta de conciliação |
 | Janela 60 x 90 dias | Planejar parâmetro obrigatório, sem default silencioso | PRD propõe 60, conversa sugeriu 90 | Pendente G2 |
@@ -221,12 +221,12 @@ Estas histórias preservam o PRD. As subtarefas abaixo são de refinamento; não
 
 **Independent Test:** Nenhum POST de compra faz parte das tarefas executáveis deste plano.
 
-### US12 — Separar canais e compromissos B2B (P2 adiada)
+### US12 — Separar canais e compromissos B2B (P2 retomada, domínio parcial)
 
 **User Story:** Como gestor, quero separar canais e compromissos b2b para ampliar a gestão a partir dos dados consolidados.
 **Fonte:** RF03, RF04, RF13; CA03 parcial, CA04, CA06, CA23.
 **Requirement:** CV-12.
-**Bloqueio:** Adiado explicitamente pelo usuário.
+**Estado em 19/10/2026:** O usuário retomou a implementação. Primeira fatia pura de classificação explícita e demanda incremental implementada com testes; integração com fontes, fila/correção auditável e políticas de horizonte/eventos permanecem pendentes. Ver RFC-013. O adiamento anterior não é mais o bloqueio desta fatia.
 
 **Acceptance Criteria:**
 1. WHEN um compromisso de 9 unidades tiver 4 reservadas THEN o sistema SHALL adicionar apenas 5 unidades como demanda incremental.
@@ -333,7 +333,7 @@ Estas histórias preservam o PRD. As subtarefas abaixo são de refinamento; não
 | CV-09 | US09 | Implementação local em tasks.md | Verified |
 | CV-10 | US10 | Refinamento futuro/condicional | Pending |
 | CV-11 | US11 | Refinamento futuro/condicional | Pending |
-| CV-12 | US12 | Refinamento futuro/condicional | Pending |
+| CV-12 | US12 | Domínio local inicial; integração futura | Implementing |
 | CV-13 | US13 | Refinamento futuro/condicional | Pending |
 | CV-14 | US14 | Refinamento futuro/condicional | Pending |
 | CV-15 | US15 | Refinamento futuro/condicional | Pending |

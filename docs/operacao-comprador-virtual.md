@@ -22,7 +22,7 @@ Migrations são versionadas e não executadas na inicialização. Nesta implemen
 - A data do cupom mais antigo não prova cobertura histórica completa. As janelas e o consumo indicam pendência enquanto a abrangência não for comprovada.
 - Devoluções precisam de reconciliação com as vendas originais. Não apresentar como definitivo o consumo líquido real antes dessa confirmação.
 - Compras parcialmente atendidas precisam de validação das unidades recebidas/canceladas. O mapper aceita apenas o subset documentado sem atendimento, com quantidades explícitas e coerentes; ambiguidades bloqueiam publicação da carga.
-- Uma fonte inválida preserva o snapshot anterior. Um snapshot completo é publicado em transação local; não há atualização independente por conjunto nesta versão.
+- Uma fonte inválida preserva o snapshot anterior. Conjuntos completos já traduzidos podem ser retomados por até quinze minutos na mesma loja/credencial. A publicação continua em transação de snapshot completo; páginas parciais não são reutilizadas. Expiração, troca da configuração ou falha de autenticação exigem nova carga. Ver RFC-012.
 - Janela de consumo, prazo, revisão, segurança em unidades e embalagem são configurações explícitas; não foram escolhidos60/90 dias nem7 dias de segurança silenciosamente.
 
 Essas pendências não são resolvidas por inserir zeros ou por habilitar envio de compra. A validação das fontes permanece separada da implementação e dos testes com fixtures.
@@ -37,4 +37,4 @@ A jornada de navegador cobre seleção, explicação, ajuste, revisão, recarga,
 
 ## Limites de entrega
 
-Leia `.specs/features/comprador-virtual/validation.md` e `tasks.md` para resultados e pendências. Exportação importável depende do contrato do destino; escrita no ERP segue proibida. B2B permanece adiado. Financeiro, OFX e Agendor dependem de fontes e regras ainda não validadas. Nenhum mock foi apresentado como integração operacional dessas fontes.
+Leia `.specs/features/comprador-virtual/validation.md` e `tasks.md` para resultados e pendências. Exportação importável depende do contrato do destino; escrita comercial no ERP segue proibida. B2B foi retomado com uma primeira fatia de domínio testada, ainda sem integração com fontes/UI/reposição (RFC-013). Financeiro, OFX e Agendor dependem de fontes e regras ainda não validadas. Nenhum mock foi apresentado como integração operacional dessas fontes. A validação autenticada do ERP foi adiada pelo usuário em 19/10/2026.

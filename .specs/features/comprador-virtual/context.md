@@ -2,6 +2,8 @@
 
 Data: 16/10/2026. Status: proposta de decomposição; não autoriza Execute.
 
+Atualização de 19/10/2026: o usuário autorizou implementar a retomada por conjunto e retomar B2B em paralelo. Commit, merge e teste em produção também foram autorizados nesta conversa. A validação real do ERP foi adiada por decisão posterior do usuário. RFC-012/RFC-013 e os registros de execução prevalecem sobre o estado histórico descrito abaixo. A proibição de escrita comercial no ERP permanece.
+
 ## Fonte e decisões confirmadas
 
 PRD localizado em origin/work:docs/PRD.md, commit ede01140de4203d83ef393557e8e388723a7a39a. A main não continha esse arquivo. prd-source.md é uma cópia fiel, sem merge ou checkout.
@@ -107,4 +109,4 @@ validate_spec.py --strict e validate_tasks.py --strict: zero erros e avisos. Est
 
 ## Execução local e limites
 
-Implementação autorizada pelo usuário com subagentes paralelos, sem aprovações humanas intermediárias. As entregas locais foram testadas com fixtures e banco descartável. Os bloqueios G1 e G5 não foram descartados: semântica das fontes e emissão real não estão validadas. G2 não foi resolvido por escolher60/90 dias: políticas são explícitas, sem default. G3 foi implementado conservadoramente com admin para alteração e user para consulta. G4 usa design.md e migrations locais, sem agendamento ou produção. Publicação é por snapshot completo em transação, sem checkpoints por conjunto.
+Implementação autorizada pelo usuário com subagentes paralelos, sem aprovações humanas intermediárias. As entregas locais foram testadas com fixtures e banco descartável. Os bloqueios G1 e G5 não foram descartados: semântica das fontes e emissão real não estão validadas. G2 não foi resolvido por escolher60/90 dias: políticas são explícitas, sem default. G3 foi implementado conservadoramente com admin para alteração e user para consulta. G4 usa design.md e migrations explícitas, sem agendamento. Publicação continua por snapshot completo em transação; em 19/10 foram adicionados checkpoints por conjunto completo para retomada, sem publicação parcial. A autorização posterior de merge e verificação em produção está registrada na RFC-012.

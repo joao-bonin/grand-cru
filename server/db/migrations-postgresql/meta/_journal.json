@@ -15,6 +15,13 @@
       "when": 1792200835559,
       "tag": "0001_gray_molten_man",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792446161615,
+      "tag": "0002_cultured_famine",
+      "breakpoints": true
     }
   ]
 }

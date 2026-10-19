@@ -36,3 +36,42 @@ Cupons repetidos com identidade e conteúdo iguais não duplicam vendas; conflit
 - Confirmar filtros, ordenação e estabilidade da paginação, limites e fuso.
 
 T1 permanece parcial: contrato documentado não equivale a validação operacional. T5 permanece parcial na reconciliação de devoluções; T7 permanece parcial: subconjunto aberto sem recebimentos é mapeado; atendimento parcial e estados desconhecidos ficam bloqueados. Não há autorização para testar qualquer escrita no ERP.
+
+## Reavaliação do acesso e dos critérios — 19/10/2026
+
+O usuário solicitou nova validação das fontes reais e autorizou especificamente obter um token pelo fluxo de autenticação documentado. Essa exceção permite apenas a obtenção de token necessária a esta validação; não autoriza alterar registros de negócio, enviar pedidos, renovar ou encerrar sessões, nem acrescentar autenticação ao cliente de produção. Nenhum login foi executado nesta reavaliação, pois o ambiente atual não apresenta a configuração necessária.
+
+### Evidências do ambiente atual
+
+- `environment_status` retornou observações atuais, ambiente em execução e listas vazias de secrets, runtime variables e outbound identities. Isso não comprova credenciais disponíveis em outro ambiente nem permite reutilizar o token mantido somente em memória na validação de 16/10.
+- A carga normal `node --env-file-if-exists=.env` informou `.env` ausente; as verificações booleanas de `ERP_ACCESS_TOKEN` e `ERP_STORE_ID` retornaram `false`. Não há nomes de variáveis de configuração com prefixos `ERP_`, `VAREJO_` ou `VAREJOFACIL_` no processo. Não foram lidos arquivos de segredo nem impressos valores de credenciais.
+- O cliente mantém a origem fixa documentada `https://fgcuritibabatel.varejofacil.com/api`. A política de rede consultada lista apenas `mercado.varejofacil.com` como destino customizado permitido. O estado de aplicação da política em `environment_status` é `unknown`; portanto, não se declara conectividade nem autenticação confirmada para a origem da loja. Não houve tentativa de contornar o proxy, trocar a origem do cliente ou encaminhar credenciais ao host público.
+- A única consulta de rede desta reavaliação foi um GET sem autenticação ao Swagger público em `https://mercado.varejofacil.com/doc/swagger2/swagger.yaml`, sem seguir redirecionamentos. A resposta foi HTTP 503; não foi obtido contrato novo utilizável. Esse resultado não determina a disponibilidade da API da loja nem valida qualquer dado de negócio.
+
+**Resultado:** nenhuma nova amostra real de produto, estoque, venda, devolução ou compra foi obtida. A evidência autenticada anterior de cupons continua sendo histórica, não prova acesso operacional atual. Não houve login, refresh, logout, escrita comercial ou acesso ao banco de produção.
+
+### Matriz de comprovação necessária
+
+Os recursos abaixo já constam do contrato analisado na RFC-011. As consultas deverão usar somente GET comprovadamente de leitura na origem fixa, com token configurado, sem redirecionamentos e com paginação delimitada. A matriz especifica a evidência necessária; não registra consultas executadas nesta data.
+
+| Área | Fonte documentada relativa a /api | Evidência mínima para liberar a regra | Efeito enquanto não comprovado |
+| --- | --- | --- | --- |
+| Estoque e locais | `/v1/estoque/saldos`, `/v1/estoque/locais` | Conciliar um SKU por loja/local com o saldo de referência e definir quais locais participam da disponibilidade. Comprovar se `saldo` é físico ou disponível e se reservas/bloqueios estão incluídos; se forem parcelas separadas, comprovar sua origem e se são disjuntas. | `reserved` e `blocked` continuam `null`; locais não são somados por suposição e saldo físico não é apresentado como disponibilidade confirmada. |
+| Cancelamentos e devoluções | `/v1/venda/cupons-fiscais`, `/v1/pdv/trocas-devolucoes`, `/v1/venda/notas-fiscais` | Conciliar uma venda, item cancelado, documento cancelado e devolução efetiva, identificando loja, unidade e vínculo estável com o item original. Confirmar estados válidos e evitar descontar duas vezes a mesma ocorrência. | O mapper sinaliza reconciliação pendente; não subtrai devolução por proximidade de produto/data nem anuncia demanda líquida definitiva. |
+| Cupons, notas e histórico | `/v1/venda/cupons-fiscais`, `/v1/venda/notas-fiscais` | Conciliar um cupom vinculado à nota e uma nota sem cupom, caso exista, definindo a fonte de cada venda. Comprovar intervalo completo de pelo menos 365 dias exigidos pelo PRD, retenção, filtros, fuso e paginação; documento mais antigo ou contagem isolada não comprovam continuidade. | Apenas cupons são ingeridos; `historyFrom` permanece `null` e a cobertura permanece pendente. Ausência de notas ou de vendas em um período não é inferida de uma amostra vazia. |
+| Compras parcialmente recebidas | `/v1/compra/pedidos` e consulta individual documentada na RFC-011 | Conciliar um item parcialmente recebido e, quando disponível, cancelado: embalagens pedidas × itens por embalagem, unidades de `quantidadeAtendida`/`quantidadeCancelado`, saldo ainda esperado, datas e estados de cabeçalho/item. | Permanece suportado apenas o subconjunto aberto sem atendimento/cancelamento; parcial ou estado desconhecido rejeita a carga e preserva o snapshot publicado. |
+| Cadastro, embalagem e custo | `/v1/produto/produtos`, `/v1/produto/unidades`, `/v1/produto/produtos/{produtoId}/fornecedores`, `/v1/pessoa/fornecedores`, `/v1/produto/custos` | Conciliar um SKU com unidade-base, unidade de compra, fator de conversão, fornecedor, mínimos por loja e custo. Confirmar se `itensEmbalagem` corresponde à embalagem de compra e se `custoMedio` é adequado à estimativa; não equiparar automaticamente custo médio, preço de compra e preço de venda. | Dados ausentes continuam pendentes. Prazo cadastrado não é prazo operacional comprovado; kits e compostos exigem regra própria. |
+
+A separação B2B continua adiada por decisão do usuário e não faz parte desta validação. A existência de um campo no contrato público não comprova seu preenchimento ou sua semântica na conta da loja.
+
+### Configuração existente na Vercel e adiamento
+
+O coordenador confirmou por consulta apenas aos metadados das variáveis do projeto Grand Cru na Vercel, sem descriptografar valores, que os nomes `ERP_USERNAME`, `ERP_PASSWORD` e `ERP_STORE_ID` já existem em produção como variáveis sensíveis. As credenciais existem nessa plataforma; a ausência observada neste executor não significa ausência global de configuração. Nenhum valor dessas variáveis foi lido, copiado ou registrado nesta frente.
+
+Posteriormente, o usuário optou expressamente por adiar a validação real do ERP. A proposta de script operacional foi interrompida antes da criação de qualquer arquivo novo. Não houve obtenção de token, login, consulta autenticada ou nova chamada de rede após essa decisão. A autorização pontual anterior não está sendo usada para prosseguir contra o adiamento.
+
+### Ação mínima quando a validação for retomada
+
+Na retomada solicitada pelo usuário, usar um ambiente seguro que receba as credenciais já existentes na Vercel e tenha acesso à origem documentada da loja, ou vincular essas credenciais pelo mecanismo seguro de configuração do executor. Não é necessário concluir que faltam credenciais na plataforma nem solicitar seus valores na conversa. Nenhum segredo deve ser versionado. A eventual liberação da origem deve ocorrer pelo fluxo suportado de configuração de rede; trocar o cliente para o host público não resolve essa dependência. Conferir novamente a prontidão antes de executar as consultas delimitadas da matriz, registrando somente status, presença/semântica dos campos e conclusões sanitizadas.
+
+Somente a documentação foi alterada nesta frente; não foram executados `npm run check` ou testes de integração, pois não houve alteração de código. O veredito global e os estados das tarefas continuam sob responsabilidade do coordenador e não foram promovidos a concluídos por esta análise.

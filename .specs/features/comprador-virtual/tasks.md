@@ -349,7 +349,7 @@ T34 -> T35
 
 #### T11: Coordenar sincronização manual
 
-**Status de execução**: Parcial. Carga completa transacional; checkpoints por conjunto não implementados.
+**Status de execução**: Implementada e testada localmente em 19/10/2026. Checkpoints por conjunto completo, retomada, validade/escopo e recuperação de execução abandonada validados. Fontes reais continuam pendentes. Ver RFC-012 e execution/T11.md.
 
 **Story**: US02
 **Requirement**: CV-02
@@ -361,9 +361,9 @@ T34 -> T35
 
 **Done when**:
 
-- [ ] Entrega demonstrada: Executar leituras por contratos injetáveis, registrar progresso e pendências por conjunto e só publicar conjuntos completos; preservar checkpoints recuperáveis.
-- [ ] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
-- [ ] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes.
+- [x] Entrega demonstrada: Executar leituras por contratos injetáveis, registrar progresso e pendências por conjunto e só publicar conjuntos completos; preservar checkpoints recuperáveis.
+- [x] Critérios de US02 pertinentes à entrega e casos de falha possuem evidência em testes escritos junto desta tarefa.
+- [x] Gate Quick passa; registrar comando, resultado e contagem antes/depois sem supressão de testes. Check completo e integração local também aprovados.
 
 **Tests**: unit
 **Gate**: Quick

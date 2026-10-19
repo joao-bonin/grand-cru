@@ -21,7 +21,13 @@ Não habilitar agendamento sem política de operação. Nenhuma migration de pro
 
 ## Entregas futuras
 
-US10 exportação real depende de layout validado; não anunciar CSV genérico como aceito. US11 envio bloqueado por regra de segurança. B2B permanece adiado. Financeiro/OFX/Agendor têm contratos externos e regras pendentes; implementar somente o que puder ser comprovado localmente, registrar limites e não apresentar mocks como integração real.
+US10 exportação real depende de layout validado; não anunciar CSV genérico como aceito. US11 envio bloqueado por regra de segurança. B2B começou com domínio puro em 19/10; integração operacional permanece pendente. Financeiro/OFX/Agendor têm contratos externos e regras pendentes; implementar somente o que puder ser comprovado localmente, registrar limites e não apresentar mocks como integração real.
+
+## Atualização — 19/10/2026
+
+O usuário autorizou completar a retomada de sincronização e iniciar B2B com subagentes paralelos. A RFC-012 detalha checkpoints por conjuntos completos, validade técnica, isolamento por credencial/loja e recuperação de trabalhador interrompido. A RFC-013 registra a primeira fatia pura de B2B; o adiamento foi revogado para iniciar essa fatia, sem assumir classificação real ou integração com as recomendações.
+
+Commit, merge e verificação em produção foram autorizados posteriormente pelo usuário. A validação real das fontes do ERP foi adiada expressamente nesta entrega; os segredos existentes na Vercel não foram lidos. Essas novas autorizações não permitem escrita comercial no ERP.
 
 ## Testes e revisão
 

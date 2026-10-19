@@ -63,13 +63,24 @@ Scratch descartado, árvore real não modificada pelo sensor. Nenhum mutante sob
 | US01/T1 | Falta conciliar amostras reais das fontes; status de contrato não equivale a validação operacional |
 | T5 | Devoluções e cobertura histórica não comprovadas; adapter não inventa histórico nem vendas líquidas definitivas |
 | T7 | Atendimento parcial bloqueado até comprovar unidades recebidas/canceladas; subset aberto sem atendimento é suportado |
-| T11 | Publicação transacional de snapshot completo implementada; checkpoints independentes por conjunto não implementados |
 | US10 | Layout de arquivo aceito pelo destino não informado; não afirmar que um CSV genérico é importável |
 | US11 | Envio e qualquer escrita no ERP proibidos; nenhuma implementação de envio |
-| US12 | B2B adiado explicitamente pelo usuário |
+| US12 | Retomado em 19/10 com domínio puro testado; classificação real, integração, fila/correção e políticas de horizonte/eventos pendentes |
 | US13–US16 | Fontes e regras de financeiro/OFX/Agendor pendentes, não substituídas por dados fictícios |
 
 Nenhum desses itens foi silenciosamente marcado como completo. Dados desconhecidos permanecem como pendências, e as recomendações dependentes ficam indisponíveis. O critério de compra real aceita no ERP não foi realizado.
+
+## Entrega complementar — 19/10/2026
+
+- T11 concluída no escopo de software local: checkpoint persistido por conjunto completo traduzido, retomada após recriar repositório/conexão, preservação do snapshot anterior, validade de quinze minutos e isolamento por credencial/loja. Página/conjunto incompleto não é salvo; 401 limpa progresso sem refresh; sucesso limpa o cache. Execução abandonada é recuperável sem tomar o lock de uma execução ativa.
+- T14 ampliada com progresso e botão de retomada; após sucesso todos os conjuntos são apresentados como concluídos mesmo com checkpoint removido.
+- US12 iniciada por nova autorização: domínio puro de classificação explícita e compromissos com reservas vinculadas, incluindo nove menos quatro igual a cinco, sem ligação automática à reposição. RFC-013 registra restrições e pendências.
+- `npm run check` em Node24.19.0: lint, tipos, 33 arquivos/317 testes unitários e build aprovados. Baseline anterior registrado acima:247 testes; nenhuma supressão. O primeiro check durante a construção paralela observou testes B2B ainda sem implementação; a execução consolidada posterior passou integralmente.
+- Suíte completa de integração em cópia isolada e PostgreSQL17 descartável:16/16 aprovados, incluindo quatro cenários novos de retomada. Token/loja ERP vazios; nenhuma consulta externa real.
+- Revisão independente do backend e navegador390px: retomada emite uma única solicitação, reutiliza catálogo persistido e publica apenas a carga final. Corrigida a inconsistência visual de sucesso com lista de checkpoints vazia;12 testes direcionados de UI aprovados.
+- Sensor em cópia isolada: baseline aprovado; mutação que ignorava checkpoints detectada pelas consultas indevidas de produtos/fornecedores. Mutante descartado, checkout compartilhado preservado. Evidências temporárias: `/tmp/grand-cru-resumption-integration.log`, `/tmp/grand-cru-resumption-sensor.json` e `/tmp/grand-cru-resumption-mobile-review.png`.
+- A validação real das fontes foi adiada explicitamente pelo usuário. Foi verificada apenas a existência dos nomes dos segredos na Vercel, sem ler valores. Nenhum login/refresh/logout ou operação comercial ERP foi executado. O veredito global continua FAIL por fontes e histórias condicionais pendentes.
+- Commit, merge e verificação de produção foram autorizados posteriormente; resultados da publicação devem ser verificados no GitHub/Vercel. As verificações locais acima não são apresentadas como teste do ERP ou do ambiente de produção.
 
 ## Gates consolidados
 

@@ -63,7 +63,16 @@ export interface ErpData {
   issues: string[]
 }
 export interface Snapshot { id: string, createdAt: string, data: ErpData }
-export interface SyncStatus { id: string | null, state: 'idle' | 'running' | 'success' | 'failed', startedAt: string | null, finishedAt: string | null, error: string | null, snapshotId: string | null }
+export type SyncDataset = 'catalog' | 'stock' | 'sales' | 'purchases'
+export interface SyncStatus {
+  id: string | null
+  state: 'idle' | 'running' | 'success' | 'failed'
+  startedAt: string | null
+  finishedAt: string | null
+  error: string | null
+  snapshotId: string | null
+  progress?: { completed: SyncDataset[], current: SyncDataset | null, resumable: boolean }
+}
 export interface Recommendation {
   product: Product
   snapshotId: string
