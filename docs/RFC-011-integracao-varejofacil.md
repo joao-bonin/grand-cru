@@ -130,3 +130,17 @@ Após autorização explícita do usuário para login, `POST /api/auth` retornou
 Foi localizado o PRD v1.0 em `origin/work:docs/PRD.md` (commit `ede01140de4203d83ef393557e8e388723a7a39a`). O planejamento está em [histórias](../.specs/features/comprador-virtual/spec.md), [subtarefas](../.specs/features/comprador-virtual/tasks.md) e [contexto e rastreabilidade](../.specs/features/comprador-virtual/context.md). A cópia da fonte foi preservada sem merge de branches.
 
 Decisão posterior do usuário: adiar separação B2B. O plano propõe vendas totais e explicita o risco de picos excepcionais. A emissão no ERP permanece bloqueada; login tem apenas a exceção explícita já registrada. Preparação local não satisfaz o critério original de compra real aceita no destino. Fórmula, janela de consumo, permissões, reservas e frequência permanecem pendentes identificadas. Foram criadas 16 histórias, 35 subtarefas candidatas para a etapa local e 28 subtarefas de refinamento para sete histórias futuras/condicionais. O usuário solicitou somente planejamento; nenhuma implementação, commit, push ou chamada ERP foi realizada nesta etapa.
+
+## Nova autorização de token e reavaliação do acesso — 19/10/2026
+
+O usuário autorizou especificamente gerar um token para realizar a validação dos dados. Essa instrução posterior abre uma exceção pontual à vedação de login desta RFC/AGENTS.md, exclusivamente para obter o token necessário à validação. Não autoriza escrita comercial, envio de pedidos, refresh/logout nem mudança do cliente de produção, que permanece somente GET em consultas permitidas.
+
+A obtenção do token não foi executada: o ambiente atual não tem bindings de secrets/runtime variables/outbound identities, a carga normal de `.env` informa arquivo ausente e `ERP_ACCESS_TOKEN`/`ERP_STORE_ID` não estão configurados. Não foram procuradas credenciais em arquivos de segredo. A origem fixa da loja não consta entre os destinos customizados permitidos da política consultada; não houve troca de origem nem tentativa de bypass. A única chamada foi GET público, sem autenticação e sem seguir redirecionamentos, ao Swagger do host permitido, com HTTP 503; isso não informa a disponibilidade da API da loja.
+
+A evidência autenticada de 16/10 continua válida apenas como registro histórico; não demonstra token disponível ou acesso operacional nesta sessão. A matriz de critérios para estoque/reservas, devoluções, cobertura fiscal/histórica, compras parciais e cadastro/custo, com o bloqueio atual e a ação mínima de configuração segura, está em [Contratos de leitura do ERP](validacao-erp-leitura.md#reavaliação-do-acesso-e-dos-critérios--19102026). Nenhuma nova fonte real foi validada, e nenhuma escrita de negócio, login, refresh, logout ou operação no banco de produção foi feita nesta reavaliação.
+
+### Credenciais existentes na Vercel e validação adiada
+
+O coordenador verificou somente os metadados das variáveis de produção do projeto Grand Cru na Vercel: `ERP_USERNAME`, `ERP_PASSWORD` e `ERP_STORE_ID` já estão cadastradas como sensíveis. Nenhum valor foi lido ou descriptografado. A limitação descrita acima é do executor atual, que não recebe essas variáveis, e não ausência de credenciais na plataforma.
+
+O usuário decidiu posteriormente adiar a validação real do ERP. A proposta de diagnóstico operacional foi interrompida antes da criação de código; nenhum script, obtenção de token, login, consulta autenticada ou nova chamada de rede foi realizado após o adiamento. Permanece apenas a análise documental, para retomada futura solicitada pelo usuário.

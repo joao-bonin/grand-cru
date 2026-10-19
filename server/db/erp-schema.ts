@@ -1,5 +1,6 @@
 import { integer, jsonb, pgTable, text, timestamp, varchar } from 'drizzle-orm/pg-core'
 import type { ErpData, Policy, PurchaseDraft } from '../../shared/types/replenishment'
+import type { SyncCheckpoint } from '../application/erp/checkpoints'
 
 export const erpSnapshots = pgTable('erp_snapshots', {
   id: varchar('id', { length: 36 }).primaryKey(),
@@ -14,6 +15,8 @@ export const erpSync = pgTable('erp_sync', {
   finishedAt: timestamp('finished_at', { withTimezone: true }),
   error: text('error'),
   snapshotId: varchar('snapshot_id', { length: 36 }).references(() => erpSnapshots.id),
+  checkpoint: jsonb('checkpoint').$type<SyncCheckpoint>(),
+  currentDataset: text('current_dataset'),
 })
 export const replenishmentPolicies = pgTable('replenishment_policies', {
   key: text('key').primaryKey(),
