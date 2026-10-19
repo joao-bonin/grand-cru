@@ -27,6 +27,8 @@ O estado retornado ao navegador inclui apenas nomes dos conjuntos concluídos/em
 
 Migration PostgreSQL aditiva: `checkpoint` JSONB e `current_dataset` em `erp_sync`. Migrations continuam explícitas e não rodam na inicialização. O banco descartável recebeu a migration antes da integração. Uma publicação deve aplicar a migration na conexão do ambiente de destino antes de habilitar a nova sincronização; o transporte externo continua sem escrita no ERP.
 
+O `vercel.json` mantém framework Nuxt e instalação pelo lockfile, deixando a plataforma usar seu build padrão. Isso permite passar explicitamente, somente na publicação autorizada, o comando `npm run db:migrate && npm run build` com as variáveis do destino já injetadas pela Vercel, sem copiar valores sensíveis para este executor. A falha da migration impede disponibilizar essa publicação. Não se habilita migration automática na inicialização nem acesso autenticado ao ERP.
+
 A skill `tlc-spec-driven` citada no plano não está disponível nos catálogos cloud/executor nem nos diretórios locais de skills desta tarefa. Foram preservados critérios explícitos, testes por comportamento, revisão independente e registros de validação, sem alegar execução de ferramentas ausentes.
 
 ## Limites mantidos
