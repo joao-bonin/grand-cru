@@ -22,7 +22,7 @@ describe('Dashboard visível e explicável', () => {
     snapshot.data.historyFrom = '2026-08-01'
     snapshot.data.products.push({ ...snapshot.data.products[0]!, storeId: 'store-b' })
     const wrapper = mount(BusinessDashboard, { props: { report: buildBusinessDashboard(snapshot, [dashboardPolicy]) }, global })
-    expect(wrapper.text()).toContain('1 produtos avaliados · 1 sem cálculo')
+    expect(wrapper.text()).toContain('1 produto avaliado · 1 sem cálculo')
     expect(wrapper.text()).toContain('Histórico parcial')
     expect(wrapper.text()).toContain('Não avaliada')
     expect(wrapper.findAll('.business-product')).toHaveLength(2)

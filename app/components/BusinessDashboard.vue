@@ -18,7 +18,7 @@ const pages = computed(() => Math.max(1, Math.ceil(filtered.value.length / pageS
 const visible = computed(() => filtered.value.slice((page.value - 1) * pageSize, page.value * pageSize))
 watch([search, store, () => props.report], () => { page.value = 1 })
 const coverageLabel = (metric: DashboardCoverage) => metric.evaluated === 0 && metric.unavailable > 0 ? 'Indisponível' : number(metric.count, 0)
-const coverageNote = (metric: DashboardCoverage) => `${metric.evaluated} produtos avaliados${metric.unavailable ? ` · ${metric.unavailable} sem cálculo` : ''}`
+const coverageNote = (metric: DashboardCoverage) => `${metric.evaluated} ${metric.evaluated === 1 ? 'produto avaliado' : 'produtos avaliados'}${metric.unavailable ? ` · ${metric.unavailable} sem cálculo` : ''}`
 const segments = computed(() => props.report.summary ? [
   { label: 'Precisam de reposição', count: props.report.summary.replenishment.count, tone: 'attention' },
   { label: 'Sem reposição sugerida', count: props.report.summary.calculable - props.report.summary.replenishment.count, tone: 'stable' },
