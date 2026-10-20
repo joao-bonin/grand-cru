@@ -1,19 +1,24 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, useId, watch } from 'vue'
 import type { Recommendation } from '../../shared/types/replenishment'
+import { canSelectRecommendation } from '#shared/application/replenishment-selection'
 import ReplenishmentExplanation from './ReplenishmentExplanation.vue'
+import ReplenishmentSelectionHelp from './ReplenishmentSelectionHelp.vue'
 const props = defineProps<{ items: Recommendation[], error?: string, loading?: boolean, canSelect?: boolean }>()
 const emit = defineEmits<{ retry: [], selection: [items: Array<{ productId: string, storeId: string }>], policy: [item: Recommendation] }>()
 const search = ref(''); const supplier = ref(''); const issues = ref(false); const risk = ref(false)
 const selected = ref<string[]>([])
+const listId = useId()
+const descriptionId = (item: Recommendation) => `${listId}-selection-${encodeURIComponent(JSON.stringify([item.product.storeId, item.product.id]))}`
 const suppliers = computed(() => [...new Set(props.items.map(item => item.policy?.supplierId ?? item.product.supplierId).filter((id): id is string => !!id))])
 const filtered = computed(() => props.items.filter(item => `${item.product.id} ${item.product.description}`.toLocaleLowerCase().includes(search.value.trim().toLocaleLowerCase()) && (!supplier.value || (item.policy?.supplierId ?? item.product.supplierId) === supplier.value) && (!issues.value || item.issues.length > 0) && (!risk.value || item.ruptureDate !== null)).sort((a, b) => (a.ruptureDate ?? '9999').localeCompare(b.ruptureDate ?? '9999')))
-watch(() => props.items, () => {
-  const available = props.items.filter(item => item.suggested !== null && !item.issues.length).map(item => `${item.product.id}/${item.product.storeId}`)
-  selected.value = selected.value.filter(identity => available.includes(identity))
-  select()
-})
-function select() { emit('selection', props.items.filter(item => selected.value.includes(`${item.product.id}/${item.product.storeId}`)).map(item => ({ productId: item.product.id, storeId: item.product.storeId }))) }
+watch([() => props.items, () => props.canSelect], select)
+function select() {
+  const available = props.canSelect ? props.items.filter(canSelectRecommendation) : []
+  const validIdentities = new Set(available.map(item => `${item.product.id}/${item.product.storeId}`))
+  selected.value = selected.value.filter(identity => validIdentities.has(identity))
+  emit('selection', available.filter(item => selected.value.includes(`${item.product.id}/${item.product.storeId}`)).map(item => ({ productId: item.product.id, storeId: item.product.storeId })))
+}
 </script>
 
 <template>
@@ -30,7 +35,8 @@ function select() { emit('selection', props.items.filter(item => selected.value.
       <h2>{{ item.product.description }}</h2><p>SKU {{ item.product.id }} · Loja {{ item.product.storeId }} · Fornecedor {{ item.policy?.supplierId ?? item.product.supplierId ?? 'Pendente' }}</p>
       <p class="replenishment-quantity">Sugestão: {{ item.suggested === null ? 'Indisponível' : `${item.suggested} unidades` }}</p>
       <p v-if="item.ruptureDate">Risco de ruptura: {{ item.ruptureDate }}</p>
-      <label v-if="canSelect"><input v-model="selected" :name="`select-${item.product.id}-${item.product.storeId}`" type="checkbox" :value="`${item.product.id}/${item.product.storeId}`" :disabled="item.suggested === null || item.issues.length > 0" @change="select">Incluir na rodada local</label>
+      <label v-if="canSelect"><input v-model="selected" :name="`select-${item.product.id}-${item.product.storeId}`" type="checkbox" :value="`${item.product.id}/${item.product.storeId}`" :disabled="!canSelectRecommendation(item)" :aria-describedby="canSelectRecommendation(item) ? undefined : descriptionId(item)" @change="select">Incluir na rodada local</label>
+      <ReplenishmentSelectionHelp v-if="canSelect && !canSelectRecommendation(item)" :item="item" :description-id="descriptionId(item)" />
       <button v-if="canSelect" type="button" @click="$emit('policy', item)">Parâmetros de compra</button>
       <details><summary>Ver justificativa e pendências</summary><ReplenishmentExplanation :item="item" /></details>
     </article>

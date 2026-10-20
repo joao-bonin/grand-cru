@@ -7,6 +7,34 @@ export interface ReplenishmentNotice {
 const purchaseParametersPrefix = 'PRODUCT_PURCHASE_PARAMETERS_MISSING:'
 const purchaseParametersDescription = 'Confira o fornecedor, a unidade de compra e a quantidade por embalagem no ERP. Se já estiverem preenchidos, peça à equipe de integração para conferir a leitura desses dados. Até lá, as sugestões desses produtos ficam pendentes.'
 const notices: Record<string, Omit<ReplenishmentNotice, 'key'>> = {
+  'Política de reposição não configurada': {
+    title: 'Parâmetros de compra pendentes',
+    description: 'Abra “Parâmetros de compra” e confira ou preencha os campos obrigatórios. Esses parâmetros são salvos somente no Grand Cru.',
+  },
+  'Sugestão de compra indisponível': {
+    title: 'Ainda não há uma sugestão de compra válida',
+    description: 'Confira os dados do produto e os parâmetros de compra. A seleção é liberada quando houver uma sugestão calculada sem pendências.',
+  },
+  'Saldo não comprovado': {
+    title: 'O estoque disponível ainda não foi confirmado',
+    description: 'Confira o saldo deste produto no ERP e sua leitura pela integração. Esse dado é necessário para calcular a sugestão.',
+  },
+  'Saldo conflitante para o mesmo local': {
+    title: 'Há saldos diferentes para o mesmo local de estoque',
+    description: 'A integração precisa conferir os saldos recebidos do ERP antes de calcular a quantidade disponível.',
+  },
+  'Relação entre reservas e bloqueios não comprovada': {
+    title: 'As reservas e os bloqueios do estoque ainda não foram confirmados',
+    description: 'A integração precisa confirmar o que está reservado ou bloqueado para calcular quanto está disponível. Essa conferência depende dos dados do ERP.',
+  },
+  'Histórico insuficiente para a janela configurada': {
+    title: 'O histórico de vendas é insuficiente para o período escolhido',
+    description: 'Confira o período de vendas disponível e a janela de consumo nos parâmetros de compra. O cálculo exige o histórico completo para esse período.',
+  },
+  'Fornecedor configurado não encontrado na fonte': {
+    title: 'O fornecedor escolhido não foi confirmado nos dados recebidos',
+    description: 'Confira o fornecedor nos parâmetros de compra e no ERP. Se o cadastro já existir, peça à equipe de integração para conferir sua leitura.',
+  },
   SALES_HISTORY_COVERAGE_UNCONFIRMED: {
     title: 'O período do histórico de vendas ainda precisa ser confirmado',
     description: 'A integração precisa confirmar se há vendas suficientes para o período escolhido. Até lá, as sugestões afetadas ficam pendentes.',
