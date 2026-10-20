@@ -44,6 +44,7 @@ for (const scheme of ['light', 'dark'] as const) {
       await expect(page.locator('.directory-person')).toHaveCount(3)
       const usersSamples: unknown[] = []
       for (const selector of ['.directory-person small', '.directory-role', '.status-pill.is-active', '.status-pill.is-inactive', '.management-card header p']) usersSamples.push(await expectReadable(page.locator(selector).first()))
+      for (const button of await page.locator('.directory-actions button').all()) usersSamples.push(await expectReadable(button))
       if (width === 1440) usersSamples.push(await expectReadable(page.locator('.directory-heading').first()))
       await expectNoOverflow(page)
       await capture(page, `users-${scheme}-${width}`, usersSamples)

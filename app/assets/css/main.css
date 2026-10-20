@@ -31,6 +31,8 @@
   --md-sys-shape-corner-medium: 0.75rem;
   --md-sys-shape-corner-large: 1rem;
   --ui-primary: var(--md-sys-color-primary);
+  --ui-error: var(--md-sys-color-error);
+  --ui-success: var(--md-sys-color-success);
   --ui-bg: var(--md-sys-color-surface);
   --ui-bg-muted: var(--md-sys-color-surface-container);
   --ui-bg-elevated: var(--md-sys-color-surface-container-high);
@@ -73,6 +75,8 @@
   --md-sys-color-success-container: #234c2a;
   --md-sys-color-on-success-container: #d5ecd2;
   --ui-primary: var(--md-sys-color-primary);
+  --ui-error: var(--md-sys-color-error);
+  --ui-success: var(--md-sys-color-success);
   --ui-bg: var(--md-sys-color-surface);
   --ui-bg-muted: var(--md-sys-color-surface-container);
   --ui-bg-elevated: var(--md-sys-color-surface-container-high);

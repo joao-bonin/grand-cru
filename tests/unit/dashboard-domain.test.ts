@@ -37,6 +37,12 @@ describe('Dashboard de estoque e compras', () => {
     expect(report.summary).toMatchObject({ tracked: 2, calculable: 1, blocked: 1, replenishment: { count: 1, evaluated: 1, unavailable: 1 } })
     expect(report.items.map(item => item.storeId)).toEqual(['store-a', 'store-b'])
   })
+  it('identifica observações parciais quando a conciliação descarta uma venda inválida', () => {
+    const snapshot = dashboardSnapshot()
+    snapshot.data.sales.push({ ...snapshot.data.sales[0]!, id: 'invalid-sale', date: 'invalid' })
+    const report = buildBusinessDashboard(snapshot, [dashboardPolicy])
+    expect(report.items[0]).toMatchObject({ state: 'blocked', suggested: null, sales: { 30: { quantity: 30, partial: true } } })
+  })
   it('bloqueia identidade duplicada e não soma estoque nem quantidade sugerida', () => {
     const snapshot = dashboardSnapshot()
     snapshot.data.products.push({ ...snapshot.data.products[0]!, description: 'Registro conflitante' })

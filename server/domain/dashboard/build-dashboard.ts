@@ -16,13 +16,15 @@ export function buildBusinessDashboard(snapshot: Snapshot | null, policies: Poli
     const { product, policy } = recommendation
     const suggested = finite(recommendation.suggested)
     const calculable = recommendation.issues.length === 0 && suggested !== null && suggested >= 0
+    const salesIncomplete = snapshot.data.issues.length > 0 || recommendation.issues.some(issue => /venda|devolu|consumo|histórico/i.test(issue))
     const item: DashboardProduct = {
       productId: product.id, storeId: product.storeId, description: product.description,
       state: calculable ? (suggested > 0 ? 'replenishment' : 'without_replenishment') : 'blocked',
       available: finite(recommendation.available), minimum: finite(policy?.minimum ?? product.minimum),
       sales: Object.fromEntries(dashboardSalesWindows.map((days) => {
         const window = recommendation.sales[String(days)]
-        return [days, { quantity: finite(window?.quantity), partial: !window || window.partial || snapshot.data.issues.length > 0 }]
+        const quantity = finite(window?.quantity)
+        return [days, { quantity, partial: !window || window.partial || quantity === null || salesIncomplete }]
       })) as DashboardProduct['sales'],
       coverageDays: calculable ? finite(recommendation.coverageDays) : null,
       ruptureDate: calculable ? recommendation.ruptureDate : null,
