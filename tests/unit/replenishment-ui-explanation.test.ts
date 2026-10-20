@@ -15,4 +15,12 @@ describe('US06 memória do cálculo', () => {
     expect(wrapper.get('[data-field="suggested"]').text()).toBe('Indisponível')
     expect(wrapper.get('[data-field="pending"]').text()).toBe('0 unidades')
   })
+  it('traduz a pendência técnica também dentro da justificativa do produto', () => {
+    const wrapper = mount(ReplenishmentExplanation, { props: { item: { ...recommendation, suggested: null, issues: ['PRODUCT_PURCHASE_PARAMETERS_MISSING:p1', 'RETURNS_RECONCILIATION_UNCONFIRMED'] } } })
+    expect(wrapper.text()).toContain('dados de compra pendentes')
+    expect(wrapper.text()).toContain('devoluções ainda precisam ser conferidas')
+    expect(wrapper.text()).not.toContain('PRODUCT_PURCHASE_PARAMETERS_MISSING')
+    expect(wrapper.text()).not.toContain('RETURNS_RECONCILIATION_UNCONFIRMED')
+    expect(wrapper.get('[data-field="suggested"]').text()).toBe('Indisponível')
+  })
 })

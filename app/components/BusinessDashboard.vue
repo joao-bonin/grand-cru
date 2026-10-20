@@ -2,6 +2,7 @@
 import { computed, ref, watch } from 'vue'
 import type { BusinessDashboardReport, DashboardCoverage } from '../../shared/types/dashboard'
 import { dashboardSalesWindows } from '#shared/types/dashboard'
+import { summarizeReplenishmentIssues } from '#shared/presentation/replenishment-issues'
 
 const props = defineProps<{ report: BusinessDashboardReport }>()
 const search = ref('')
@@ -77,7 +78,7 @@ const status = { replenishment: 'Repor estoque', without_replenishment: 'Sem rep
             </dl>
             <div class="business-sales"><h4>Vendas líquidas observadas</h4><dl><div v-for="days in dashboardSalesWindows" :key="days"><dt>{{ days }} dias</dt><dd>{{ number(item.sales[days].quantity) }}<small v-if="item.sales[days].partial">Histórico parcial</small></dd></div></dl></div>
             <p v-if="item.horizonDays !== null" class="business-product-note">Horizonte da política: {{ item.horizonDays }} dias. Cobertura não é calculada quando não há consumo médio positivo.</p>
-            <details v-if="item.issues.length" class="business-issues"><summary>Ver pendências do cálculo ({{ item.issues.length }})</summary><ul><li v-for="issue in item.issues" :key="issue">{{ issue }}</li></ul></details>
+            <details v-if="item.issues.length" class="business-issues"><summary>Ver pendências do cálculo</summary><ul><li v-for="notice in summarizeReplenishmentIssues(item.issues)" :key="notice.key"><strong>{{ notice.title }}</strong><p v-if="notice.description">{{ notice.description }}</p></li></ul></details>
           </article>
         </div>
         <nav v-if="filtered.length" class="business-pagination" aria-label="Páginas de produtos"><button :disabled="page <= 1" @click="page--">Anterior</button><span role="status">Página {{ page }} de {{ pages }} · {{ filtered.length }} produtos</span><button :disabled="page >= pages" @click="page++">Próxima</button></nav>

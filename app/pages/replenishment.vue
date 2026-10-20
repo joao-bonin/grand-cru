@@ -37,7 +37,7 @@ async function review() {
     <div class="replenishment-page">
       <header class="admin-page-heading"><div><p class="admin-kicker">COMPRADOR VIRTUAL</p><h1>Reposição</h1><p>Vendas totais e sugestões explicáveis para sua revisão.</p></div><NuxtLink to="/purchase-drafts">Rodadas locais</NuxtLink></header>
       <ErpSyncStatus :status="sync?.status ?? null" :snapshot="sync?.snapshot" :configured="sync?.configured" :can-sync="canEdit" :pending="syncing" :error="actionError || (syncLoadError ? 'Não foi possível consultar a sincronização.' : '')" @sync="update" />
-      <ul v-if="published?.issues.length" class="dashboard-card" aria-label="Limitações dos dados"><li v-for="issue in published.issues" :key="issue">{{ issue }}</li></ul>
+      <ReplenishmentIssues :issues="published?.issues ?? []" />
       <ReplenishmentPolicyEditor v-if="editing" :key="`${editing.product.id}/${editing.product.storeId}`" :product-id="editing.product.id" :store-id="editing.product.storeId" :policy="editing.policy" :can-edit="canEdit" :pending="saving" :error="policyError" @save="savePolicy" />
       <ReplenishmentList :items="published?.items ?? []" :can-select="canEdit" :error="loadError ? 'Não foi possível consultar as recomendações.' : ''" @retry="refresh()" @selection="selected = $event" @policy="editing = $event" />
       <button v-if="canEdit" type="button" :disabled="!selected.length || !published?.snapshotId" @click="review">Revisar {{ selected.length }} itens em rodada local</button>

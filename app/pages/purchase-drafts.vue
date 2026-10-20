@@ -4,7 +4,7 @@ import type { PurchaseDraft, Recommendation } from '../../shared/types/replenish
 definePageMeta({ middleware: ['auth'] })
 const auth = useAuth(); const route = useRoute()
 const canEdit = computed(() => auth.user.value?.role === 'admin')
-const { data, error: loadError, refresh } = await useFetch<{ drafts: PurchaseDraft[] }>('/api/purchase-drafts')
+const { data, error: loadError, status, refresh } = await useFetch<{ drafts: PurchaseDraft[] }>('/api/purchase-drafts', { lazy: true, timeout: 15_000, retry: 0 })
 const current = ref<PurchaseDraft | null>(null)
 const pending = ref(false); const error = ref(''); const success = ref('')
 if (typeof route.query.items === 'string' && typeof route.query.snapshot === 'string' && canEdit.value) {
@@ -43,7 +43,8 @@ function open(draft: PurchaseDraft) { current.value = draft; error.value = ''; s
       <p v-if="success" role="status">{{ success }}</p>
       <p v-if="error && !current" role="alert">{{ error }}</p>
       <PurchaseDraftEditor v-if="current" :draft="current" :can-edit="canEdit" :pending="pending" :error="error" @save="save" />
-      <PurchaseDraftHistory :drafts="data?.drafts ?? []" :error="loadError ? 'Não foi possível consultar o histórico de rodadas.' : ''" @open="open" @retry="refresh()" />
+      <p v-if="status === 'pending'" class="dashboard-card" role="status" aria-live="polite" aria-busy="true">Carregando rodadas locais…</p>
+      <PurchaseDraftHistory v-else :drafts="data?.drafts ?? []" :error="loadError ? 'Não foi possível consultar o histórico de rodadas.' : ''" @open="open" @retry="refresh()" />
     </div>
   </AppShell>
 </template>
