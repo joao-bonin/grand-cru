@@ -36,6 +36,14 @@ describe('Dashboard visível e explicável', () => {
     const wrapper = mount(BusinessDashboard, { props: { report: buildBusinessDashboard(dashboardSnapshot(), []) }, global })
     expect(wrapper.findAll('.business-metric strong').map(item => item.text())).toEqual(['1', 'Indisponível', 'Indisponível', '1'])
   })
+  it('explica códigos de origem em português também nas pendências do dashboard', () => {
+    const snapshot = dashboardSnapshot()
+    snapshot.data.issues = ['PRODUCT_PURCHASE_PARAMETERS_MISSING:wine']
+    const wrapper = mount(BusinessDashboard, { props: { report: buildBusinessDashboard(snapshot, [dashboardPolicy]) }, global })
+    expect(wrapper.text()).toContain('dados de compra pendentes')
+    expect(wrapper.text()).not.toContain('PRODUCT_PURCHASE_PARAMETERS_MISSING')
+    expect(wrapper.text()).toContain('Cálculo pendente')
+  })
   it.each(sampleUsers.slice(0, 2))('oferece Dashboard no menu para $role', (user) => {
     const wrapper = mount(AppShell, { props: { user, active: 'dashboard' }, global })
     expect(wrapper.get('a[href="/dashboard"]').attributes('aria-current')).toBe('page')
