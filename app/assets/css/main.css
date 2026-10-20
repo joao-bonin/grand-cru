@@ -1,75 +1,171 @@
-:root {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #252124;
-  background: #faf8f5;
-  line-height: 1.6;
-  -webkit-text-size-adjust: 100%;
-}
-
-* { box-sizing: border-box; }
-body { margin: 0; }
-.welcome { width: min(100%, 48rem); margin: 0 auto; padding: 4rem 1.25rem; }
-.eyebrow { color: #713044; font-weight: 700; letter-spacing: 0.08em; }
-h1 { font-size: clamp(2rem, 7vw, 3.5rem); line-height: 1.15; overflow-wrap: break-word; }
-h2 { font-size: 1.125rem; }
-.description { font-size: 1.125rem; }
-.notice { margin-top: 2rem; padding: 1.25rem; border: 1px solid #d9cdd0; border-radius: 0.75rem; background: #fff; }
-.notice p { margin-bottom: 0; }
-.page-link { display: inline-flex; align-items: center; min-height: 2.75rem; margin-top: 1rem; color: #713044; font-weight: 600; }
-.page-link:focus-visible { outline: 3px solid #713044; outline-offset: 4px; border-radius: 0.25rem; }
-
-@media (min-width: 48rem) {
-  .welcome { padding: 6rem 2rem; }
-}
 @import "tailwindcss";
 @import "@nuxt/ui";
 
-
-.login-layout { min-height: 100svh; display: grid; background: #faf9f6; }
-.login-story { display: none; background: #451b2c; color: #fff8f2; position: relative; overflow: hidden; }
-.brand, .mobile-brand { display: flex; align-items: center; gap: 0.8rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.18em; }
-.brand-mark { display: grid; place-items: center; width: 2.6rem; height: 2.6rem; border: 1px solid currentColor; border-radius: 50%; font: italic 1.6rem Georgia, serif; letter-spacing: -0.1em; }
+/* Material 3 roles. Components consume roles, never a device-specific foreground. */
+:root {
+  color-scheme: light;
+  --md-sys-color-primary: #713044;
+  --md-sys-color-on-primary: #ffffff;
+  --md-sys-color-primary-container: #ffdae3;
+  --md-sys-color-on-primary-container: #3e001b;
+  --md-sys-color-surface: #fff8f8;
+  --md-sys-color-surface-container-lowest: #ffffff;
+  --md-sys-color-surface-container-low: #fceff3;
+  --md-sys-color-surface-container: #f5e9ed;
+  --md-sys-color-surface-container-high: #eddfe5;
+  --md-sys-color-on-surface: #271e22;
+  --md-sys-color-on-surface-variant: #58464e;
+  --md-sys-color-outline: #86727c;
+  --md-sys-color-outline-variant: #d7c1cb;
+  --md-sys-color-error: #a42a32;
+  --md-sys-color-error-container: #ffdadb;
+  --md-sys-color-on-error-container: #410007;
+  --md-sys-color-success: #315c35;
+  --md-sys-color-success-container: #d5ecd2;
+  --md-sys-color-on-success-container: #163b1b;
+  --md-sys-color-brand-surface: #451b2c;
+  --md-sys-color-on-brand-surface: #fff0f4;
+  --md-sys-color-on-brand-surface-variant: #e9ccd7;
+  --md-sys-color-brand-selected: #703b50;
+  --md-sys-shape-corner-small: 0.5rem;
+  --md-sys-shape-corner-medium: 0.75rem;
+  --md-sys-shape-corner-large: 1rem;
+  --ui-primary: var(--md-sys-color-primary);
+  --ui-error: var(--md-sys-color-error);
+  --ui-success: var(--md-sys-color-success);
+  --ui-bg: var(--md-sys-color-surface);
+  --ui-bg-muted: var(--md-sys-color-surface-container);
+  --ui-bg-elevated: var(--md-sys-color-surface-container-high);
+  --ui-bg-accented: var(--md-sys-color-surface-container-high);
+  --ui-bg-inverted: var(--md-sys-color-on-surface);
+  --ui-text: var(--md-sys-color-on-surface);
+  --ui-text-highlighted: var(--md-sys-color-on-surface);
+  --ui-text-muted: var(--md-sys-color-on-surface-variant);
+  --ui-text-dimmed: var(--md-sys-color-on-surface-variant);
+  --ui-text-toned: var(--md-sys-color-on-surface-variant);
+  --ui-text-inverted: var(--md-sys-color-on-primary);
+  --ui-border: var(--md-sys-color-outline);
+  --ui-border-muted: var(--md-sys-color-outline-variant);
+  --ui-border-accented: var(--md-sys-color-outline);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--md-sys-color-on-surface);
+  background: var(--md-sys-color-surface);
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+:root.dark {
+  color-scheme: dark;
+  --md-sys-color-primary: #ffb1c9;
+  --md-sys-color-on-primary: #4c1028;
+  --md-sys-color-primary-container: #5c2037;
+  --md-sys-color-on-primary-container: #ffdae3;
+  --md-sys-color-surface: #1a1317;
+  --md-sys-color-surface-container-lowest: #211a1e;
+  --md-sys-color-surface-container-low: #261e23;
+  --md-sys-color-surface-container: #2c2328;
+  --md-sys-color-surface-container-high: #382d33;
+  --md-sys-color-on-surface: #f1e2e8;
+  --md-sys-color-on-surface-variant: #d6c1ca;
+  --md-sys-color-outline: #a08b95;
+  --md-sys-color-outline-variant: #56434d;
+  --md-sys-color-error: #ffb3b7;
+  --md-sys-color-error-container: #61202a;
+  --md-sys-color-on-error-container: #ffdadb;
+  --md-sys-color-success: #a7d5a3;
+  --md-sys-color-success-container: #234c2a;
+  --md-sys-color-on-success-container: #d5ecd2;
+  --ui-primary: var(--md-sys-color-primary);
+  --ui-error: var(--md-sys-color-error);
+  --ui-success: var(--md-sys-color-success);
+  --ui-bg: var(--md-sys-color-surface);
+  --ui-bg-muted: var(--md-sys-color-surface-container);
+  --ui-bg-elevated: var(--md-sys-color-surface-container-high);
+  --ui-bg-accented: var(--md-sys-color-surface-container-high);
+  --ui-bg-inverted: var(--md-sys-color-on-surface);
+  --ui-text: var(--md-sys-color-on-surface);
+  --ui-text-highlighted: var(--md-sys-color-on-surface);
+  --ui-text-muted: var(--md-sys-color-on-surface-variant);
+  --ui-text-dimmed: var(--md-sys-color-on-surface-variant);
+  --ui-text-toned: var(--md-sys-color-on-surface-variant);
+  --ui-text-inverted: var(--md-sys-color-on-primary);
+  --ui-border: var(--md-sys-color-outline);
+  --ui-border-muted: var(--md-sys-color-outline-variant);
+  --ui-border-accented: var(--md-sys-color-outline);
+}
+* { box-sizing: border-box; }
+body { margin: 0; }
+a, button, input, select, summary { -webkit-tap-highlight-color: transparent; }
+button, input, select, textarea { font: inherit; }
+button, a, input, select, textarea, summary { touch-action: manipulation; }
+:is(button, a, input, select, textarea, summary):focus-visible {
+  outline: 3px solid var(--md-sys-color-primary);
+  outline-offset: 3px;
+}
+input, select, textarea { color: var(--md-sys-color-on-surface); accent-color: var(--md-sys-color-primary); }
+input::placeholder, textarea::placeholder { color: var(--md-sys-color-on-surface-variant); opacity: 1; }
+h1 { font-size: clamp(2rem, 7vw, 3.5rem); line-height: 1.2; overflow-wrap: break-word; }
+h2 { font-size: 1.25rem; font-weight: 600; }
+h3 { font-size: 1.125rem; font-weight: 600; }
+.welcome { width: min(100%, 48rem); margin: 0 auto; padding: 4rem 1.25rem; }
+.eyebrow { color: var(--md-sys-color-primary); font-weight: 700; letter-spacing: 0.08em; }
+.description { font-size: 1.125rem; }
+.notice { margin-top: 2rem; padding: 1.25rem; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-large); background: var(--md-sys-color-surface-container-lowest); }
+.notice p { margin-bottom: 0; }
+.page-link { display: inline-flex; align-items: center; min-height: 3rem; margin-top: 1rem; color: var(--md-sys-color-primary); font-weight: 600; }
+.login-layout { min-height: 100svh; display: grid; background: var(--md-sys-color-surface); }
+.login-story { display: none; background: var(--md-sys-color-brand-surface); color: var(--md-sys-color-on-brand-surface); position: relative; overflow: hidden; }
+.brand, .mobile-brand { display: flex; align-items: center; gap: 0.8rem; font-size: 1rem; font-weight: 600; letter-spacing: 0.14em; }
+.brand-mark { display: grid; place-items: center; width: 3rem; height: 3rem; border: 1px solid currentColor; border-radius: 50%; font: italic 1.6rem Georgia, serif; letter-spacing: -0.1em; }
 .login-panel { display: flex; flex-direction: column; justify-content: center; padding: 2rem 1.5rem; min-width: 0; }
-.mobile-brand { color: #572438; margin-bottom: 3rem; }
-.login-card { width: 100%; max-width: 25rem; margin: auto; }
-.login-kicker { color: #886150; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.16em; margin-bottom: 0.8rem; }
-.login-card h2 { color: #2e2428; font: 2.15rem/1.15 Georgia, serif; letter-spacing: -0.035em; margin: 0 0 0.8rem; }
-.login-description { color: #736a69; font-size: 0.9rem; margin-bottom: 2.25rem; }
-.login-form { display: grid; gap: 1.4rem; }
-.login-form input { min-height: 3rem; background: white; }
-.login-form label { font-size: 0.82rem; color: #352b2e; }
-.password-toggle { font-size: 0.72rem; color: #724257; min-height: 2.75rem; cursor: pointer; }
-.login-submit { background: #572438; color: white; min-height: 3.1rem; justify-content: space-between; margin-top: 0.25rem; cursor: pointer; }
-.login-submit:hover { background: #713447; }
-.access-help { text-align: center; color: #7f7674; font-size: 0.75rem; margin: 1.4rem 0 2rem; }
-.security-note { display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-top: 1px solid #e7e2dc; padding-top: 1.4rem; color: #918781; font-size: 0.7rem; }
-.security-note svg { width: 1rem; height: 1rem; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
-.login-footer { text-align: center; color: #9b928a; font-size: 0.65rem; margin-top: 3rem; }
+.mobile-brand { color: var(--md-sys-color-primary); margin-bottom: 2rem; }
+.login-card { width: 100%; max-width: 27rem; margin: auto; }
+.login-kicker { color: var(--md-sys-color-primary); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; margin-bottom: 0.8rem; }
+.login-card h2 { color: var(--md-sys-color-on-surface); font-size: 2rem; font-weight: 500; line-height: 1.2; letter-spacing: -0.03em; margin: 0 0 0.8rem; }
+.login-description { color: var(--md-sys-color-on-surface-variant); font-size: 1rem; margin-bottom: 2rem; }
+.login-form { display: grid; gap: 1.25rem; }
+.login-form input {
+  width: 100%; min-height: 3.5rem; border: 1px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-small); padding: 0.85rem 1rem;
+  background: var(--md-sys-color-surface-container-lowest); color: var(--md-sys-color-on-surface);
+  font-size: 1rem; box-shadow: none;
+}
+.login-form input:focus { border-color: var(--md-sys-color-primary); }
+.login-form label { font-size: 0.875rem; font-weight: 600; color: var(--md-sys-color-on-surface); }
+.password-toggle { font-size: 0.875rem; color: var(--md-sys-color-primary); min-height: 3rem; padding-inline: 0.5rem; cursor: pointer; border-radius: var(--md-sys-shape-corner-small); }
+.password-toggle:hover { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+.login-submit { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); min-height: 3rem; justify-content: space-between; border-radius: 1.5rem; padding-inline: 1.5rem; font-size: 1rem; font-weight: 600; margin-top: 0.25rem; cursor: pointer; }
+.login-submit:hover { background: var(--md-sys-color-primary); filter: brightness(0.95); }
+.login-form :disabled { cursor: wait; }
+.login-form [role="alert"] { background: var(--md-sys-color-error-container); color: var(--md-sys-color-on-error-container); border-radius: var(--md-sys-shape-corner-medium); }
+.login-form [role="alert"] * { color: inherit; }
+.access-help { text-align: center; color: var(--md-sys-color-on-surface-variant); font-size: 0.875rem; margin: 1.5rem 0; }
+.security-note { display: flex; align-items: center; justify-content: center; gap: 0.5rem; border-top: 1px solid var(--md-sys-color-outline-variant); padding-top: 1.5rem; color: var(--md-sys-color-on-surface-variant); font-size: 0.875rem; }
+.security-note svg { width: 1.25rem; height: 1.25rem; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
+.login-footer { text-align: center; color: var(--md-sys-color-on-surface-variant); font-size: 0.75rem; margin-top: 2rem; }
 .login-footer span { margin: 0 0.4rem; }
 .home-nav { display: flex; gap: 1rem; align-items: center; margin-top: 2rem; flex-wrap: wrap; }
 .users-page { max-width: 70rem; padding: 2rem 1.25rem; margin: auto; }
 .users-header { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 2rem; }
 .users-header h1 { font-size: 2rem; margin: 1rem 0 0; }
 .user-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: 1rem; margin-top: 1.5rem; }
-.user-card, .user-editor { background: white; padding: 1.5rem; border: 1px solid #e2d9d5; border-radius: 1rem; }
+.user-card, .user-editor { background: var(--md-sys-color-surface-container-lowest); padding: 1.5rem; border: 1px solid var(--md-sys-color-outline-variant); border-radius: var(--md-sys-shape-corner-large); }
 .user-card-heading { display: flex; gap: 0.5rem; justify-content: space-between; align-items: center; }
 .user-card-heading h2 { overflow-wrap: anywhere; }
-.user-card dl { margin: 1rem 0; font-size: 0.85rem; }
-.user-card dt { color: #847771; font-size: 0.7rem; margin-top: 0.6rem; }
+.user-card dl { margin: 1rem 0; font-size: 1rem; }
+.user-card dt { color: var(--md-sys-color-on-surface-variant); font-size: 0.875rem; margin-top: 0.6rem; }
 .user-editor { display: grid; gap: 1rem; max-width: 30rem; margin-bottom: 2rem; }
 .editor-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; }
-button:focus-visible { outline: 3px solid #b58093; outline-offset: 3px; }
-
+@media (min-width: 48rem) { .welcome { padding: 6rem 2rem; } }
 @media (min-width: 60rem) {
   .login-layout { grid-template-columns: 46% 54%; }
   .login-story { display: flex; flex-direction: column; padding: 3rem 3.5rem; }
   .brand { position: relative; z-index: 1; }
-  .story-copy { position: relative; z-index: 1; margin-top: auto; margin-bottom: auto; padding: 5rem 0 7rem; }
-  .story-label { font-size: 0.6rem; letter-spacing: 0.22em; color: #cbabae; }
+  .story-copy { position: relative; z-index: 1; margin-block: auto; padding: 5rem 0 7rem; }
+  .story-label { font-size: 0.75rem; letter-spacing: 0.16em; color: var(--md-sys-color-on-brand-surface-variant); }
   .story-copy h1 { font: clamp(2.6rem, 4vw, 4rem)/1.13 Georgia, serif; letter-spacing: -0.04em; margin: 1.5rem 0; }
-  .story-copy h1 em { color: #dbb896; font-weight: normal; }
-  .story-copy > p:last-child { color: #c8b2b8; font-size: 0.82rem; line-height: 1.9; }
-  .story-footer { font-size: 0.55rem; letter-spacing: 0.2em; color: #bea0a8; position: relative; z-index: 1; }
+  .story-copy h1 em { color: #f1cbad; font-weight: normal; }
+  .story-copy > p:last-child { color: var(--md-sys-color-on-brand-surface-variant); font-size: 1rem; line-height: 1.75; }
+  .story-footer { font-size: 0.75rem; letter-spacing: 0.14em; color: var(--md-sys-color-on-brand-surface-variant); position: relative; z-index: 1; }
   .vineyard { position: absolute; left: -30%; right: -20%; height: 19rem; bottom: -7rem; transform: rotate(-18deg); }
   .vineyard span { position: absolute; inset: 0; border-top: 1px solid #805063; border-radius: 50% 50% 0 0; }
   .vineyard span:nth-child(2) { top: 2rem; }
@@ -78,6 +174,6 @@ button:focus-visible { outline: 3px solid #b58093; outline-offset: 3px; }
   .vineyard span:nth-child(5) { top: 8rem; }
   .login-panel { padding: 3rem; }
   .mobile-brand { display: none; }
-  .login-card h2 { font-size: 2.6rem; }
-  .login-footer { margin-top: 0; }
+  .login-card h2 { font-size: 2.5rem; }
+  .login-footer { margin-top: 2rem; }
 }
