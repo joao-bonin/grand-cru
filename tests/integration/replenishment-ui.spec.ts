@@ -45,7 +45,7 @@ test('US07–09: seleção, justificativa, ajuste e histórico persistido no cel
   await page.getByLabel('Login', { exact: true }).fill(prefix)
   await page.getByLabel('Senha', { exact: true }).fill(password)
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:3000/')
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
   await page.getByRole('link', { name: 'Reposição', exact: true }).click()
   const row = page.locator('article.replenishment-item').filter({ hasText: 'Vinho de revisão mobile' })
   await expect(row).toBeVisible()
