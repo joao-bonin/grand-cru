@@ -64,7 +64,7 @@ async function remove() {
 
 <template>
   <AppShell :user="auth.user.value" active="users" @logout="auth.logout">
-    <NuxtLink to="/" class="text-link back-link">← Início</NuxtLink>
+    <NuxtLink to="/dashboard" class="text-link back-link">← Início</NuxtLink>
     <header class="admin-page-heading"><div><p class="admin-kicker">PESSOAS E ACESSOS</p><h1>Usuários</h1><p>Sua equipe, com o acesso certo para cada pessoa.</p></div><UButton size="lg" class="wine-button" @click="openEditor()"><UIcon name="i-lucide-plus" />Novo usuário</UButton></header>
     <UserMetrics :users="data?.users ?? []" />
     <UAlert v-if="success" color="success" :title="success" role="status" />

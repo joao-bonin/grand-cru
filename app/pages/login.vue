@@ -8,7 +8,7 @@ async function submit(login: string, password: string) {
   error.value = ''
   try {
     await auth.login(login, password)
-    await navigateTo('/')
+    await navigateTo('/dashboard')
   } catch (cause) {
     const status = (cause as { statusCode?: number }).statusCode
     error.value = status === 401 ? 'Login ou senha inválidos.'
