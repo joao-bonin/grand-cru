@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { PublicUser } from '../../shared/types/user'
-defineProps<{ user: PublicUser | null, active: 'overview' | 'users' | 'replenishment' | 'purchase-drafts' }>()
+defineProps<{ user: PublicUser | null, active: 'overview' | 'dashboard' | 'users' | 'replenishment' | 'purchase-drafts' }>()
 defineEmits<{ logout: [] }>()
 </script>
 
@@ -10,6 +10,7 @@ defineEmits<{ logout: [] }>()
       <NuxtLink to="/" class="admin-brand"><span class="brand-mark" aria-hidden="true">G.</span><span>GRAND CRU<small>GESTÃO COM CLAREZA</small></span></NuxtLink>
       <span class="sidebar-label">SEU ESPAÇO</span>
       <nav aria-label="Navegação principal">
+        <NuxtLink to="/dashboard" :class="{ selected: active === 'dashboard' }" :aria-current="active === 'dashboard' ? 'page' : undefined"><UIcon name="i-lucide-chart-no-axes-combined" />Dashboard</NuxtLink>
         <NuxtLink to="/" :class="{ selected: active === 'overview' }" :aria-current="active === 'overview' ? 'page' : undefined"><UIcon name="i-lucide-layout-dashboard" />Visão geral</NuxtLink>
         <NuxtLink to="/replenishment" :class="{ selected: active === 'replenishment' }" :aria-current="active === 'replenishment' ? 'page' : undefined"><UIcon name="i-lucide-wine" />Reposição</NuxtLink>
         <NuxtLink to="/purchase-drafts" :class="{ selected: active === 'purchase-drafts' }" :aria-current="active === 'purchase-drafts' ? 'page' : undefined"><UIcon name="i-lucide-clipboard-list" />Rodadas locais</NuxtLink>
@@ -20,7 +21,7 @@ defineEmits<{ logout: [] }>()
       <div class="sidebar-account"><span class="account-avatar">{{ user?.login.slice(0, 1).toUpperCase() ?? 'G' }}</span><div><strong>{{ user?.login ?? 'Grand Cru' }}</strong><small>{{ user?.role === 'admin' ? 'Administrador' : 'Usuário' }}</small></div></div>
     </aside>
     <div class="admin-workspace">
-      <header class="admin-topbar"><span>Grand Cru <span aria-hidden="true">/</span> {{ { overview: 'Visão geral', users: 'Usuários', replenishment: 'Reposição', 'purchase-drafts': 'Rodadas locais' }[active] }}</span><div><span class="connection-status"><span />Acesso protegido</span><UButton color="neutral" variant="ghost" size="sm" @click="$emit('logout')">Sair</UButton></div></header>
+      <header class="admin-topbar"><span>Grand Cru <span aria-hidden="true">/</span> {{ { overview: 'Visão geral', dashboard: 'Dashboard', users: 'Usuários', replenishment: 'Reposição', 'purchase-drafts': 'Rodadas locais' }[active] }}</span><div><span class="connection-status"><span />Acesso protegido</span><UColorModeButton aria-label="Alternar tema claro ou escuro" /><UButton color="neutral" variant="ghost" size="sm" @click="$emit('logout')">Sair</UButton></div></header>
       <main class="admin-main"><slot /></main>
       <footer class="admin-footer">Grand Cru <span>•</span> Inteligência para o seu negócio</footer>
     </div>
