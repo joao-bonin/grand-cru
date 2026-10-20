@@ -46,7 +46,9 @@ describe('Dashboard visível e explicável', () => {
   })
   it.each(sampleUsers.slice(0, 2))('oferece Dashboard no menu para $role', (user) => {
     const wrapper = mount(AppShell, { props: { user, active: 'dashboard' }, global })
-    expect(wrapper.get('a[href="/dashboard"]').attributes('aria-current')).toBe('page')
+    expect(wrapper.get('nav a[href="/dashboard"]').attributes('aria-current')).toBe('page')
+    expect(wrapper.get('.admin-brand').attributes('href')).toBe('/dashboard')
+    expect(wrapper.get('nav').text()).not.toContain('Visão geral')
   })
   it('protege a página e oferece nova tentativa após falha', async () => {
     const refresh = vi.fn()

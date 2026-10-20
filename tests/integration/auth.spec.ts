@@ -2,6 +2,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
 import { createDatabasePool } from '../../server/db/connection'
 import { expect, test } from '@playwright/test'
+import type { Page } from '@playwright/test'
 import { createUserRepository } from '../../server/db/repository'
 import { hashPassword, verifyPassword } from '../../server/services/passwords'
 
@@ -13,8 +14,16 @@ const prefix = `test-${randomUUID().slice(0, 8)}`
 const password = randomBytes(32).toString('hex')
 const adminLogin = `${prefix}-admin`
 const userLogin = `${prefix}-user`
+const viewerLogin = `${prefix}-viewer`
 const inactiveLogin = `${prefix}-inactive`
 const headers = { Origin: 'http://127.0.0.1:3000' }
+async function waitForHydration(page: Page) {
+  await page.waitForFunction(() => {
+    const getNuxtApp = (window as Window & { useNuxtApp?: () => { isHydrating: boolean } }).useNuxtApp
+    if (!getNuxtApp) return false
+    try { return getNuxtApp().isHydrating === false } catch { return false }
+  })
+}
 const ipKeys = ['127.0.0.1', '::ffff:127.0.0.1', '::1', 'unknown'].map(ip => createHash('sha256').update(`ip:${ip}`).digest('hex'))
 async function resetLocalIpAttempts() {
   for (const key of ipKeys) await connection.query('DELETE FROM login_attempts WHERE "key" = $1', [key])
@@ -26,13 +35,14 @@ test.beforeAll(async () => {
   const passwordHash = await hashPassword(password)
   adminId = (await repository.create({ login: adminLogin, passwordHash, active: true, role: 'admin' })).id
   userId = (await repository.create({ login: userLogin, passwordHash, active: true, role: 'user' })).id
+  await repository.create({ login: viewerLogin, passwordHash, active: true, role: 'user' })
   await repository.create({ login: inactiveLogin, passwordHash, active: false, role: 'user' })
   await resetLocalIpAttempts()
 })
 
 test.afterAll(async () => {
   await connection.query('DELETE FROM users WHERE login LIKE $1', [`${prefix}%`])
-  const keys = [...ipKeys, ...[adminLogin, userLogin, inactiveLogin, `${prefix}-unknown`].map(login => createHash('sha256').update(`login:${login}`).digest('hex'))]
+  const keys = [...ipKeys, ...[adminLogin, userLogin, viewerLogin, inactiveLogin, `${prefix}-unknown`].map(login => createHash('sha256').update(`login:${login}`).digest('hex'))]
   for (const key of keys) await connection.query('DELETE FROM login_attempts WHERE "key" = $1', [key])
   await repository.close()
   await connection.end()
@@ -116,8 +126,9 @@ test('cadastro, edição, busca, inativação e exclusão com confirmação pela
   await page.getByLabel('Login', { exact: true }).fill(adminLogin)
   await page.getByLabel('Senha', { exact: true }).fill(password)
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:3000/')
-  await page.getByRole('link', { name: 'Novo usuário', exact: true }).click()
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
+  await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Usuários', exact: true }).click()
+  await page.getByRole('button', { name: 'Novo usuário', exact: true }).click()
   const editor = page.getByRole('dialog', { name: 'Novo usuário', exact: true })
   await editor.getByLabel('Login', { exact: true }).fill(`${prefix}-browser`)
   await editor.getByLabel('Senha', { exact: true }).fill(password)
@@ -151,22 +162,51 @@ test('cadastro, edição, busca, inativação e exclusão com confirmação pela
 
 test('tela de login, navegação autenticada e layout no celular', async ({ page }) => {
   await page.goto('/')
+  await waitForHydration(page)
   await expect(page).toHaveURL(/\/login$/)
   await expect(page.getByRole('heading', { name: 'Bem-vindo de volta.' })).toBeVisible()
   await page.getByLabel('Login', { exact: true }).fill(adminLogin)
   await page.getByLabel('Senha', { exact: true }).fill(password)
   await page.getByRole('button', { name: 'Entrar', exact: true }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:3000/')
-  await page.getByRole('link', { name: 'Gerenciar usuários' }).click()
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
+  await expect(page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Dashboard', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(page.getByRole('link', { name: 'Visão geral', exact: true })).toHaveCount(0)
+  await page.goto('/')
+  await waitForHydration(page)
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
+  await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Usuários', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Usuários', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { name: adminLogin, exact: true })).toBeVisible()
   await page.setViewportSize({ width: 390, height: 844 })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
   await page.getByRole('link', { name: '← Início', exact: true }).click()
-  await expect(page).toHaveURL('http://127.0.0.1:3000/')
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
   await page.getByRole('button', { name: 'Sair', exact: true }).click()
   await expect(page).toHaveURL(/\/login$/)
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
+})
+
+test('usuário de consulta inicia no dashboard e não recebe navegação administrativa', async ({ page }) => {
+  const adminRequests: string[] = []
+  page.on('request', request => {
+    if (new URL(request.url()).pathname === '/api/users') adminRequests.push(request.method())
+  })
+  await page.goto('/login')
+  await page.getByLabel('Login', { exact: true }).fill(viewerLogin)
+  await page.getByLabel('Senha', { exact: true }).fill(password)
+  await page.getByRole('button', { name: 'Entrar', exact: true }).click()
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
+  const navigation = page.getByRole('navigation', { name: 'Navegação principal' })
+  await expect(navigation.getByRole('link', { name: 'Dashboard', exact: true })).toHaveAttribute('aria-current', 'page')
+  await expect(navigation.getByRole('link', { name: 'Usuários', exact: true })).toHaveCount(0)
+  await expect(page.getByRole('link', { name: 'Visão geral', exact: true })).toHaveCount(0)
+  await page.goto('/')
+  await waitForHydration(page)
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
+  await page.getByRole('link', { name: 'Reposição', exact: true }).click()
+  await page.locator('.admin-brand').click()
+  await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
+  expect(adminRequests).toEqual([])
 })
 
 test('limita tentativas de login usando contagem persistida no PostgreSQL', async ({ request }) => {

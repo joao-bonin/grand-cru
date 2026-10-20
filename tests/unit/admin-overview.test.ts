@@ -26,7 +26,7 @@ describe('Painel administrativo', () => {
 })
 
 describe('Navegação e acesso', () => {
-  const options = { props: { user: sampleUsers[0]!, active: 'overview' as const }, global: { stubs: uiStubs } }
+  const options = { props: { user: sampleUsers[0]!, active: 'dashboard' as const }, global: { stubs: uiStubs } }
   it('oferece administração somente no menu do administrador', () => {
     expect(mount(AppShell, options).find('a[href="/users"]').exists()).toBe(true)
     const member = mount(AppShell, { ...options, props: { ...options.props, user: sampleUsers[1]! } })
@@ -34,7 +34,7 @@ describe('Navegação e acesso', () => {
   })
   it('identifica a rota ativa para tecnologias assistivas', () => {
     const wrapper = mount(AppShell, options)
-    expect(wrapper.get('nav a[href="/"]').attributes('aria-current')).toBe('page')
+    expect(wrapper.get('nav a[href="/dashboard"]').attributes('aria-current')).toBe('page')
   })
   it('encaminha a saída da sessão', async () => {
     const wrapper = mount(AppShell, options)

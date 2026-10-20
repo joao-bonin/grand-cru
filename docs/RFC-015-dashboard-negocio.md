@@ -6,7 +6,7 @@ O usuário informou que não encontrou o dashboard de negócio na versão public
 
 ## Implementação
 
-- Página autenticada Dashboard, acessível pelo menu de administradores e consultores e pela página inicial. A administração de usuários continua disponível.
+- Página autenticada Dashboard, acessível pelo menu de administradores e consultores. Por pedido confirmado do usuário em 20/10/2026, é também a página inicial: o login abre `/dashboard`, e o acesso autenticado a `/` redireciona para ela, substituindo a entrada no histórico. “Visão geral” foi omitida do menu e da página inicial. A marca Grand Cru e o retorno “Início” também abrem o dashboard. A administração continua no menu Usuários para administradores.
 - Indicadores de produtos acompanhados por loja, produtos com reposição sugerida, risco de ruptura dentro do horizonte da política e cálculos pendentes. Cada indicador informa quantos produtos puderam ser avaliados.
 - Gráfico com legenda textual: reposição, sem reposição sugerida e cálculo pendente. Não depende de hover ou apenas de cor.
 - Prioridades por produto/loja: estoque disponível e mínimo, cobertura, ruptura projetada, sugestão, excesso e vendas observadas em 30/60/90/365 dias. Busca, filtro por loja e paginação local.
