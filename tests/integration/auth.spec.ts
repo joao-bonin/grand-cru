@@ -2,6 +2,7 @@ import { createHash, randomBytes, randomUUID } from 'node:crypto'
 import { spawnSync } from 'node:child_process'
 import { createDatabasePool } from '../../server/db/connection'
 import { expect, test } from '@playwright/test'
+import type { Page } from '@playwright/test'
 import { createUserRepository } from '../../server/db/repository'
 import { hashPassword, verifyPassword } from '../../server/services/passwords'
 
@@ -15,6 +16,13 @@ const adminLogin = `${prefix}-admin`
 const userLogin = `${prefix}-user`
 const inactiveLogin = `${prefix}-inactive`
 const headers = { Origin: 'http://127.0.0.1:3000' }
+async function waitForHydration(page: Page) {
+  await page.waitForFunction(() => {
+    const getNuxtApp = (window as Window & { useNuxtApp?: () => { isHydrating: boolean } }).useNuxtApp
+    if (!getNuxtApp) return false
+    try { return getNuxtApp().isHydrating === false } catch { return false }
+  })
+}
 const ipKeys = ['127.0.0.1', '::ffff:127.0.0.1', '::1', 'unknown'].map(ip => createHash('sha256').update(`ip:${ip}`).digest('hex'))
 async function resetLocalIpAttempts() {
   for (const key of ipKeys) await connection.query('DELETE FROM login_attempts WHERE "key" = $1', [key])
@@ -152,6 +160,7 @@ test('cadastro, edição, busca, inativação e exclusão com confirmação pela
 
 test('tela de login, navegação autenticada e layout no celular', async ({ page }) => {
   await page.goto('/')
+  await waitForHydration(page)
   await expect(page).toHaveURL(/\/login$/)
   await expect(page.getByRole('heading', { name: 'Bem-vindo de volta.' })).toBeVisible()
   await page.getByLabel('Login', { exact: true }).fill(adminLogin)
@@ -161,6 +170,7 @@ test('tela de login, navegação autenticada e layout no celular', async ({ page
   await expect(page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Dashboard', exact: true })).toHaveAttribute('aria-current', 'page')
   await expect(page.getByRole('link', { name: 'Visão geral', exact: true })).toHaveCount(0)
   await page.goto('/')
+  await waitForHydration(page)
   await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
   await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Usuários', exact: true }).click()
   await expect(page.getByRole('heading', { name: 'Usuários', exact: true })).toBeVisible()
@@ -189,6 +199,7 @@ test('usuário de consulta inicia no dashboard e não recebe navegação adminis
   await expect(navigation.getByRole('link', { name: 'Usuários', exact: true })).toHaveCount(0)
   await expect(page.getByRole('link', { name: 'Visão geral', exact: true })).toHaveCount(0)
   await page.goto('/')
+  await waitForHydration(page)
   await expect(page).toHaveURL('http://127.0.0.1:3000/dashboard')
   await page.getByRole('link', { name: 'Reposição', exact: true }).click()
   await page.locator('.admin-brand').click()
