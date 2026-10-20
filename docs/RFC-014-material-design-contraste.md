@@ -57,7 +57,7 @@ Cobertura automatizada de apresentação:
 - Dashboard com métricas calculadas e pendentes, histórico parcial, ausência de primeira base e base vazia; filtros sem resultados.
 - Ausência de rolagem horizontal nas larguras verificadas; controles móveis de salvar/revisar; troca de tema com persistência e manutenção durante navegação.
 
-Os testes unitários existentes de login, lista, política, histórico e sincronização foram executados sem falhas. A suíte de aparência possui 22 cenários. A verificação completa de integração com PostgreSQL descartável e as checagens globais ficam registradas na entrega final.
+Os testes unitários existentes de login, lista, política, histórico e sincronização foram executados sem falhas. A suíte de aparência possui 22 cenários. A suíte completa de integração passou com 38 cenários sobre PostgreSQL local descartável, incluindo autenticação, perfis de acesso, retomada e o fluxo móvel de rodadas locais. As checagens globais são executadas pelo coordenador da entrega.
 
 As capturas e medições foram geradas em `artifacts/grand-cru-material` no workspace da execução. São **evidências locais com dados sintéticos e APIs da aplicação interceptadas**, identificadas assim nos arquivos JSON. Incluem `before-login-dark.png`, `before-login-dark.json`, `before-test-red.txt`, capturas `login-*`, `replenishment-*`, `purchase-drafts-*`, `users-*`, `dashboard-*` e medições de cores correspondentes. O teste salva artefatos quando `APPEARANCE_ARTIFACT_DIR` é definido.
 
