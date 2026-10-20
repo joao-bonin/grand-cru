@@ -1,7 +1,7 @@
 import type { Recommendation } from '../types/replenishment'
 
 export function canSelectRecommendation(item: Recommendation): boolean {
-  return item.policy !== null && item.suggested !== null && Number.isFinite(item.suggested)
+  return Boolean(item.policy) && item.suggested !== null && Number.isFinite(item.suggested)
     && item.suggested >= 0 && item.issues.length === 0
 }
 

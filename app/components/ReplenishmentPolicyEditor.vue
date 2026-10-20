@@ -2,7 +2,11 @@
 import { reactive, ref, watch } from 'vue'
 import type { Policy } from '../../shared/types/replenishment'
 const props = defineProps<{ productId: string, storeId: string, policy?: Policy | null, canEdit?: boolean, pending?: boolean, error?: string }>()
-const emit = defineEmits<{ save: [policy: Policy] }>()
+const emit = defineEmits<{ save: [policy: Policy], cancel: [] }>()
+const form = ref<HTMLFormElement | null>(null)
+const errorNotice = ref<HTMLParagraphElement | null>(null)
+function focusFirstField() { form.value?.querySelector('input')?.focus() }
+defineExpose({ focusFirstField })
 const fields = [
   { key: 'windowDays', label: 'Janela de consumo (dias)', min: 1 },
   { key: 'leadDays', label: 'Prazo do fornecedor (dias)', min: 0 },
@@ -13,6 +17,9 @@ const fields = [
 ] as const
 const values = reactive<Record<string, string | number>>({})
 const validation = ref('')
+watch([() => props.error, validation], () => {
+  if (props.error || validation.value) errorNotice.value?.focus()
+}, { flush: 'post' })
 watch(() => props.policy, (policy) => {
   for (const field of fields) values[field.key] = policy?.[field.key] ?? ''
   values.supplierId = policy?.supplierId ?? ''
@@ -32,15 +39,15 @@ function save() {
 </script>
 
 <template>
-  <form class="replenishment-policy" @submit.prevent="save">
+  <form ref="form" class="replenishment-policy" @submit.prevent="save">
     <h3>Parâmetros locais · {{ productId }} / {{ storeId }}</h3>
     <p>Informe os parâmetros para calcular a sugestão. Nenhum valor é enviado ao ERP.</p>
-    <p v-if="error || validation" role="alert">{{ error || validation }}</p>
+    <p v-if="error || validation" ref="errorNotice" role="alert" tabindex="-1">{{ error || validation }}</p>
     <fieldset :disabled="!canEdit || pending">
       <label v-for="field in fields" :key="field.key">{{ field.label }}<input v-model="values[field.key]" :name="field.key" type="number" :min="field.min" :step="['windowDays', 'leadDays', 'reviewDays', 'packSize'].includes(field.key) ? 1 : 'any'" :max="['windowDays', 'leadDays', 'reviewDays'].includes(field.key) ? 3650 : undefined" required></label>
       <label>Identificador do fornecedor<input v-model="values.supplierId" name="supplierId" required></label>
       <label>Custo por unidade (opcional)<input v-model="values.cost" name="cost" type="number" min="0" step="0.01"></label>
-      <button type="submit">{{ pending ? 'Salvando…' : 'Salvar parâmetros locais' }}</button>
+      <div class="replenishment-actions"><button type="submit">{{ pending ? 'Salvando…' : 'Salvar parâmetros locais' }}</button><button type="button" @click="$emit('cancel')">Cancelar</button></div>
     </fieldset>
   </form>
 </template>

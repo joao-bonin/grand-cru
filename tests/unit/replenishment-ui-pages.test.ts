@@ -11,9 +11,10 @@ const component = (name: string, props: string[], emits: string[]) => defineComp
 const stubs = {
   AppShell: component('AppShell', ['user', 'active'], ['logout']),
   NuxtLink: { props: ['to'], template: '<a><slot /></a>' },
+  UModal: { props: ['open'], template: '<div v-if="open"><slot name="body" /></div>' },
   ErpSyncStatus: component('ErpSyncStatus', ['status', 'snapshot', 'configured', 'canSync', 'pending', 'error'], ['sync']),
   ReplenishmentList: component('ReplenishmentList', ['items', 'canSelect', 'error'], ['retry', 'selection', 'policy']),
-  ReplenishmentPolicyEditor: component('ReplenishmentPolicyEditor', ['policy', 'productId', 'storeId', 'canEdit', 'pending', 'error'], ['save']),
+  ReplenishmentPolicyEditor: component('ReplenishmentPolicyEditor', ['policy', 'productId', 'storeId', 'canEdit', 'pending', 'error'], ['save', 'cancel']),
   PurchaseDraftEditor: component('PurchaseDraftEditor', ['draft', 'canEdit', 'pending', 'error'], ['save']),
   PurchaseDraftHistory: component('PurchaseDraftHistory', ['drafts', 'error'], ['open', 'retry']),
 }
@@ -87,12 +88,52 @@ describe('T26 página autenticada de reposição', () => {
     await flushPromises()
     expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).exists()).toBe(false)
   })
+  it('troca produto e loja sem carregar erro ou política do editor anterior', async () => {
+    const wrapper = await render(ReplenishmentPage)
+    const list = wrapper.findComponent({ name: 'ReplenishmentList' })
+    list.vm.$emit('policy', recommendation)
+    await flushPromises()
+    fetchMock.mockRejectedValueOnce({ statusCode: 409 })
+    wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).vm.$emit('save', recommendation.policy)
+    await flushPromises()
+    expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).props('error')).toContain('Confira a versão')
+    wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).vm.$emit('cancel')
+    await flushPromises()
+    expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).exists()).toBe(false)
+    const second = { ...recommendation, product: { ...recommendation.product, id: 'p2', storeId: 's2' }, policy: { ...recommendation.policy!, productId: 'p2', storeId: 's2', leadDays: 22 } }
+    list.vm.$emit('policy', second)
+    await flushPromises()
+    expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).props()).toMatchObject({ productId: 'p2', storeId: 's2', error: '', policy: second.policy })
+  })
+  it('bloqueia envio duplicado, fechamento pendente e política de outro produto', async () => {
+    const wrapper = await render(ReplenishmentPage)
+    wrapper.findComponent({ name: 'ReplenishmentList' }).vm.$emit('policy', recommendation)
+    await flushPromises()
+    const editor = wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' })
+    editor.vm.$emit('save', { ...recommendation.policy!, storeId: 'outra-loja' })
+    await flushPromises()
+    expect(fetchMock).not.toHaveBeenCalled()
+    let release!: () => void
+    fetchMock.mockImplementationOnce(() => new Promise<void>(resolve => { release = resolve }))
+    editor.vm.$emit('save', recommendation.policy)
+    await flushPromises()
+    editor.vm.$emit('save', recommendation.policy)
+    editor.vm.$emit('cancel')
+    await flushPromises()
+    expect(fetchMock).toHaveBeenCalledOnce()
+    expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).props('pending')).toBe(true)
+    release()
+    await flushPromises()
+    expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).exists()).toBe(false)
+  })
   it('impede ações de usuário consultor mesmo com evento forjado', async () => {
     role = 'user'
     const wrapper = await render(ReplenishmentPage)
     expect(wrapper.findComponent({ name: 'ReplenishmentList' }).props('canSelect')).toBe(false)
     wrapper.findComponent({ name: 'ErpSyncStatus' }).vm.$emit('sync')
+    wrapper.findComponent({ name: 'ReplenishmentList' }).vm.$emit('policy', recommendation)
     await flushPromises()
+    expect(wrapper.findComponent({ name: 'ReplenishmentPolicyEditor' }).exists()).toBe(false)
     expect(fetchMock).not.toHaveBeenCalled()
     expect(wrapper.find('button').exists()).toBe(false)
   })

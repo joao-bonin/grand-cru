@@ -28,6 +28,31 @@ describe('US03 parâmetros locais explícitos', () => {
     expect(wrapper.emitted('save')).toBeUndefined()
     expect(wrapper.get('[role="alert"]').text()).toContain('valores válidos')
   })
+  it('permite cancelar sem salvar e carrega campos de outro produto sem mistura', async () => {
+    const wrapper = mount(ReplenishmentPolicyEditor, { props: { productId: 'p1', storeId: 's1', policy, canEdit: true } })
+    await wrapper.get('[name="leadDays"]').setValue('88')
+    await wrapper.get('button[type="button"]').trigger('click')
+    expect(wrapper.emitted('cancel')).toEqual([[]])
+    expect(wrapper.emitted('save')).toBeUndefined()
+    const second = { ...policy, productId: 'p2', storeId: 's2', leadDays: 22, supplierId: 'f2', cost: null, version: 3 }
+    await wrapper.setProps({ productId: 'p2', storeId: 's2', policy: second })
+    expect((wrapper.get('[name="leadDays"]').element as HTMLInputElement).value).toBe('22')
+    expect((wrapper.get('[name="supplierId"]').element as HTMLInputElement).value).toBe('f2')
+    expect((wrapper.get('[name="cost"]').element as HTMLInputElement).value).toBe('')
+    await wrapper.get('form').trigger('submit')
+    expect(wrapper.emitted('save')).toEqual([[second]])
+  })
+  it('foca o primeiro campo ao abrir e a falha ao salvar, preservando valores', async () => {
+    const wrapper = mount(ReplenishmentPolicyEditor, { attachTo: document.body, props: { productId: 'p1', storeId: 's1', policy, canEdit: true } })
+    try {
+      wrapper.vm.focusFirstField()
+      expect(document.activeElement).toBe(wrapper.get('[name="windowDays"]').element)
+      await wrapper.get('[name="leadDays"]').setValue('22')
+      await wrapper.setProps({ error: 'Conflito de versão' })
+      expect(document.activeElement).toBe(wrapper.get('[role="alert"]').element)
+      expect((wrapper.get('[name="leadDays"]').element as HTMLInputElement).value).toBe('22')
+    } finally { wrapper.unmount() }
+  })
   it('bloqueia usuário de leitura e preserva edição ao receber erro', async () => {
     const wrapper = mount(ReplenishmentPolicyEditor, { props: { productId: 'p1', storeId: 's1', policy, canEdit: false } })
     expect(wrapper.get('fieldset').attributes('disabled')).toBeDefined()
